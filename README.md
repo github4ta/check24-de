@@ -88,25 +88,3 @@ allure.report.name=Check24 Test Suite
 allure.link.issue.pattern=https://example.com/issue/{}
 allure.link.tms.pattern=https://example.com/tms/{}
 ```
-
-## ⚠️ Решение проблем
-
-### Ошибка: "Directory target/allure-results not found"
-
-✅ **Решение**: 
-- Директория создается автоматически при запуске `mvn clean test`
-- Убедитесь, что тесты запустились успешно
-- Проверьте логи в консоли
-
-### Ошибка: "Java не установлена"
-
-✅ **Решение**: 
-1. Установите Java 21+ ([ссылка](https://www.oracle.com/java/technologies/downloads/#java21))
-2. Добавьте JAVA_HOME в переменные окружения Windows
-
-### Ошибка при запуске батника
-
-✅ **Решение**:
-1. Убедитесь, что Java установлена: `java -version`
-2. Запустите батник от администратора
-3. Проверьте пути в файле `run-tests.bat`
