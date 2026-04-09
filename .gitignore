@@ -26,7 +26,6 @@ surefire-reports/
 .classpath
 
 # Maven
-.mvn/
 .allure/
 
 # OS generated files
