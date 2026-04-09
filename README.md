@@ -35,17 +35,22 @@ target/allure-report/index.html
 check24-de/
 ├── src/
 │   ├── main/java/de/check24/
-│   │   ├── Main.java
-│   │   └── pages/
-│   │       └── LoginPage.java
-│   └── test/java/de/check24/
-│       └── tests/
-│           └── DemoTest.java
+│   │   ├── config/
+│   │   │   └── ConfigLoader.java      - загрузка конфигурации
+│   │   ├── driver/
+│   │   │   └── DriverFactory.java     - фабрика WebDriver
+│   │   └── ui/pages/
+│   │       └── HomePage.java          - PageObject для домашней страницы Check24
+│   └── test/java/de/check24/tests/
+│       └── ui/
+│           ├── BaseUITest.java        - базовый класс UI тестов
+│           ├── DemoTest.java          - демо тесты домашней страницы Check24
+│           └── HomeTest.java          - комплексные тесты HomePage ✅
 ├── target/
 │   ├── allure-results/    (результаты тестов)
 │   └── allure-report/     (сгенерированный отчет)
 ├── pom.xml
-└── run-tests.bat          (запуск тестов)
+└── run-tests.bat          (запуск UI тестов)
 ```
 
 ## 📦 Установленные зависимости
