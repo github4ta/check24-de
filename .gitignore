@@ -1,3 +1,4 @@
+### Maven ###
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -5,13 +6,38 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-# https://maven.apache.org/wrapper/#usage-without-binary-jar
-.mvn/wrapper/maven-wrapper.jar
+build.log
+*.jar
+*.war
+*.ear
 
-# Eclipse m2e generated files
-# Eclipse Core
+### Java (Compiled classes) ###
+*.class
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+### Eclipse ###
+.settings/
 .project
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
+.factorypath
+bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### Visual Studio Code ###
+.vscode/
+
+### OS Specific ###
+.DS_Store
+Thumbs.db
