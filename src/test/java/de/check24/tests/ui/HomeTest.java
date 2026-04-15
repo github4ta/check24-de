@@ -218,13 +218,22 @@ public class HomeTest extends BaseUITest {
     @Story("Search Functionality")
     @DisplayName("Search by section is working correctly")
     @Description("Verify that search by section Angesagte Reiseziele functionality provides correct list of hotels")
-    void testSE003() {
+    public void testSE003() {
         homePage.navigateToHomePage();
-        homePage.clickCookieButton();
+        homePage.clickCookieAcceptButton();
         homePage.clickSectionTurkey();
 
         assertThat(homePage.getUrl())
                 .contains("Türkei");
+      
+    @Test 
+    public void testVS004() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickFacebookButton();
+        String actual = homePage.getFacebookPageUrl();
+        Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
     }
 
     @AfterEach
