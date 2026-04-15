@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import org.openqa.selenium.Keys;
 
 /**
  * Page Object for Check24 HomePage
@@ -20,6 +21,9 @@ public class HomePage {
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
+
+    // Locators for header
+    private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
 
     // Footer copyright locator
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
@@ -142,6 +146,18 @@ public class HomePage {
 
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
         element.click();
+    }
+
+    public void clickToSearchFieldInHeader() {
+        driver.findElement(searchInHeader).click();
+    }
+
+    public void fillInputInSearchHeader(String value) {
+        driver.findElement(searchInHeader).sendKeys(value);
+    }
+
+    public void submitSearchByEnter() {
+        driver.findElement(searchInHeader).sendKeys(Keys.ENTER);
     }
   
     public void clickFacebookButton() {
