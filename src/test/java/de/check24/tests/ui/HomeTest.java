@@ -226,6 +226,19 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.getUrl())
                 .contains("Türkei");
     }
+
+    @Test
+    @Description("Verify search functionality using the keyword 'Warsaw'")
+    public void testSE001() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeader();
+        homePage.fillInputInSearchHeader("Warsaw");
+        homePage.submitSearchByEnter();
+
+        String actualText = homePage.getTextAfterSearchWarsaw();
+        Assertions.assertEquals("warschau", actualText);
+    }
       
     @Test 
     public void testVS004() {

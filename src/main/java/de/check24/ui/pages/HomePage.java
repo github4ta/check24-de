@@ -34,6 +34,7 @@ public class HomePage {
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
+    private final By labelWarschau = By.xpath("//span[text()='warschau']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -158,6 +159,10 @@ public class HomePage {
 
     public void submitSearchByEnter() {
         driver.findElement(searchInHeader).sendKeys(Keys.ENTER);
+    }
+
+    public String getTextAfterSearchWarsaw() {
+       return driver.findElement(labelWarschau).getText().replace("\"", "").trim();
     }
   
     public void clickFacebookButton() {
