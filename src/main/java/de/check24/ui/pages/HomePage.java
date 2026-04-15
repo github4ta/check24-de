@@ -2,6 +2,7 @@ package de.check24.ui.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Page Object for Check24 HomePage
@@ -20,6 +21,8 @@ public class HomePage {
     // Alternative copyright locators (in case the text changes)
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
+    private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
+    private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -117,5 +120,17 @@ public class HomePage {
         } catch (Exception e) {
             throw new RuntimeException("Search functionality failed: " + e.getMessage());
         }
+    }
+
+    public void clickFacebookButton() {
+        driver.findElement(facebookButton).click();
+    }
+
+    public String getFacebookPageUrl() {
+        return driver.getCurrentUrl();
+    }
+
+    public void clickCookieAcceptButton() {
+        driver.findElement(cookieAcceptButton).click();
     }
 }
