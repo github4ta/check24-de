@@ -225,6 +225,16 @@ public class HomeTest extends BaseUITest {
         Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
     }
 
+    @Test
+    void VM005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.isAGBLinkClickable())
+                .withFailMessage("AGB link is not clickable")
+                .isTrue();
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test

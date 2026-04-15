@@ -23,6 +23,7 @@ public class HomePage {
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By agbLink = By.xpath("//a[@title='AGB']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -132,5 +133,14 @@ public class HomePage {
 
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
+    }
+
+    public boolean isAGBLinkClickable() {
+        try {
+            driver.findElement(agbLink).click();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
