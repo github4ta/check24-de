@@ -1,7 +1,15 @@
 package de.check24.ui.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 /**
  * Page Object for Check24 HomePage
@@ -20,6 +28,9 @@ public class HomePage {
     // Alternative copyright locators (in case the text changes)
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
+
+    private final By cookieButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -117,5 +128,23 @@ public class HomePage {
         } catch (Exception e) {
             throw new RuntimeException("Search functionality failed: " + e.getMessage());
         }
+    }
+
+    public void clickCookieButton() {
+        driver.findElement(cookieButton).click();
+    }
+
+    public String getUrl() {
+        return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
+    }
+    public void clickSectionTurkey() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        js.executeScript("window.scrollBy(0, 1000)");
+
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
+        element.click();
     }
 }

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.Dimension;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -213,6 +212,19 @@ public class HomeTest extends BaseUITest {
             .contains("lang=");
 
         log.info("Basic accessibility check passed");
+    }
+
+    @Test
+    @Story("Search Functionality")
+    @DisplayName("Search by section is working correctly")
+    @Description("Verify that search by section Angesagte Reiseziele functionality provides correct list of hotels")
+    void testSE003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieButton();
+        homePage.clickSectionTurkey();
+
+        assertThat(homePage.getUrl())
+                .contains("Türkei");
     }
 
     @AfterEach
