@@ -215,6 +215,16 @@ public class HomeTest extends BaseUITest {
         log.info("Basic accessibility check passed");
     }
 
+    @Test
+    public void testVS004() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickFacebookButton();
+        String actual = homePage.getFacebookPageUrl();
+        Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
