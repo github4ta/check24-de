@@ -225,6 +225,7 @@ public class HomeTest extends BaseUITest {
 
         assertThat(homePage.getUrl())
                 .contains("Türkei");
+    }
       
     @Test 
     public void testVS004() {
