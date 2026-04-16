@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.Dimension;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Comprehensive tests for Check24 HomePage functionality
@@ -235,6 +236,14 @@ public class HomeTest extends BaseUITest {
         homePage.clickFacebookButton();
         String actual = homePage.getFacebookPageUrl();
         Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
+    }
+
+    @Test
+    public void testVM004 () {
+        homePage.navigateToHomePage();
+        homePage.clickAGBlink();
+        String AGBUrl = driver.getCurrentUrl();
+        assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
     }
 
     @AfterEach
