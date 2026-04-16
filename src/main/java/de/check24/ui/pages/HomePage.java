@@ -1,8 +1,14 @@
 package de.check24.ui.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 /**
  * Page Object for Check24 HomePage
@@ -23,6 +29,9 @@ public class HomePage {
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
+    private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
+    private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By agbLink = By.xpath("//a[@title='AGB']");
 
     public HomePage(WebDriver driver) {
@@ -123,6 +132,21 @@ public class HomePage {
         }
     }
 
+    public String getUrl() {
+        return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
+    }
+
+    public void clickSectionTurkey() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        js.executeScript("window.scrollBy(0, 1000)");
+
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
+        element.click();
+    }
+
     public void clickFacebookButton() {
         driver.findElement(facebookButton).click();
     }
@@ -133,6 +157,19 @@ public class HomePage {
 
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
+    }
+
+    public void clickAGBlink() {
+        driver.findElement(AGBlink).click();
+    }
+
+    public String getSearchHotelInputPlaceholder() {
+        try {
+            WebElement input = driver.findElement(searchHotelInput);
+            return input.getAttribute("placeholder");
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public boolean isAGBLinkClickable() {
