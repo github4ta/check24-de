@@ -227,6 +227,14 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.getUrl())
                 .contains("Türkei");
     }
+
+    @Test
+    public void testVS003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
+    }
       
     @Test 
     public void testVS004() {
