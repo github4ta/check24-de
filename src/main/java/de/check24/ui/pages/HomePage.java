@@ -32,6 +32,8 @@ public class HomePage {
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
+    private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
+    private final By agbLink = By.xpath("//a[@title='AGB']");
 
     private final By SearchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By ParisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
@@ -137,7 +139,7 @@ public class HomePage {
     public String getUrl() {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
-  
+
     public void clickSectionTurkey() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -148,7 +150,7 @@ public class HomePage {
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
         element.click();
     }
-  
+
     public void clickFacebookButton() {
         driver.findElement(facebookButton).click();
     }
@@ -183,4 +185,16 @@ public class HomePage {
     public void clickParisHotelSuggestion() {driver.findElement(ParisHotelSuggestion);}
 
     public String getParisHotelCurrentUrl() { return driver.getCurrentUrl();}
+    public boolean isPersonalAccountButtonDisplayed() {
+        return driver.findElement(personalAccountButton).isDisplayed();
+    }
+
+    public boolean isAGBLinkClickable() {
+        try {
+            driver.findElement(agbLink).click();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

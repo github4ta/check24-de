@@ -227,8 +227,16 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.getUrl())
                 .contains("Türkei");
     }
-      
-    @Test 
+
+    @Test
+    public void testVS003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
+    }
+
+    @Test
     public void testVS004() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -271,6 +279,14 @@ public class HomeTest extends BaseUITest {
         Assertions.assertTrue(
                 actual.contains("https://www.check24.de/suche/?q=paris"),
                 "Unexpected URL: " + actual);
+    @Test
+    void testVM005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.isAGBLinkClickable())
+                .withFailMessage("AGB link is not clickable")
+                .isTrue();
     }
 
     @AfterEach
