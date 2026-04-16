@@ -32,6 +32,7 @@ public class HomePage {
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
+    private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
 
     public HomePage(WebDriver driver) {
@@ -170,6 +171,10 @@ public class HomePage {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public boolean isPersonalAccountButtonDisplayed() {
+        return driver.findElement(personalAccountButton).isDisplayed();
     }
 
     public boolean isAGBLinkClickable() {
