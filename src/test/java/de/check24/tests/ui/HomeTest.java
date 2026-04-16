@@ -6,6 +6,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,12 +37,12 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Check24 homepage failed to load properly")
-            .isTrue();
+                .withFailMessage("Check24 homepage failed to load properly")
+                .isTrue();
 
         assertThat(driver.getTitle())
-            .withFailMessage("Page title should contain CHECK24")
-            .contains("CHECK24");
+                .withFailMessage("Page title should contain CHECK24")
+                .contains("CHECK24");
 
         log.info("Homepage loaded successfully with title: {}", driver.getTitle());
     }
@@ -57,8 +60,8 @@ public class HomeTest extends BaseUITest {
         boolean hasCopyright2026 = homePage.isCopyright2026Present();
 
         assertThat(hasExactCopyright || hasCopyright2026)
-            .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
-            .isTrue();
+                .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
+                .isTrue();
 
         if (hasExactCopyright) {
             log.info("Exact copyright text found");
@@ -83,8 +86,8 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isLogoDisplayed())
-            .withFailMessage("Check24 logo is not displayed on homepage")
-            .isTrue();
+                .withFailMessage("Check24 logo is not displayed on homepage")
+                .isTrue();
 
         log.info("Logo is displayed correctly");
     }
@@ -99,19 +102,19 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page did not load properly")
-            .isTrue();
+                .withFailMessage("Page did not load properly")
+                .isTrue();
 
         // Check that we can interact with the page
         assertThat(driver.getCurrentUrl())
-            .withFailMessage("URL should be check24.de")
-            .contains("check24.de");
+                .withFailMessage("URL should be check24.de")
+                .contains("check24.de");
 
         // Check that page has content (basic smoke test)
         String pageSource = driver.getPageSource();
         assertThat(pageSource.length())
-            .withFailMessage("Page source is too short, page might not have loaded properly")
-            .isGreaterThan(10000);
+                .withFailMessage("Page source is too short, page might not have loaded properly")
+                .isGreaterThan(10000);
 
         log.info("Page structure verification passed");
     }
@@ -146,8 +149,8 @@ public class HomeTest extends BaseUITest {
         homePage.navigateToHomePage();
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page failed to load on desktop size")
-            .isTrue();
+                .withFailMessage("Page failed to load on desktop size")
+                .isTrue();
 
         // Test mobile size
         driver.manage().window().setSize(new Dimension(375, 667));
@@ -155,16 +158,16 @@ public class HomeTest extends BaseUITest {
         driver.navigate().refresh();
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page failed to load on mobile size")
-            .isTrue();
+                .withFailMessage("Page failed to load on mobile size")
+                .isTrue();
 
         // Test tablet size
         driver.manage().window().setSize(new Dimension(768, 1024));
         driver.navigate().refresh();
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page failed to load on tablet size")
-            .isTrue();
+                .withFailMessage("Page failed to load on tablet size")
+                .isTrue();
 
         log.info("Page works correctly on different screen sizes");
     }
@@ -183,12 +186,12 @@ public class HomeTest extends BaseUITest {
         long loadTime = System.currentTimeMillis() - startTime;
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page did not load successfully")
-            .isTrue();
+                .withFailMessage("Page did not load successfully")
+                .isTrue();
 
         assertThat(loadTime)
-            .withFailMessage("Page took too long to load: " + loadTime + "ms")
-            .isLessThan(30000); // 30 seconds
+                .withFailMessage("Page took too long to load: " + loadTime + "ms")
+                .isLessThan(30000); // 30 seconds
 
         log.info("Page loaded in {} ms", loadTime);
     }
@@ -203,14 +206,14 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page did not load for accessibility check")
-            .isTrue();
+                .withFailMessage("Page did not load for accessibility check")
+                .isTrue();
 
         // Check for basic accessibility - page should have lang attribute
         String pageSource = driver.getPageSource();
         assertThat(pageSource)
-            .withFailMessage("Page should have lang attribute for accessibility")
-            .contains("lang=");
+                .withFailMessage("Page should have lang attribute for accessibility")
+                .contains("lang=");
 
         log.info("Basic accessibility check passed");
     }
@@ -223,6 +226,20 @@ public class HomeTest extends BaseUITest {
         homePage.clickFacebookButton();
         String actual = homePage.getFacebookPageUrl();
         Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
+    }
+
+    @Test
+    public void testVS008(){
+        String searchUrl = "https://urlaub.check24.de/suche/hotel?destination=Warsaw&departureDate=2026-04-22&returnDate=2026-04-29&adults=2";
+        driver.get(searchUrl);
+        homePage.clickCookieAcceptButton();
+        homePage.selectBreakfastFilter();
+
+        List<WebElement> allHotels = homePage.getHotelCards();
+        List<WebElement> breakfastBadges = homePage.getBreakfastBadges();
+
+        Assertions.assertEquals(allHotels.size(), breakfastBadges.size(),
+                "Количество отелей не совпадает с количеством предложений с завтраком!");
     }
 
     @AfterEach

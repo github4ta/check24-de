@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 /**
  * Page Object for Check24 HomePage
  */
@@ -23,6 +25,7 @@ public class HomePage {
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By BreakfastFilter = By.xpath("//*[@id=\"travel-search-form\"]/div[2]/div[2]/div/fieldset[3]/div[1]/div[7]/label");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -106,7 +109,7 @@ public class HomePage {
      */
     public boolean isPageLoaded() {
         return driver.getTitle().contains("CHECK24") ||
-               driver.getCurrentUrl().contains("check24.de");
+                driver.getCurrentUrl().contains("check24.de");
     }
 
     /**
@@ -132,5 +135,17 @@ public class HomePage {
 
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
+    }
+
+    public void selectBreakfastFilter() {
+        driver.findElement(BreakfastFilter).isSelected();
+    }
+
+    public List<WebElement> getHotelCards() {
+        return driver.findElements(By.cssSelector(".hotel-card"));
+    }
+
+    public List<WebElement> getBreakfastBadges() {
+        return driver.findElements(By.xpath("//span[contains(text(), 'Frühstück inbegriffen')]"));
     }
 }
