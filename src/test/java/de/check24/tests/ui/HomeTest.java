@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.Dimension;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Comprehensive tests for Check24 HomePage functionality
@@ -239,8 +240,16 @@ public class HomeTest extends BaseUITest {
         String actualText = homePage.getTextAfterSearchWarsaw();
         Assertions.assertEquals("warschau", actualText);
     }
-      
-    @Test 
+
+    @Test
+    public void testVS003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
+    }
+
+    @Test
     public void testVS004() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -248,6 +257,45 @@ public class HomeTest extends BaseUITest {
         homePage.clickFacebookButton();
         String actual = homePage.getFacebookPageUrl();
         Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
+    }
+
+    @Test
+    public void testVM004 () {
+        homePage.navigateToHomePage();
+        homePage.clickAGBlink();
+        String AGBUrl = driver.getCurrentUrl();
+        assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
+    }
+
+    @Test
+    void testVS007() {
+        final String expectedPlaceholder = "Wohin?";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.getSearchHotelInputPlaceholder())
+                .withFailMessage("The placeholder does not match " + expectedPlaceholder)
+                .isEqualTo(expectedPlaceholder);
+    }
+
+    @Test
+    void testVM005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.isAGBLinkClickable())
+                .withFailMessage("AGB link is not clickable")
+                .isTrue();
+    }
+
+    @Test
+    void testVS006() {
+        homePage.navigateToHomePage();
+
+        assertThat(homePage.getSocialIconCount())
+                .withFailMessage("The number of icons does not meet the requirements")
+                .isEqualTo(4);
     }
 
     @AfterEach
