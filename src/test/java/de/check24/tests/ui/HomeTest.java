@@ -226,7 +226,7 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    void VM005() {
+    void testVM005() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
 
