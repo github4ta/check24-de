@@ -163,11 +163,7 @@ public class HomePage {
     }
 
     public String getSearchHotelInputPlaceholder() {
-        try {
-            WebElement input = driver.findElement(searchHotelInput);
-            return input.getAttribute("placeholder");
-        } catch (Exception e) {
-            return "";
-        }
+        WebElement input = driver.findElement(searchHotelInput);
+        return input.getAttribute("placeholder");
     }
 }
