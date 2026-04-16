@@ -158,8 +158,6 @@ public class HomePage {
     }
 
     public boolean isPersonalAccountButtonDisplayed() {
-
         return driver.findElement(personalAccountButton).isDisplayed();
-
     }
 }

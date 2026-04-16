@@ -231,6 +231,7 @@ public class HomeTest extends BaseUITest {
     public void testVS003() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
+
         Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
     }
       
