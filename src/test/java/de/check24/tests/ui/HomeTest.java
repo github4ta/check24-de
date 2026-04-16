@@ -277,6 +277,15 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    void testVS006() {
+        homePage.navigateToHomePage();
+
+        assertThat(homePage.getSocialIconCount())
+                .withFailMessage("The number of icons does not meet the requirements")
+                .isEqualTo(4);
+    }
+
+    @Test
     public void testSR001() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();

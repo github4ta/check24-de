@@ -39,6 +39,7 @@ public class HomePage {
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
+    private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
     private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
@@ -145,7 +146,7 @@ public class HomePage {
     public String getUrl() {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
-  
+
     public void clickSectionTurkey() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -156,7 +157,7 @@ public class HomePage {
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
         element.click();
     }
-  
+
     public void clickFacebookButton() {
         driver.findElement(facebookButton).click();
     }
@@ -192,6 +193,14 @@ public class HomePage {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public int getSocialIconCount() {
+        try {
+            return driver.findElements(socialIcon).size();
+        } catch (Exception e) {
+            return 0;
         }
     }
 
