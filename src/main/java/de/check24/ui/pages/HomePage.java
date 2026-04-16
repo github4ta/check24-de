@@ -17,18 +17,11 @@ import org.openqa.selenium.Keys;
 public class HomePage {
     private final WebDriver driver;
 
-    // Locators for main elements
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
-
-    // Locators for header
     private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
-
-    // Footer copyright locator
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
-
-    // Alternative copyright locators (in case the text changes)
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
