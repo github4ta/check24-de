@@ -30,6 +30,8 @@ public class HomePage {
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
+    private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
+    private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
 
     public HomePage(WebDriver driver) {
@@ -155,6 +157,19 @@ public class HomePage {
 
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
+    }
+
+    public void clickAGBlink() {
+        driver.findElement(AGBlink).click();
+    }
+
+    public String getSearchHotelInputPlaceholder() {
+        try {
+            WebElement input = driver.findElement(searchHotelInput);
+            return input.getAttribute("placeholder");
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public boolean isPersonalAccountButtonDisplayed() {
