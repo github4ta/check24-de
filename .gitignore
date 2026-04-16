@@ -27,6 +27,7 @@ surefire-reports/
 
 # Maven
 .allure/
+.mvn/
 
 # OS generated files
 .DS_Store

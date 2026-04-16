@@ -30,6 +30,10 @@ public class HomePage {
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
+    private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
+    private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
+    private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
+    private final By agbLink = By.xpath("//a[@title='AGB']");
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
 
     public HomePage(WebDriver driver) {
@@ -133,7 +137,7 @@ public class HomePage {
     public String getUrl() {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
-  
+
     public void clickSectionTurkey() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -144,7 +148,7 @@ public class HomePage {
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
         element.click();
     }
-  
+
     public void clickFacebookButton() {
         driver.findElement(facebookButton).click();
     }
@@ -155,6 +159,32 @@ public class HomePage {
 
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
+    }
+
+    public void clickAGBlink() {
+        driver.findElement(AGBlink).click();
+    }
+
+    public String getSearchHotelInputPlaceholder() {
+        try {
+            WebElement input = driver.findElement(searchHotelInput);
+            return input.getAttribute("placeholder");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public boolean isPersonalAccountButtonDisplayed() {
+        return driver.findElement(personalAccountButton).isDisplayed();
+    }
+
+    public boolean isAGBLinkClickable() {
+        try {
+            driver.findElement(agbLink).click();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int getSocialIconCount() {
