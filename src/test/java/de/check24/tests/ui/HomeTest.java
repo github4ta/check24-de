@@ -237,6 +237,18 @@ public class HomeTest extends BaseUITest {
         Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
     }
 
+    @Test
+    void testVS007() {
+        final String expectedPlaceholder = "Wohin?";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.getSearchHotelInputPlaceholder())
+                .withFailMessage("The placeholder does not match " + expectedPlaceholder)
+                .isEqualTo(expectedPlaceholder);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
