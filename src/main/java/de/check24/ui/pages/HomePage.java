@@ -34,6 +34,7 @@ public class HomePage {
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
+    private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -183,6 +184,14 @@ public class HomePage {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public int getSocialIconCount() {
+        try {
+            return driver.findElements(socialIcon).size();
+        } catch (Exception e) {
+            return 0;
         }
     }
 }
