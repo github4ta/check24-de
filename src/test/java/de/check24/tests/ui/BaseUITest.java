@@ -2,6 +2,7 @@ package de.check24.tests.ui;
 
 import de.check24.config.ConfigLoader;
 import de.check24.ui.driver.DriverFactory;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;

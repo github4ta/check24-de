@@ -23,6 +23,9 @@ public class HomePage {
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By LoginIcon = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a/div[1]");
+    private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
+    private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -132,5 +135,17 @@ public class HomePage {
 
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
+    }
+
+    public void clickLoginIcon() {
+        driver.findElement(LoginIcon).click();
+    }
+
+    public void enterEmail() {
+        driver.findElement(enterEmail).click();
+    }
+
+    public void clickForgotPassword() {
+        driver.findElement(forgotPassword).click();
     }
 }
