@@ -240,13 +240,8 @@ public class HomeTest extends BaseUITest {
 
     @Test
     public void testVM004 () {
-        // открыть домашнюю страницу
         homePage.navigateToHomePage();
-
-        // кликнуть на «AGB» ссылку
         homePage.clickAGBlink();
-
-        //проверить, что страничка AGB открылась
         String AGBUrl = driver.getCurrentUrl();
         assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
     }

@@ -156,5 +156,8 @@ public class HomePage {
     public void clickCookieAcceptButton() {
         driver.findElement(cookieAcceptButton).click();
     }
-    public void clickAGBlink() {driver.findElement(AGBlink).click();}
+
+    public void clickAGBlink() {
+        driver.findElement(AGBlink).click();
+    }
 }
