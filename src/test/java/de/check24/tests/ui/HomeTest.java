@@ -258,6 +258,21 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(expectedPlaceholder);
     }
 
+
+    @Test
+    public void testSE002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+
+        String actual = homePage.getParisHotelCurrentUrl();
+        Assertions.assertTrue(
+                actual.contains("https://www.check24.de/suche/?q=paris"),
+                "Unexpected URL: " + actual);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test

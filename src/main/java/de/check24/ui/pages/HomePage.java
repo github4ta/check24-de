@@ -33,6 +33,9 @@ public class HomePage {
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
 
+    private final By SearchBar = By.xpath("//*[@id=\"c24-search-header\"]");
+    private final By ParisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -170,4 +173,14 @@ public class HomePage {
             return "";
         }
     }
+
+    public void clickSearchBar() {
+        driver.findElement(SearchBar).click();
+    }
+
+    public void sendKeysSearchBar() {driver.findElement(SearchBar).sendKeys("Paris");}
+
+    public void clickParisHotelSuggestion() {driver.findElement(ParisHotelSuggestion);}
+
+    public String getParisHotelCurrentUrl() { return driver.getCurrentUrl();}
 }
