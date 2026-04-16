@@ -31,6 +31,7 @@ public class HomePage {
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
+    private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -159,5 +160,14 @@ public class HomePage {
 
     public void clickAGBlink() {
         driver.findElement(AGBlink).click();
+    }
+
+    public String getSearchHotelInputPlaceholder() {
+        try {
+            WebElement input = driver.findElement(searchHotelInput);
+            return input.getAttribute("placeholder");
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

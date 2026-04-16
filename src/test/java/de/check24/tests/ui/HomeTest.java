@@ -246,6 +246,18 @@ public class HomeTest extends BaseUITest {
         assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
     }
 
+    @Test
+    void testVS007() {
+        final String expectedPlaceholder = "Wohin?";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.getSearchHotelInputPlaceholder())
+                .withFailMessage("The placeholder does not match " + expectedPlaceholder)
+                .isEqualTo(expectedPlaceholder);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
