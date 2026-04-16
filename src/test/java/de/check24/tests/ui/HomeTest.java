@@ -6,8 +6,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.Dimension;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Comprehensive tests for Check24 HomePage functionality
@@ -216,6 +216,27 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @Story("Search Functionality")
+    @DisplayName("Search by section is working correctly")
+    @Description("Verify that search by section Angesagte Reiseziele functionality provides correct list of hotels")
+    public void testSE003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickSectionTurkey();
+
+        assertThat(homePage.getUrl())
+                .contains("Türkei");
+    }
+
+    @Test
+    public void testVS003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
+    }
+
+    @Test
     public void testVS004() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -238,6 +259,34 @@ public class HomeTest extends BaseUITest {
                 "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
     }
 
+    public void testVM004 () {
+        homePage.navigateToHomePage();
+        homePage.clickAGBlink();
+        String AGBUrl = driver.getCurrentUrl();
+        assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
+    }
+
+    @Test
+    void testVS007() {
+        final String expectedPlaceholder = "Wohin?";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.getSearchHotelInputPlaceholder())
+                .withFailMessage("The placeholder does not match " + expectedPlaceholder)
+                .isEqualTo(expectedPlaceholder);
+    }
+
+    @Test
+    void testVM005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.isAGBLinkClickable())
+                .withFailMessage("AGB link is not clickable")
+                .isTrue();
+    }
 
     @AfterEach
     void cleanup() {
