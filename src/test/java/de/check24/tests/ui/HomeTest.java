@@ -237,6 +237,15 @@ public class HomeTest extends BaseUITest {
         Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
     }
 
+    @Test
+    void testVS006() {
+        homePage.navigateToHomePage();
+
+        assertThat(homePage.getSocialIconCount())
+                .withFailMessage("The number of icons does not meet the requirements")
+                .isEqualTo(4);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
