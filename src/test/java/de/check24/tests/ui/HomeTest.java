@@ -235,8 +235,8 @@ public class HomeTest extends BaseUITest {
 
         Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
     }
-      
-    @Test 
+
+    @Test
     public void testVS004() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -264,6 +264,16 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.getSearchHotelInputPlaceholder())
                 .withFailMessage("The placeholder does not match " + expectedPlaceholder)
                 .isEqualTo(expectedPlaceholder);
+    }
+
+    @Test
+    void testVM005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        assertThat(homePage.isAGBLinkClickable())
+                .withFailMessage("AGB link is not clickable")
+                .isTrue();
     }
 
     @AfterEach

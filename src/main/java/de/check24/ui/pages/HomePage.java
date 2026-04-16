@@ -33,6 +33,7 @@ public class HomePage {
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
+    private final By agbLink = By.xpath("//a[@title='AGB']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -135,7 +136,7 @@ public class HomePage {
     public String getUrl() {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
-  
+
     public void clickSectionTurkey() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -146,7 +147,7 @@ public class HomePage {
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
         element.click();
     }
-  
+
     public void clickFacebookButton() {
         driver.findElement(facebookButton).click();
     }
@@ -174,5 +175,14 @@ public class HomePage {
 
     public boolean isPersonalAccountButtonDisplayed() {
         return driver.findElement(personalAccountButton).isDisplayed();
+    }
+
+    public boolean isAGBLinkClickable() {
+        try {
+            driver.findElement(agbLink).click();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
