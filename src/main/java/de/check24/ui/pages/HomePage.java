@@ -41,7 +41,12 @@ public class HomePage {
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
     private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
+<<<<<<< HEAD
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
+=======
+    private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
+
+>>>>>>> ccf4bf2 (VS011 - The section "Reise" is visible and lead to the correct URL)
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -299,5 +304,8 @@ public class HomePage {
 
     public void clickHotelButton() {
         driver.findElement(hotelButton).click();
+
+    public void clickReiseButton() {
+        driver.findElement(reiseButton).click();
     }
 }

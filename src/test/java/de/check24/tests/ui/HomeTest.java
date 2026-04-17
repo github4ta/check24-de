@@ -321,6 +321,12 @@ public class HomeTest extends BaseUITest {
         homePage.clickHotelButton();
         String hotelUrl = driver.getCurrentUrl();
         assertTrue(hotelUrl.contains("https://hotel.check24.de/"));
+
+    public void testVS011 () {
+        homePage.navigateToHomePage();
+        homePage.clickReiseButton();
+        String reiseUrl = driver.getCurrentUrl();
+        assertTrue(reiseUrl.contains("https://urlaub.check24.de/"));
     }
 
     @AfterEach
