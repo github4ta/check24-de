@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Epic("Check24 Homepage")
 @Feature("Homepage Verification")
 public class HomeTest extends BaseUITest {
-
     private HomePage homePage;
+    private final String EXISTING_EMAIL = "test@example.com";
 
     @BeforeEach
     void setupHomePage() {
@@ -34,12 +34,12 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Check24 homepage failed to load properly")
-            .isTrue();
+                .withFailMessage("Check24 homepage failed to load properly")
+                .isTrue();
 
         assertThat(driver.getTitle())
-            .withFailMessage("Page title should contain CHECK24")
-            .contains("CHECK24");
+                .withFailMessage("Page title should contain CHECK24")
+                .contains("CHECK24");
 
         log.info("Homepage loaded successfully with title: {}", driver.getTitle());
     }
@@ -57,8 +57,8 @@ public class HomeTest extends BaseUITest {
         boolean hasCopyright2026 = homePage.isCopyright2026Present();
 
         assertThat(hasExactCopyright || hasCopyright2026)
-            .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
-            .isTrue();
+                .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
+                .isTrue();
 
         if (hasExactCopyright) {
             log.info("Exact copyright text found");
@@ -83,8 +83,8 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isLogoDisplayed())
-            .withFailMessage("Check24 logo is not displayed on homepage")
-            .isTrue();
+                .withFailMessage("Check24 logo is not displayed on homepage")
+                .isTrue();
 
         log.info("Logo is displayed correctly");
     }
@@ -99,19 +99,19 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page did not load properly")
-            .isTrue();
+                .withFailMessage("Page did not load properly")
+                .isTrue();
 
         // Check that we can interact with the page
         assertThat(driver.getCurrentUrl())
-            .withFailMessage("URL should be check24.de")
-            .contains("check24.de");
+                .withFailMessage("URL should be check24.de")
+                .contains("check24.de");
 
         // Check that page has content (basic smoke test)
         String pageSource = driver.getPageSource();
         assertThat(pageSource.length())
-            .withFailMessage("Page source is too short, page might not have loaded properly")
-            .isGreaterThan(10000);
+                .withFailMessage("Page source is too short, page might not have loaded properly")
+                .isGreaterThan(10000);
 
         log.info("Page structure verification passed");
     }
@@ -146,8 +146,8 @@ public class HomeTest extends BaseUITest {
         homePage.navigateToHomePage();
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page failed to load on desktop size")
-            .isTrue();
+                .withFailMessage("Page failed to load on desktop size")
+                .isTrue();
 
         // Test mobile size
         driver.manage().window().setSize(new Dimension(375, 667));
@@ -155,16 +155,16 @@ public class HomeTest extends BaseUITest {
         driver.navigate().refresh();
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page failed to load on mobile size")
-            .isTrue();
+                .withFailMessage("Page failed to load on mobile size")
+                .isTrue();
 
         // Test tablet size
         driver.manage().window().setSize(new Dimension(768, 1024));
         driver.navigate().refresh();
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page failed to load on tablet size")
-            .isTrue();
+                .withFailMessage("Page failed to load on tablet size")
+                .isTrue();
 
         log.info("Page works correctly on different screen sizes");
     }
@@ -183,12 +183,12 @@ public class HomeTest extends BaseUITest {
         long loadTime = System.currentTimeMillis() - startTime;
 
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page did not load successfully")
-            .isTrue();
+                .withFailMessage("Page did not load successfully")
+                .isTrue();
 
         assertThat(loadTime)
-            .withFailMessage("Page took too long to load: " + loadTime + "ms")
-            .isLessThan(30000); // 30 seconds
+                .withFailMessage("Page took too long to load: " + loadTime + "ms")
+                .isLessThan(30000); // 30 seconds
 
         log.info("Page loaded in {} ms", loadTime);
     }
@@ -203,14 +203,14 @@ public class HomeTest extends BaseUITest {
 
         // Then
         assertThat(homePage.isPageLoaded())
-            .withFailMessage("Page did not load for accessibility check")
-            .isTrue();
+                .withFailMessage("Page did not load for accessibility check")
+                .isTrue();
 
         // Check for basic accessibility - page should have lang attribute
         String pageSource = driver.getPageSource();
         assertThat(pageSource)
-            .withFailMessage("Page should have lang attribute for accessibility")
-            .contains("lang=");
+                .withFailMessage("Page should have lang attribute for accessibility")
+                .contains("lang=");
 
         log.info("Basic accessibility check passed");
     }
@@ -260,6 +260,19 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testAU003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickLoginIcon();
+        homePage.enterEmail(EXISTING_EMAIL);
+        homePage.clickForgotPassword();
+
+        Assertions.assertTrue(driver.getCurrentUrl().contains("passwort-vergessen"),
+                "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
+    }
+
+@ Test
     public void testVM004 () {
         homePage.navigateToHomePage();
         homePage.clickAGBlink();
