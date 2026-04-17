@@ -298,6 +298,23 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(4);
     }
 
+    @Test
+    public void testSR001() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeaderUsingActions();
+        homePage.fillInputInSearchHeaderUsingActions("paris");
+        homePage.submitSearchByEnter();
+        homePage.clickToSearchParisHotelsButton();
+        homePage.clickOnPopupWindowCross();
+        homePage.clickOnSortingField();
+        homePage.clickOnSortingByPopularityInDescendingOrder();
+
+        assertThat(homePage.checkIfSortingByPopularityInDescendingOrderIsWorking())
+                .withFailMessage("Popularity sorting filter is working incorrectly")
+                .isTrue();
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
