@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
 
@@ -21,26 +22,22 @@ import org.openqa.selenium.Keys;
 public class HomePage {
     private final WebDriver driver;
 
-    // Locators for main elements
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
-
-    // Footer copyright locator
+    private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
-
-    // Alternative copyright locators (in case the text changes)
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
+    private final By labelWarschau = By.xpath("//span[text()='warschau']");
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
-    private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
     private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
@@ -158,6 +155,23 @@ public class HomePage {
         element.click();
     }
 
+
+    public void clickToSearchFieldInHeader() {
+        driver.findElement(searchInHeader).click();
+    }
+
+    public void fillInputInSearchHeader(String value) {
+        driver.findElement(searchInHeader).sendKeys(value);
+    }
+
+    public void submitSearchByEnter() {
+        driver.findElement(searchInHeader).sendKeys(Keys.ENTER);
+    }
+
+    public String getTextAfterSearchWarsaw() {
+       return driver.findElement(labelWarschau).getText().replace("\"", "").trim();
+    }
+
     public void clickFacebookButton() {
         driver.findElement(facebookButton).click();
     }
@@ -226,10 +240,6 @@ public class HomePage {
                     .pause(Duration.ofMillis(100 + random.nextInt(200)))
                     .perform();
         }
-    }
-
-    public void submitSearchByEnter() {
-        driver.findElement(searchInHeader).sendKeys(Keys.ENTER);
     }
 
     public void clickToSearchParisHotelsButton() {
