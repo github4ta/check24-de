@@ -199,6 +199,8 @@ public class HomePage {
 
     public void clickForgotPassword() {
         driver.findElement(forgotPassword).click();
+    }
+
     public void clickAGBlink() {
         driver.findElement(AGBlink).click();
     }
