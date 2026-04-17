@@ -41,7 +41,7 @@ public class HomePage {
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
     private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
-
+    private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -295,5 +295,9 @@ public class HomePage {
             return rating1 >= rating2;
         }
         return false;
+    }
+
+    public void clickHotelButton() {
+        driver.findElement(hotelButton).click();
     }
 }
