@@ -45,6 +45,8 @@ public class HomePage {
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
     private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
+    private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -312,5 +314,9 @@ public class HomePage {
 
     public void clickHotelButton() {
         driver.findElement(hotelButton).click();
+    }
+
+    public void clickReiseButton() {
+        driver.findElement(reiseButton).click();
     }
 }

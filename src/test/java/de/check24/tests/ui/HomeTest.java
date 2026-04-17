@@ -336,6 +336,14 @@ public class HomeTest extends BaseUITest {
         assertTrue(hotelUrl.contains("https://hotel.check24.de/"));
     }
 
+    @Test
+    public void testVS011 () {
+        homePage.navigateToHomePage();
+        homePage.clickReiseButton();
+        String reiseUrl = driver.getCurrentUrl();
+        assertTrue(reiseUrl.contains("https://urlaub.check24.de/"));
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
