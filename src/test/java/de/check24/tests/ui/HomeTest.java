@@ -259,6 +259,7 @@ public class HomeTest extends BaseUITest {
                 "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
     }
 
+@ Test
     public void testVM004 () {
         homePage.navigateToHomePage();
         homePage.clickAGBlink();
