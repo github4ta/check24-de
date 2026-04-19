@@ -49,7 +49,8 @@ public class HomePage {
 
     private final By SearchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By ParisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
-
+    private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
+    
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -332,5 +333,11 @@ public class HomePage {
 
     public void clickReiseButton() {
         driver.findElement(reiseButton).click();
+    }
+
+    public void clickDatenschutzLink() {
+        WebElement element = driver.findElement(datenschutzLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
     }
 }
