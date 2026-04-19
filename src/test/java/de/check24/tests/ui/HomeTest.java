@@ -292,7 +292,6 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(expectedPlaceholder);
     }
 
-
     @Test
     public void testSE002() {
         homePage.navigateToHomePage();
@@ -305,6 +304,8 @@ public class HomeTest extends BaseUITest {
         Assertions.assertTrue(
                 actual.contains("https://www.check24.de/suche/?q=paris"),
                 "Unexpected URL: " + actual);
+    }
+
     @Test
     void testVM005() {
         homePage.navigateToHomePage();
