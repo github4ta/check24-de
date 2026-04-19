@@ -197,7 +197,7 @@ public class HomePage {
         driver.findElement(loginIcon).click();
     }
 
-    public void enterEmail(String email) {
+    public void enterEmail() {
         driver.findElement(enterEmail).click();
     }
 
