@@ -276,7 +276,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickCookieAcceptButton();
 
         homePage.clickLoginIcon();
-        homePage.enterEmail(EXISTING_EMAIL);
+        homePage.enterEmail();
         homePage.clickForgotPassword();
 
         Assertions.assertTrue(driver.getCurrentUrl().contains("passwort-vergessen"),
