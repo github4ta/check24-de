@@ -265,7 +265,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickCookieAcceptButton();
 
         homePage.clickLoginIcon();
-        homePage.enterEmail(EXISTING_EMAIL);
+        homePage.enterEmail();
         homePage.clickForgotPassword();
 
         Assertions.assertTrue(driver.getCurrentUrl().contains("passwort-vergessen"),
@@ -305,6 +305,8 @@ public class HomeTest extends BaseUITest {
         Assertions.assertTrue(
                 actual.contains("https://www.check24.de/suche/?q=paris"),
                 "Unexpected URL: " + actual);
+    }
+
     @Test
     void testVM005() {
         homePage.navigateToHomePage();
@@ -355,6 +357,18 @@ public class HomeTest extends BaseUITest {
         homePage.clickReiseButton();
         String reiseUrl = driver.getCurrentUrl();
         assertTrue(reiseUrl.contains("https://urlaub.check24.de/"));
+    }
+
+    @Test
+    public void testVM002() {
+            homePage.navigateToHomePage();
+            homePage.clickCookieAcceptButton();
+            homePage.clickImpressumLink();
+
+            String currentUrl = driver.getCurrentUrl();
+            assertThat(currentUrl)
+                    .as("URL после клика на Impressum должен быть корректным")
+                    .contains("impressum");
     }
 
     @AfterEach
