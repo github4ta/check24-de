@@ -357,6 +357,21 @@ public class HomeTest extends BaseUITest {
         assertTrue(reiseUrl.contains("https://urlaub.check24.de/"));
     }
 
+    @Test
+    public void testFL002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeaderUsingActions();
+        homePage.fillInputInSearchHeaderUsingActions("paris");
+        homePage.submitSearchByEnter();
+        homePage.clickToSearchParisHotelsButton();
+        homePage.clickOnPopupWindowCross();
+
+        assertThat(homePage.toggleEntfernungFestlegenIsClickable())
+                .withFailMessage("Toggle is not clickable")
+                .isTrue();
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test

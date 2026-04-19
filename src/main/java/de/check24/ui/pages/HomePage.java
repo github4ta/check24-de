@@ -49,6 +49,7 @@ public class HomePage {
 
     private final By SearchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By ParisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
+    private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -196,7 +197,7 @@ public class HomePage {
         driver.findElement(loginIcon).click();
     }
 
-    public void enterEmail() {
+    public void enterEmail(String email) {
         driver.findElement(enterEmail).click();
     }
 
@@ -332,5 +333,20 @@ public class HomePage {
 
     public void clickReiseButton() {
         driver.findElement(reiseButton).click();
+    }
+
+    public boolean toggleEntfernungFestlegenIsClickable() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement toggle = wait.until(ExpectedConditions.elementToBeClickable(entfernungFestlegenToggle));
+        if (toggle.isEnabled()) {
+            toggle.click();
+            try {
+                return new WebDriverWait(driver, Duration.ofSeconds(3))
+                        .until(ExpectedConditions.attributeContains(toggle, "class", "isChecked"));
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 }
