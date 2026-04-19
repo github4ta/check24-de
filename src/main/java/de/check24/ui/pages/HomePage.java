@@ -23,6 +23,8 @@ public class HomePage {
     private final WebDriver driver;
 
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
+    private final By logoCheck24 = By.xpath("//a[@class='c24-logo']");
+    private final By linkFerienwohnung = By.xpath("//div[text()='Ferienwohnung buchen']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
     private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
@@ -163,6 +165,13 @@ public class HomePage {
         element.click();
     }
 
+    public void clickLogoCheckInHeader() {
+        driver.findElement(logoCheck24).click();
+    }
+
+    public void clicklinkFerienwohnung() {
+        driver.findElement(linkFerienwohnung).click();
+    }
 
     public void clickToSearchFieldInHeader() {
         driver.findElement(searchInHeader).click();
