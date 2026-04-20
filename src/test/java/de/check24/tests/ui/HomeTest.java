@@ -472,6 +472,28 @@ public class HomeTest extends BaseUITest {
                 .isTrue();
     }
 
+    @Test
+    @DisplayName("Verify 'Suchen' button visibility and functionality")
+    public void testVS012() {
+        final String expectedUrlPart = "suche";
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        assertThat(homePage.isSearchButtonPresent())
+                .withFailMessage("'Suchen' button is not visible on homepage")
+                .isTrue();
+        log.info("Search button visibility verified");
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+        homePage.clickSearchButton();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .withFailMessage("Search did not redirect to results page. Current URL:" + currentUrl)
+                .containsIgnoringCase("paris");
+        log.info("Search button works correctly. Redirected to: {}", currentUrl);
+
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
