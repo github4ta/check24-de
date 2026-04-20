@@ -359,6 +359,20 @@ public class HomeTest extends BaseUITest {
         assertTrue(reiseUrl.contains("https://urlaub.check24.de/"));
     }
 
+    @Test
+    void testVM006() {
+        final String expectedTitle = "Wanderorte für deine nächste Sportreise";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickWander();
+
+        assertThat(homePage.getTitleWander())
+                .withFailMessage("Wander is not clickable")
+                .isEqualTo(expectedTitle);
+        }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
