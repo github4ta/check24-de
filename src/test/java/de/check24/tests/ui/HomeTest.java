@@ -383,6 +383,9 @@ public class HomeTest extends BaseUITest {
 
         assertThat(driver.getCurrentUrl())
                 .contains("madeira");
+    }
+
+    @Test
     public void testVM002() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
