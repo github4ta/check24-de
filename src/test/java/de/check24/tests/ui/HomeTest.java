@@ -390,6 +390,20 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(expectedTitle);
     }
 
+    @Test
+    void testVS014() {
+        final String expectedUrl = "https://accounts.check24.com/login";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickLoginIcon();
+
+        assertThat(homePage.getUrlAuthorisationPage())
+                .withFailMessage("The url does not contains " + expectedUrl)
+                .contains(expectedUrl);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
