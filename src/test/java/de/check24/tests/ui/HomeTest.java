@@ -245,7 +245,7 @@ public class HomeTest extends BaseUITest {
     public void testVS005() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
-        homePage.clicklinkFerienwohnung();
+        homePage.clickLinkFerienwohnung();
         homePage.clickLogoCheckInHeader();
         String actualUrl = driver.getCurrentUrl();
         String expectedUrl = "https://www.check24.de/";
