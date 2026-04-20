@@ -242,6 +242,17 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVS005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLinkFerienwohnung();
+        homePage.clickLogoCheckInHeader();
+        String actualUrl = driver.getCurrentUrl();
+        String expectedUrl = "https://www.check24.de/";
+        Assertions.assertEquals(expectedUrl, actualUrl);
+    }
+
+    @Test
     public void testVS003() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -265,15 +276,15 @@ public class HomeTest extends BaseUITest {
         homePage.clickCookieAcceptButton();
 
         homePage.clickLoginIcon();
-        homePage.enterEmail(EXISTING_EMAIL);
+        homePage.enterEmail();
         homePage.clickForgotPassword();
 
         Assertions.assertTrue(driver.getCurrentUrl().contains("passwort-vergessen"),
                 "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
     }
 
-@ Test
-    public void testVM004 () {
+    @Test
+    public void testVM004() {
         homePage.navigateToHomePage();
         homePage.clickAGBlink();
         String AGBUrl = driver.getCurrentUrl();
@@ -292,7 +303,6 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(expectedPlaceholder);
     }
 
-
     @Test
     public void testSE002() {
         homePage.navigateToHomePage();
@@ -305,6 +315,8 @@ public class HomeTest extends BaseUITest {
         Assertions.assertTrue(
                 actual.contains("https://www.check24.de/suche/?q=paris"),
                 "Unexpected URL: " + actual);
+    }
+
     @Test
     void testVM005() {
         homePage.navigateToHomePage();
@@ -350,11 +362,54 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    public void testVS011 () {
+    public void testVS011() {
         homePage.navigateToHomePage();
         homePage.clickReiseButton();
         String reiseUrl = driver.getCurrentUrl();
         assertTrue(reiseUrl.contains("https://urlaub.check24.de/"));
+    }
+
+    @Test
+    public void testVM002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickImpressumLink();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .as("URL после клика на Impressum должен быть корректным")
+                .contains("impressum");
+    }
+
+    @Test
+    public void testVM006() {
+        final String expectedTitle = "Wanderorte für deine nächste Sportreise";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickWander();
+
+        assertThat(homePage.getTitleWander())
+                .withFailMessage("Wander is not clickable")
+                .isEqualTo(expectedTitle);
+    }
+
+    @Test
+    void testVS013 () {
+        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+        homePage.clickSearchButton();
+        System.out.println("title: " + homePage.getTitleParisHotels());
+
+        assertThat(homePage.getTitleParisHotels())
+                .withFailMessage("The title does not match " + expectedTitle)
+                .isEqualTo(expectedTitle);
     }
 
     @Test
