@@ -432,4 +432,3 @@ public class HomeTest extends BaseUITest {
             }
         }
     }
-
