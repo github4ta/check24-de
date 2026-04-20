@@ -370,6 +370,19 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVM007() {
+        homePage.navigateToHomePage();
+        homePage.clickReiseButton();
+        homePage.openBeliebteSportsSection();
+        homePage.clickFunchalSpot();
+
+        String pageTitle = driver.getTitle();
+        assertThat(pageTitle)
+                .as("Заголовок страницы должен содержать упоминание Мадейры или Фуншала")
+                .containsIgnoringCase("Madeira");
+
+        assertThat(driver.getCurrentUrl())
+                .contains("madeira");
     public void testVM002() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();

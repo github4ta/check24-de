@@ -48,6 +48,9 @@ public class HomePage {
     private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
+    private final By beliebteSportsSection = By.xpath("//*[@id='c24-container-18']/div[5]/div[1]/h5");
+    private final By wandernBlock = By.xpath("//*[@id='c24-container-18']/div[5]/div[2]/a[2]/div[2]/div[1]");
+    private final By funchalMadeiraLink = By.xpath("//*[@id='c24-indi-page-container-content']/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/a/div");
     private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By parisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
@@ -348,6 +351,13 @@ public class HomePage {
         driver.findElement(reiseButton).click();
     }
 
+    public void openBeliebteSportsSection() {WebElement section = driver.findElement(beliebteSportsSection);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", section);
+        driver.findElement(wandernBlock).click();
+    }
+
+    public void clickFunchalSpot() {
+        driver.findElement(funchalMadeiraLink).click();
     public void clickImpressumLink() {
         WebElement element = driver.findElement(impressumLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
