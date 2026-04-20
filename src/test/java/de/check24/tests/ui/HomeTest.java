@@ -373,6 +373,23 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(expectedTitle);
         }
 
+    @Test
+    void testVS013 () {
+        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+        homePage.clickSearchButton();
+        System.out.println("title: " + homePage.getTitleParisHotels());
+
+        assertThat(homePage.getTitleParisHotels())
+                .withFailMessage("The title does not match " + expectedTitle)
+                .isEqualTo(expectedTitle);
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test

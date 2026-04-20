@@ -51,6 +51,8 @@ public class HomePage {
     private final By ParisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By sportWander = By.xpath("//a[@href='https://individualreisen.check24.de/wandern?tid=widget']");
     private final By titleWander =  By.xpath("//h1");
+    private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
+    private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -346,6 +348,18 @@ public class HomePage {
     public String getTitleWander() {
         try {
             return driver.findElement(titleWander).getText();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public void clickSearchButton() {
+        driver.findElement(searchBtn).click();
+    }
+
+    public String getTitleParisHotels() {
+        try {
+            return driver.findElement(titleParisHotels).getText();
         } catch (Exception e) {
             return "";
         }
