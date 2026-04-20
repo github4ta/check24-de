@@ -382,51 +382,54 @@ public class HomeTest extends BaseUITest {
     }
 
     public void testVM002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickImpressumLink();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .as("URL после клика на Impressum должен быть корректным")
+                .contains("impressum");
+    }
+
+        void testVM006 () {
+            final String expectedTitle = "Wanderorte für deine nächste Sportreise";
+
             homePage.navigateToHomePage();
             homePage.clickCookieAcceptButton();
-            homePage.clickImpressumLink();
 
-            String currentUrl = driver.getCurrentUrl();
-            assertThat(currentUrl)
-                    .as("URL после клика на Impressum должен быть корректным")
-                    .contains("impressum");
-    void testVM006() {
-        final String expectedTitle = "Wanderorte für deine nächste Sportreise";
+            homePage.clickWander();
 
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        homePage.clickWander();
-
-        assertThat(homePage.getTitleWander())
-                .withFailMessage("Wander is not clickable")
-                .isEqualTo(expectedTitle);
+            assertThat(homePage.getTitleWander())
+                    .withFailMessage("Wander is not clickable")
+                    .isEqualTo(expectedTitle);
         }
 
-    @Test
-    void testVS013 () {
-        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+        @Test
+        public void testVS013 () {
+            final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
 
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
+            homePage.navigateToHomePage();
+            homePage.clickCookieAcceptButton();
 
-        homePage.clickSearchBar();
-        homePage.sendKeysSearchBar();
-        homePage.clickSearchButton();
-        System.out.println("title: " + homePage.getTitleParisHotels());
+            homePage.clickSearchBar();
+            homePage.sendKeysSearchBar();
+            homePage.clickSearchButton();
+            System.out.println("title: " + homePage.getTitleParisHotels());
 
-        assertThat(homePage.getTitleParisHotels())
-                .withFailMessage("The title does not match " + expectedTitle)
-                .isEqualTo(expectedTitle);
-    }
+            assertThat(homePage.getTitleParisHotels())
+                    .withFailMessage("The title does not match " + expectedTitle)
+                    .isEqualTo(expectedTitle);
+        }
 
-    @AfterEach
-    void cleanup() {
-        // Reset window size for next test
-        try {
-            driver.manage().window().setSize(new Dimension(1920, 1080));
-        } catch (Exception e) {
-            log.warn("Could not reset window size: {}", e.getMessage());
+        @AfterEach
+        void cleanup () {
+            // Reset window size for next test
+            try {
+                driver.manage().window().setSize(new Dimension(1920, 1080));
+            } catch (Exception e) {
+                log.warn("Could not reset window size: {}", e.getMessage());
+            }
         }
     }
-}
+
