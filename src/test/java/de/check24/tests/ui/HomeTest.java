@@ -491,7 +491,6 @@ public class HomeTest extends BaseUITest {
                 .withFailMessage("Search did not redirect to results page. Current URL:" + currentUrl)
                 .containsIgnoringCase("paris");
         log.info("Search button works correctly. Redirected to: {}", currentUrl);
-
     }
 
     @AfterEach
