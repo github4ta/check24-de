@@ -358,6 +358,8 @@ public class HomePage {
 
     public void clickFunchalSpot() {
         driver.findElement(funchalMadeiraLink).click();
+    }
+
     public void clickImpressumLink() {
         WebElement element = driver.findElement(impressumLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
