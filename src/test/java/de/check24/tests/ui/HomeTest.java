@@ -370,6 +370,15 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVM002() {
+            homePage.navigateToHomePage();
+            homePage.clickCookieAcceptButton();
+            homePage.clickImpressumLink();
+
+            String currentUrl = driver.getCurrentUrl();
+            assertThat(currentUrl)
+                    .as("URL после клика на Impressum должен быть корректным")
+                    .contains("impressum");
     void testVM006() {
         final String expectedTitle = "Wanderorte für deine nächste Sportreise";
 
