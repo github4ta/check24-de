@@ -1,6 +1,6 @@
 package de.check24.tests.ui;
 
-import de.check24.ui.pages.HomePage;
+import de.check24.ui.pages.home.HomePage;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -328,7 +328,7 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    public void testVS006() {
+    void testVS006() {
         homePage.navigateToHomePage();
 
         assertThat(homePage.getSocialIconCount())
@@ -370,6 +370,22 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVM007() {
+        homePage.navigateToHomePage();
+        homePage.clickReiseButton();
+        homePage.openBeliebteSportsSection();
+        homePage.clickFunchalSpot();
+
+        String pageTitle = driver.getTitle();
+        assertThat(pageTitle)
+                .as("Заголовок страницы должен содержать упоминание Мадейры или Фуншала")
+                .containsIgnoringCase("Madeira");
+
+        assertThat(driver.getCurrentUrl())
+                .contains("madeira");
+    }
+
+    @Test
     public void testVM003() {
         homePage.navigateToHomePage();
         homePage.clickReiseButton();
@@ -392,43 +408,76 @@ public class HomeTest extends BaseUITest {
                 .contains("impressum");
     }
 
-        void testVM006 () {
-            final String expectedTitle = "Wanderorte für deine nächste Sportreise";
+    @Test
+    public void testVM006() {
+        final String expectedTitle = "Wanderorte für deine nächste Sportreise";
 
-            homePage.navigateToHomePage();
-            homePage.clickCookieAcceptButton();
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
 
-            homePage.clickWander();
+        homePage.clickWander();
 
-            assertThat(homePage.getTitleWander())
-                    .withFailMessage("Wander is not clickable")
-                    .isEqualTo(expectedTitle);
-        }
+        assertThat(homePage.getTitleWander())
+                .withFailMessage("Wander is not clickable")
+                .isEqualTo(expectedTitle);
+    }
 
-        @Test
-        public void testVS013 () {
-            final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+    @Test
+    void testVS013 () {
+        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
 
-            homePage.navigateToHomePage();
-            homePage.clickCookieAcceptButton();
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
 
-            homePage.clickSearchBar();
-            homePage.sendKeysSearchBar();
-            homePage.clickSearchButton();
-            System.out.println("title: " + homePage.getTitleParisHotels());
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+        homePage.clickSearchButton();
+        System.out.println("title: " + homePage.getTitleParisHotels());
 
-            assertThat(homePage.getTitleParisHotels())
-                    .withFailMessage("The title does not match " + expectedTitle)
-                    .isEqualTo(expectedTitle);
-        }
+        assertThat(homePage.getTitleParisHotels())
+                .withFailMessage("The title does not match " + expectedTitle)
+                .isEqualTo(expectedTitle);
+    }
 
-        @AfterEach
-        void cleanup () {
-            // Reset window size for next test
-            try {
-                driver.manage().window().setSize(new Dimension(1920, 1080));
-            } catch (Exception e) {
-                log.warn("Could not reset window size: {}", e.getMessage());
-            }
+    @Test
+    void testVS014() {
+        final String expectedUrl = "https://accounts.check24.com/login";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickLoginIcon();
+
+        assertThat(homePage.getUrlAuthorisationPage())
+                .withFailMessage("The url does not contains " + expectedUrl)
+                .contains(expectedUrl);
+    }
+
+    @Test
+    public void testFL002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeaderUsingActions();
+        homePage.fillInputInSearchHeaderUsingActions("paris");
+        homePage.submitSearchByEnter();
+        homePage.clickToSearchParisHotelsButton();
+        homePage.clickOnPopupWindowCross();
+
+        // toggle.click toggle.click();
+        // assert(status isChanged)
+
+        assertThat(homePage.isEntfernungFestlegenToggled())
+                .withFailMessage("Toggle is not clickable")
+                .isTrue();
+    }
+
+    @AfterEach
+    void cleanup() {
+        // Reset window size for next test
+        try {
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+        } catch (Exception e) {
+            log.warn("Could not reset window size: {}", e.getMessage());
         }
     }
+}

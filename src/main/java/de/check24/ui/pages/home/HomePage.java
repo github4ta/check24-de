@@ -1,4 +1,4 @@
-package de.check24.ui.pages;
+package de.check24.ui.pages.home;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,7 +14,7 @@ import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
 
-import org.openqa.selenium.Keys;
+import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
 
 /**
  * Page Object for Check24 HomePage
@@ -33,7 +33,7 @@ public class HomePage {
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
-    private final By loginIcon = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a/div[1]");
+    private final By loginIcon = By.xpath("//a[@class='c24-customer-hover-wrapper c24-login-opener']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
     private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
@@ -45,11 +45,13 @@ public class HomePage {
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
-    private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
+    private final By popupSplashScreenSpringDealContainer = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
+    private final By beliebteSportsSection = By.xpath("//*[@id='c24-container-18']/div[5]/div[1]/h5");
+    private final By wandernBlock = By.xpath("//*[@id='c24-container-18']/div[5]/div[2]/a[2]/div[2]/div[1]");
+    private final By funchalMadeiraLink = By.xpath("//*[@id='c24-indi-page-container-content']/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/a/div");
     private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
-
     private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By parisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
@@ -57,6 +59,7 @@ public class HomePage {
     private final By titleWander =  By.xpath("//h1");
     private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
     private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
+    private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -172,7 +175,7 @@ public class HomePage {
     }
 
     public void clickLogoCheckInHeader() {
-        driver.findElement(logoCheckInHeader).click();
+        driver.findElement(LOGIN_CHECK_IN_HEADER).click();
     }
 
     public void clickLinkFerienwohnung() {
@@ -299,7 +302,7 @@ public class HomePage {
 
     public void clickOnPopupWindowCross() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement cross = wait.until(ExpectedConditions.elementToBeClickable(popupWindowCross));
+        WebElement cross = wait.until(ExpectedConditions.elementToBeClickable(popupSplashScreenSpringDealContainer));
 
         new Actions(driver)
                 .moveToElement(cross)
@@ -349,13 +352,22 @@ public class HomePage {
         driver.findElement(reiseButton).click();
     }
 
+    public void openBeliebteSportsSection() {WebElement section = driver.findElement(beliebteSportsSection);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", section);
+        driver.findElement(wandernBlock).click();
+    }
+
+    public void clickFunchalSpot() {
+        driver.findElement(funchalMadeiraLink).click();
+    }
+
     public void clickDatenschutzLink() {
         WebElement element = driver.findElement(datenschutzLink);}
     public void clickImpressumLink() {
         WebElement element = driver.findElement(impressumLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        element.click();}
-
+        element.click();
+    }
     public void clickWander() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scroll(0,2500)");
@@ -381,5 +393,28 @@ public class HomePage {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public String getUrlAuthorisationPage() {
+        try {
+            return driver.getCurrentUrl();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public boolean isEntfernungFestlegenToggled() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement toggle = wait.until(ExpectedConditions.elementToBeClickable(entfernungFestlegenToggle));
+        if (toggle.isEnabled()) {
+            toggle.click();
+            try {
+                return new WebDriverWait(driver, Duration.ofSeconds(3))
+                        .until(ExpectedConditions.attributeContains(toggle, "class", "isChecked"));
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 }
