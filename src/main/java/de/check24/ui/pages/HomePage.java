@@ -55,6 +55,7 @@ public class HomePage {
     private final By titleWander =  By.xpath("//h1");
     private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
     private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
+    private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -386,5 +387,20 @@ public class HomePage {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public boolean isEntfernungFestlegenToggled() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement toggle = wait.until(ExpectedConditions.elementToBeClickable(entfernungFestlegenToggle));
+        if (toggle.isEnabled()) {
+            toggle.click();
+            try {
+                return new WebDriverWait(driver, Duration.ofSeconds(3))
+                        .until(ExpectedConditions.attributeContains(toggle, "class", "isChecked"));
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 }

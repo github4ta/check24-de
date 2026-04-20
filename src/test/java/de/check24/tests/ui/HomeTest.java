@@ -371,15 +371,18 @@ public class HomeTest extends BaseUITest {
 
     @Test
     public void testVM002() {
-            homePage.navigateToHomePage();
-            homePage.clickCookieAcceptButton();
-            homePage.clickImpressumLink();
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickImpressumLink();
 
-            String currentUrl = driver.getCurrentUrl();
-            assertThat(currentUrl)
-                    .as("URL после клика на Impressum должен быть корректным")
-                    .contains("impressum");
-    void testVM006() {
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .as("URL после клика на Impressum должен быть корректным")
+                .contains("impressum");
+    }
+
+    @Test
+    public void testVM006() {
         final String expectedTitle = "Wanderorte für deine nächste Sportreise";
 
         homePage.navigateToHomePage();
@@ -390,7 +393,7 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.getTitleWander())
                 .withFailMessage("Wander is not clickable")
                 .isEqualTo(expectedTitle);
-        }
+    }
 
     @Test
     void testVS013 () {
@@ -421,6 +424,21 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.getUrlAuthorisationPage())
                 .withFailMessage("The url does not contains " + expectedUrl)
                 .contains(expectedUrl);
+    }
+
+    @Test
+    public void testFL002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeaderUsingActions();
+        homePage.fillInputInSearchHeaderUsingActions("paris");
+        homePage.submitSearchByEnter();
+        homePage.clickToSearchParisHotelsButton();
+        homePage.clickOnPopupWindowCross();
+
+        assertThat(homePage.isEntfernungFestlegenToggled())
+                .withFailMessage("Toggle is not clickable")
+                .isTrue();
     }
 
     @AfterEach
