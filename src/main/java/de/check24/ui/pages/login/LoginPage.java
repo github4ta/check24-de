@@ -1,4 +1,4 @@
-package de.check24.ui.pages;
+package de.check24.ui.pages.login;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
