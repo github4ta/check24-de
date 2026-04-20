@@ -1,4 +1,4 @@
-package de.check24.ui.pages;
+package de.check24.ui.pages.home;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,7 +14,7 @@ import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
 
-import org.openqa.selenium.Keys;
+import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
 
 /**
  * Page Object for Check24 HomePage
@@ -45,7 +45,7 @@ public class HomePage {
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
-    private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
+    private final By popupSplashScreenSpringDealContainer = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
     private final By beliebteSportsSection = By.xpath("//*[@id='c24-container-18']/div[5]/div[1]/h5");
@@ -174,7 +174,7 @@ public class HomePage {
     }
 
     public void clickLogoCheckInHeader() {
-        driver.findElement(logoCheckInHeader).click();
+        driver.findElement(LOGIN_CHECK_IN_HEADER).click();
     }
 
     public void clickLinkFerienwohnung() {
@@ -301,7 +301,7 @@ public class HomePage {
 
     public void clickOnPopupWindowCross() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement cross = wait.until(ExpectedConditions.elementToBeClickable(popupWindowCross));
+        WebElement cross = wait.until(ExpectedConditions.elementToBeClickable(popupSplashScreenSpringDealContainer));
 
         new Actions(driver)
                 .moveToElement(cross)

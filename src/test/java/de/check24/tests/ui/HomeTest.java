@@ -1,6 +1,6 @@
 package de.check24.tests.ui;
 
-import de.check24.ui.pages.HomePage;
+import de.check24.ui.pages.home.HomePage;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -451,6 +451,9 @@ public class HomeTest extends BaseUITest {
         homePage.submitSearchByEnter();
         homePage.clickToSearchParisHotelsButton();
         homePage.clickOnPopupWindowCross();
+
+        // toggle.click toggle.click();
+        // assert(status isChanged)
 
         assertThat(homePage.isEntfernungFestlegenToggled())
                 .withFailMessage("Toggle is not clickable")
