@@ -242,6 +242,17 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVS005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLinkFerienwohnung();
+        homePage.clickLogoCheckInHeader();
+        String actualUrl = driver.getCurrentUrl();
+        String expectedUrl = "https://www.check24.de/";
+        Assertions.assertEquals(expectedUrl, actualUrl);
+    }
+
+    @Test
     public void testVS003() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -272,8 +283,8 @@ public class HomeTest extends BaseUITest {
                 "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
     }
 
-@ Test
-    public void testVM004 () {
+    @Test
+    public void testVM004() {
         homePage.navigateToHomePage();
         homePage.clickAGBlink();
         String AGBUrl = driver.getCurrentUrl();
@@ -291,7 +302,6 @@ public class HomeTest extends BaseUITest {
                 .withFailMessage("The placeholder does not match " + expectedPlaceholder)
                 .isEqualTo(expectedPlaceholder);
     }
-
 
     @Test
     public void testSE002() {
@@ -352,7 +362,7 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    public void testVS011 () {
+    public void testVS011() {
         homePage.navigateToHomePage();
         homePage.clickReiseButton();
         String reiseUrl = driver.getCurrentUrl();
@@ -373,6 +383,15 @@ public class HomeTest extends BaseUITest {
 
         assertThat(driver.getCurrentUrl())
                 .contains("madeira");
+    public void testVM002() {
+            homePage.navigateToHomePage();
+            homePage.clickCookieAcceptButton();
+            homePage.clickImpressumLink();
+
+            String currentUrl = driver.getCurrentUrl();
+            assertThat(currentUrl)
+                    .as("URL после клика на Impressum должен быть корректным")
+                    .contains("impressum");
     void testVM006() {
         final String expectedTitle = "Wanderorte für deine nächste Sportreise";
 
