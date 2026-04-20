@@ -363,6 +363,8 @@ public class HomePage {
 
     public void clickDatenschutzLink() {
         WebElement element = driver.findElement(datenschutzLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
     }
 
     public void clickImpressumLink() {
