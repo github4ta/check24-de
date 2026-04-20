@@ -303,7 +303,6 @@ public class HomeTest extends BaseUITest {
                 .isEqualTo(expectedPlaceholder);
     }
 
-
     @Test
     public void testSE002() {
         homePage.navigateToHomePage();
