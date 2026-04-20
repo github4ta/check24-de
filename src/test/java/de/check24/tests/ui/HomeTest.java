@@ -328,7 +328,7 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    void testVS006() {
+    public void testVS006() {
         homePage.navigateToHomePage();
 
         assertThat(homePage.getSocialIconCount())
@@ -379,6 +379,8 @@ public class HomeTest extends BaseUITest {
         assertThat(currentUrl)
                 .as("URL после клика на Datenschutz должен быть корректным")
                 .contains("datenschutz");
+    }
+
     public void testVM002() {
             homePage.navigateToHomePage();
             homePage.clickCookieAcceptButton();

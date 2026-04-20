@@ -48,10 +48,8 @@ public class HomePage {
     private final By popupWindowCross = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
-
-
     private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
-    
+
     private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By parisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
@@ -352,11 +350,12 @@ public class HomePage {
     }
 
     public void clickDatenschutzLink() {
-        WebElement element = driver.findElement(datenschutzLink);
+        WebElement element = driver.findElement(datenschutzLink);}
     public void clickImpressumLink() {
         WebElement element = driver.findElement(impressumLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        element.click();
+        element.click();}
+
     public void clickWander() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scroll(0,2500)");
