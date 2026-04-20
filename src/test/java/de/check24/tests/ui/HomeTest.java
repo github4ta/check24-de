@@ -386,6 +386,18 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVM003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickDatenschutzLink();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .as("URL после клика на Datenschutz должен быть корректным")
+                .contains("datenschutz");
+    }
+
+    @Test
     public void testVM002() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();

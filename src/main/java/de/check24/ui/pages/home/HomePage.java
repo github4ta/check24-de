@@ -51,6 +51,7 @@ public class HomePage {
     private final By beliebteSportsSection = By.xpath("//*[@id='c24-container-18']/div[5]/div[1]/h5");
     private final By wandernBlock = By.xpath("//*[@id='c24-container-18']/div[5]/div[2]/a[2]/div[2]/div[1]");
     private final By funchalMadeiraLink = By.xpath("//*[@id='c24-indi-page-container-content']/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/a/div");
+    private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
     private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By parisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
@@ -358,6 +359,12 @@ public class HomePage {
 
     public void clickFunchalSpot() {
         driver.findElement(funchalMadeiraLink).click();
+    }
+
+    public void clickDatenschutzLink() {
+        WebElement element = driver.findElement(datenschutzLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
     }
 
     public void clickImpressumLink() {
