@@ -405,7 +405,7 @@ public class HomePage {
         return false;
     }
 
-    public void searchByClickPopularDestinationsForVacationRentals() {
+    public void сlickPopularDestinationsForVacationRentals() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0, 3000)");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
