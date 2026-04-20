@@ -1,6 +1,6 @@
 package de.check24.tests.ui;
 
-import de.check24.ui.pages.HomePage;
+import de.check24.ui.pages.home.HomePage;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -386,6 +386,18 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    public void testVM003() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickDatenschutzLink();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .as("URL после клика на Datenschutz должен быть корректным")
+                .contains("datenschutz");
+    }
+
+    @Test
     public void testVM002() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
@@ -451,6 +463,9 @@ public class HomeTest extends BaseUITest {
         homePage.submitSearchByEnter();
         homePage.clickToSearchParisHotelsButton();
         homePage.clickOnPopupWindowCross();
+
+        // toggle.click toggle.click();
+        // assert(status isChanged)
 
         assertThat(homePage.isEntfernungFestlegenToggled())
                 .withFailMessage("Toggle is not clickable")

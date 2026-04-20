@@ -1,6 +1,6 @@
 package de.check24.tests.ui;
 
-import de.check24.ui.pages.LoginPage;
+import de.check24.ui.pages.login.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
