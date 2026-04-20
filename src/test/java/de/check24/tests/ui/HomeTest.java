@@ -397,6 +397,7 @@ public class HomeTest extends BaseUITest {
                 .contains("datenschutz");
     }
 
+    @Test
     public void testVM002() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
