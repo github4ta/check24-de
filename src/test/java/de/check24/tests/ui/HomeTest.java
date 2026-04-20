@@ -436,7 +436,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickToSearchParisHotelsButton();
         homePage.clickOnPopupWindowCross();
 
-        assertThat(homePage.toggleEntfernungFestlegenIsClickable())
+        assertThat(homePage.isEntfernungFestlegenToggled())
                 .withFailMessage("Toggle is not clickable")
                 .isTrue();
     }

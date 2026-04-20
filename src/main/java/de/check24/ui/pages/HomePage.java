@@ -389,7 +389,7 @@ public class HomePage {
         }
     }
 
-    public boolean toggleEntfernungFestlegenIsClickable() {
+    public boolean isEntfernungFestlegenToggled() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement toggle = wait.until(ExpectedConditions.elementToBeClickable(entfernungFestlegenToggle));
         if (toggle.isEnabled()) {
