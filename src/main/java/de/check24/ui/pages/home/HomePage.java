@@ -362,12 +362,15 @@ public class HomePage {
     }
 
     public void clickDatenschutzLink() {
-        WebElement element = driver.findElement(datenschutzLink);}
+        WebElement element = driver.findElement(datenschutzLink);
+    }
+
     public void clickImpressumLink() {
         WebElement element = driver.findElement(impressumLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         element.click();
     }
+
     public void clickWander() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scroll(0,2500)");
