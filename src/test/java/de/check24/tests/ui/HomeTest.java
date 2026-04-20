@@ -369,6 +369,34 @@ public class HomeTest extends BaseUITest {
             assertThat(currentUrl)
                     .as("URL после клика на Impressum должен быть корректным")
                     .contains("impressum");
+    void testVM006() {
+        final String expectedTitle = "Wanderorte für deine nächste Sportreise";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickWander();
+
+        assertThat(homePage.getTitleWander())
+                .withFailMessage("Wander is not clickable")
+                .isEqualTo(expectedTitle);
+        }
+
+    @Test
+    void testVS013 () {
+        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+        homePage.clickSearchButton();
+        System.out.println("title: " + homePage.getTitleParisHotels());
+
+        assertThat(homePage.getTitleParisHotels())
+                .withFailMessage("The title does not match " + expectedTitle)
+                .isEqualTo(expectedTitle);
     }
 
     @AfterEach
