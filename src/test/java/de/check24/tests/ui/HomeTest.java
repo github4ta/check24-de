@@ -388,7 +388,7 @@ public class HomeTest extends BaseUITest {
     @Test
     public void testVM003() {
         homePage.navigateToHomePage();
-        homePage.clickReiseButton();
+        homePage.clickCookieAcceptButton();
         homePage.clickDatenschutzLink();
 
         String currentUrl = driver.getCurrentUrl();
