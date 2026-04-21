@@ -53,7 +53,10 @@ public class LoginTest extends BaseUITest{
         loginPage.enterInvalidPassword();
         loginPage.clickPasswordButton();
         String actualError = loginPage.getErrorPasswordText();
-        Assertions.assertEquals(EXPECTED_PASSWORD_ERROR_MESSAGE, actualError);
+        assertThat(actualError)
+                .as("Checking the error message when the password is incorrect")
+                .isNotNull()
+                .isEqualTo(EXPECTED_PASSWORD_ERROR_MESSAGE);
     }
 
     @AfterEach
