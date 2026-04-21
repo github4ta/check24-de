@@ -430,7 +430,7 @@ public class HomePage {
 
     public void clickLogoutLink() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.LOGOUT_lINK)).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.LOGOUT_LINK)).click();
     }
 
     public boolean isCurrentPageContainLinkToLoginPage() {
