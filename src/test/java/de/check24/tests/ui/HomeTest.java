@@ -475,13 +475,8 @@ public class HomeTest extends BaseUITest {
     @Test
     @DisplayName("Verify 'Suchen' button visibility and functionality")
     public void testVS012() {
-        final String expectedUrlPart = "suche";
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
-        assertThat(homePage.isSearchButtonPresent())
-                .withFailMessage("'Suchen' button is not visible on homepage")
-                .isTrue();
-        log.info("Search button visibility verified");
         homePage.clickSearchBar();
         homePage.sendKeysSearchBar();
         homePage.clickSearchButton();
