@@ -18,11 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Homepage Verification")
 public class HomeTest extends BaseUITest {
     private HomePage homePage;
+    private LoginPage loginPage;
     private final String EXISTING_EMAIL = "test@example.com";
 
     @BeforeEach
     void setupHomePage() {
         homePage = new HomePage(driver);
+        loginPage = new LoginPage(driver);
         log.info("HomePage instance created");
     }
 
@@ -494,7 +496,6 @@ public class HomeTest extends BaseUITest {
     @Test
     @Description("Successful logout")
     public void testAU002() {
-        LoginPage loginPage = new LoginPage(driver);
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
         homePage.clickLoginIcon();
