@@ -7,4 +7,6 @@ class LoginLocator {
     static By EMAIL_INPUT = By.cssSelector("input#cl_login");
     static By SUBMIT_BUTTON = By.cssSelector("button[type='submit']");
     static By EMAIL_ERROR_MESSAGE = By.cssSelector(".c24-uli-input-info > div:last-child");
+    static By INFO_ICON = By.cssSelector(".c24-uli-info-icon");
+    static By INFO_TEXT = By.cssSelector(".c24-uli-info-text.c24-uli-login-faq");
 }

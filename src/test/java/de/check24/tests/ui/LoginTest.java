@@ -1,8 +1,9 @@
 package de.check24.tests.ui;
 
-import de.check24.ui.pages.login.LoginLocator;
+//import de.check24.ui.pages.login.LoginLocator;
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.login.LoginPage;
+import de.check24.ui.pages.login.LoginText;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +44,19 @@ public class LoginTest extends BaseUITest{
 
         assertThat(loginPage.isExpectedErrorMessage())
                 .withFailMessage("An error massage doesn't match the expected error message")
+                .isTrue();
+    }
+
+    @Test
+    @Description("Verify that info icon on login page is working correctly")
+    void testAU006() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLoginIcon();
+        loginPage.clickInfoIcon();
+
+        assertThat(loginPage.isActualInfoTextEqualsToExpected())
+                .withFailMessage("Actual info text is different from expected")
                 .isTrue();
     }
 
