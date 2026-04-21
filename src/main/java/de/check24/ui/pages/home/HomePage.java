@@ -13,9 +13,7 @@ import java.time.Duration;
 import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
-
 import static de.check24.ui.pages.home.HomeLocator.*;
-import static de.check24.ui.util.ShadowWaits.waitForElementInShadow;
 
 /**
  * Page Object for Check24 HomePage
