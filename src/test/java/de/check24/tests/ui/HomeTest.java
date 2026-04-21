@@ -492,6 +492,16 @@ public class HomeTest extends BaseUITest {
                 .isTrue();
     }
 
+    @Test
+    public void testSE004() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.сlickSectionPopularDestinationsForVacationRentals();
+
+        assertThat(homePage.getUrl())
+                .contains("Istrien");
+    }
+
     @AfterEach
     void cleanup() {
         // Reset window size for next test
