@@ -476,7 +476,7 @@ public class HomeTest extends BaseUITest {
     public void testSE004() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
-        homePage.сlickPopularDestinationsForVacationRentals();
+        homePage.сlickSectionPopularDestinationsForVacationRentals();
 
         assertThat(homePage.getUrl())
                 .contains("Istrien");

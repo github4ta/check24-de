@@ -424,7 +424,7 @@ public class HomePage {
         return false;
     }
 
-    public void сlickPopularDestinationsForVacationRentals() {
+    public void сlickSectionPopularDestinationsForVacationRentals() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0, 3000)");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
