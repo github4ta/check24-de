@@ -424,6 +424,23 @@ public class HomePage {
         return false;
     }
 
+    public void clickProfileIconInHeader() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.PROFILE_ICON_IN_HEADER)).click();
+    }
+
+    public void clickLogoutLink() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.LOGOUT_lINK)).click();
+    }
+
+    public boolean isCurrentPageContainLinkToLoginPage() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(loginIcon));
+        String classes = loginIconElem.getAttribute("class");
+        return classes != null && classes.contains("c24-login-opener");
+    }
+
     public void сlickSectionPopularDestinationsForVacationRentals() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0, 3000)");

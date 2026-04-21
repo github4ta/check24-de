@@ -8,7 +8,7 @@ public class SearchTest extends BaseUITest {
 
     @BeforeEach
     void setupHomePage() {
-        SearchPage = new SearchPage(driver);
+        searchPage = new SearchPage(driver);
         log.info("SearchPage instance created");
     }
 

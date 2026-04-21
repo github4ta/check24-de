@@ -1,6 +1,8 @@
 package de.check24.tests.ui;
 
+import de.check24.ui.pages.login.LoginLocator;
 import de.check24.ui.pages.login.LoginPage;
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
