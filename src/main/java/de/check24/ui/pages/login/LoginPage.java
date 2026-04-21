@@ -39,6 +39,13 @@ public class LoginPage {
         inputEmail.sendKeys(EMAIL_FOR_LOGIN);
     }
 
+    public void enterEmailLoginWithParameters(String emailForLogin) {
+        WebElement inputEmail = waitForElementInShadow(driver, HOST_SHADOW, EMAIL_INPUT);
+        inputEmail.click();
+        inputEmail.clear();
+        inputEmail.sendKeys(emailForLogin);
+    }
+
     public void clickEmailButton() {
         WebElement buttonEmail = waitForElementInShadow(driver, HOST_SHADOW, EMAIL_BUTTON);
         buttonEmail.click();
@@ -49,6 +56,13 @@ public class LoginPage {
         inputPassword.click();
         inputPassword.clear();
         inputPassword.sendKeys(PASSWORD_FOR_LOGIN);
+    }
+
+    public void enterPasswordWithParameters(String passwordForLogin) {
+        WebElement inputPassword = waitForElementInShadow(driver, HOST_SHADOW, PASSWORD_INPUT);
+        inputPassword.click();
+        inputPassword.clear();
+        inputPassword.sendKeys(passwordForLogin);
     }
 
     public void clickPasswordButton() {

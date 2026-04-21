@@ -51,6 +51,7 @@ public class HomePage {
     private final By beliebteSportsSection = By.xpath("//*[@id='c24-container-18']/div[5]/div[1]/h5");
     private final By wandernBlock = By.xpath("//*[@id='c24-container-18']/div[5]/div[2]/a[2]/div[2]/div[1]");
     private final By funchalMadeiraLink = By.xpath("//*[@id='c24-indi-page-container-content']/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/a/div");
+    private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
     private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By parisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
@@ -59,6 +60,7 @@ public class HomePage {
     private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
     private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
     private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
+    private final By sectionPopularDestinationsForVacationRentals = By.xpath("//*[@id='c24-container-18']/div[6]/div[2]/a[4]/div[1]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -360,6 +362,12 @@ public class HomePage {
         driver.findElement(funchalMadeiraLink).click();
     }
 
+    public void clickDatenschutzLink() {
+        WebElement element = driver.findElement(datenschutzLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
+    }
+
     public void clickImpressumLink() {
         WebElement element = driver.findElement(impressumLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
@@ -414,5 +422,30 @@ public class HomePage {
             }
         }
         return false;
+    }
+
+    public void clickProfileIconInHeader() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.PROFILE_ICON_IN_HEADER)).click();
+    }
+
+    public void clickLogoutLink() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.LOGOUT_lINK)).click();
+    }
+
+    public boolean isCurrentPageContainLinkToLoginPage() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(loginIcon));
+        String classes = loginIconElem.getAttribute("class");
+        return classes != null && classes.contains("c24-login-opener");
+    }
+
+    public void сlickSectionPopularDestinationsForVacationRentals() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0, 3000)");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionPopularDestinationsForVacationRentals));
+        element.click();
     }
 }
