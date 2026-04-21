@@ -1,6 +1,8 @@
 package de.check24.tests.ui;
 
 import de.check24.ui.pages.home.HomePage;
+import de.check24.ui.pages.login.LoginPage;
+import de.check24.ui.pages.login.LoginText;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -469,6 +471,24 @@ public class HomeTest extends BaseUITest {
 
         assertThat(homePage.isEntfernungFestlegenToggled())
                 .withFailMessage("Toggle is not clickable")
+                .isTrue();
+    }
+
+    @Test
+    @Description("Successful logout")
+    public void testAU002() {
+        LoginPage loginPage = new LoginPage(driver);
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLoginIcon();
+        loginPage.enterEmailLoginWithParameters(LoginText.EMAIL_FOR_LOGIN);
+        loginPage.clickEmailButton();
+        loginPage.enterPasswordWithParameters(LoginText.PASSWORD_FOR_LOGIN);
+        loginPage.clickPasswordButton();
+        homePage.clickProfileIconInHeader();
+        homePage.clickLogoutLink();
+
+        assertThat(homePage.isCurrentPageContainLinkToLoginPage())
                 .isTrue();
     }
 
