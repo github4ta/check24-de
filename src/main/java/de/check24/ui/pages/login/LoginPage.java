@@ -1,12 +1,16 @@
 package de.check24.ui.pages.login;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import static de.check24.ui.util.ShadowWaits.waitForElementInShadow;
 
 public class LoginPage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private static final String GET_URL_LOGIN_PAGE = "https://accounts.check24.com/login?callback=https%3A%2F%2Fwww" +
             ".check24.de%2F&api_product=check24_lp&loc=de_DE&deviceoutput=desktop&ls=1&context_key=default";
@@ -21,6 +25,7 @@ public class LoginPage {
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void navigateToLoginPage() {
@@ -63,5 +68,55 @@ public class LoginPage {
     public void clickPasswordButton() {
         WebElement buttonPassword = waitForElementInShadow(driver, HOST_SHADOW, PASSWORD_BUTTON);
         buttonPassword.click();
+    }
+
+    private SearchContext getSearchContext() {
+        return driver.findElement(LoginLocator.SHADOW_HOST_LOGIN).getShadowRoot();
+    }
+
+    public void setEmail(String email) {
+        WebElement input = wait.until(d -> {
+                    try {
+                        WebElement el = getSearchContext().findElement(LoginLocator.EMAIL_INPUT);
+                        return (el.isDisplayed() && el.isEnabled()) ? el : null;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+        );
+
+        if (input != null) {
+            input.click();
+            input.clear();
+            input.sendKeys(email);
+        }
+    }
+
+    public void clickSubmitButton() {
+        WebElement btn = wait.until(d -> {
+                    try {
+                        return getSearchContext().findElement(LoginLocator.SUBMIT_BUTTON);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+        );
+
+        if (btn != null) btn.click();
+    }
+
+    public boolean isExpectedErrorMessage() {
+        WebElement msg = wait.until(d -> {
+                    try {
+                        return getSearchContext().findElement(LoginLocator.EMAIL_ERROR_MESSAGE);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+        );
+
+        if (msg == null) return false;
+
+        return msg.getText().equals(LoginText.EMAIL_ERROR_MESSAGE);
     }
 }
