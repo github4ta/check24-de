@@ -20,7 +20,6 @@ public class HomePage {
     private final WebDriver driver;
 
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
-    private final By logoCheckInHeader = By.xpath("//a[@class='c24-logo']");
     private final By linkFerienwohnung = By.xpath("//div[text()='Ferienwohnung buchen']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
@@ -28,14 +27,14 @@ public class HomePage {
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
-    private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
+    private final By facebookButton = By.xpath("//div[@class='c24-facebook-logo']");
     private final By cookieAcceptButton = By.xpath("//a[text()='geht klar']");
-    private final By loginIcon = By.xpath("//a[@class='c24-customer-hover-wrapper c24-login-opener']");
+    private final By loginIcon = By.xpath("//div[@class='c24-customer-icon c24-customer-icon-lo c24-icon']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
     private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
     private final By labelWarschau = By.xpath("//span[text()='warschau']");
-    private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
+    private final By AGBlink = By.xpath("//a[@title='AGB']");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
@@ -51,7 +50,6 @@ public class HomePage {
     private final By funchalMadeiraLink = By.xpath("//*[@id='c24-indi-page-container-content']/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/a/div");
     private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
     private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
-    private final By parisHotelSuggestion = By.xpath("//*[@id=\"serp\"]/div/div/div[2]/div[1]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
     private final By sportWander = By.xpath("//a[@href='https://individualreisen.check24.de/wandern?tid=widget']");
     private final By titleWander =  By.xpath("//h1");
@@ -240,9 +238,9 @@ public class HomePage {
         driver.findElement(searchBar).click();
     }
 
-    public void sendKeysSearchBar() {driver.findElement(searchBar).sendKeys("Paris");}
-
-    public void clickParisHotelSuggestion() {driver.findElement(parisHotelSuggestion);}
+    public void sendKeysSearchBar() {
+        driver.findElement(searchBar).sendKeys("Paris");
+    }
 
     public String getParisHotelCurrentUrl() { return driver.getCurrentUrl();}
     public boolean isPersonalAccountButtonDisplayed() {

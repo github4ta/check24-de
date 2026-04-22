@@ -27,33 +27,6 @@ public class HomeTest extends BaseUITest {
         homePage.clickCookieAcceptButton();
     }
 
-    //  @Test
-    //@Story("Copyright Verification")
-    // @DisplayName("Copyright text is present")
-    // @Description("Verify that the copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' is displayed")
-    // void testCopyrightPresence() {
-    // When
-    //    homePage.navigateToHomePage();
-
-    // Then
-    //    boolean hasExactCopyright = homePage.isCopyrightTextPresent();
-    //    boolean hasCopyright2026 = homePage.isCopyright2026Present();
-
-    //   assertThat(hasExactCopyright || hasCopyright2026)
-    //           .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
-    //          .isTrue();
-
-    //  if (hasExactCopyright) {
-    //   log.info("Exact copyright text found");
-    //  } else if (hasCopyright2026) log.info("Copyright with 2026 and CHECK24 found");
-    //   }
-
-    //Additional check - get actual copyright text
-    //  String copyrightText = homePage.getCopyrightText(String);
-    //  if (!copyrightText.isEmpty()) {
-    //     log.info("Found copyright text: {}", GET_COPYRIGHT_TEXT);
-    //   }
-
     @Test
     @Story("Copyright Verification")
     @DisplayName("Verification of copyright text: «© 2026 CHECK24 Vergleichsportal GmbH München»")
@@ -112,44 +85,40 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VS004 - Facebook icon clickability in the footer.")
     public void testVS004() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickFacebookButton();
-        String actual = homePage.getFacebookPageUrl();
-        Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
+        assertThat(homePage.getFacebookPageUrl())
+                .as("Ссылка на Facebook кликабельна в футере")
+                .isEqualTo("https://www.facebook.com/CHECK24de/?locale=de_DE");
     }
 
     @Test
+    @DisplayName("AU003 - Password recovery is available.")
     public void testAU003() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickLoginIcon();
         homePage.enterEmail();
         homePage.clickForgotPassword();
 
-        Assertions.assertTrue(driver.getCurrentUrl().contains("passwort-vergessen"),
-                "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
+        assertThat(driver.getCurrentUrl())
+                .as("Проверка URL после запроса на восстановление пароля")
+                .contains("passwort-vergessen");
     }
 
     @Test
+    @DisplayName("VM004 - The link to «AGB» visible.")
     public void testVM004() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickAGBlink();
-        String AGBUrl = driver.getCurrentUrl();
-        assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
+
+        assertThat(driver.getCurrentUrl())
+                .as("URL страницы условий использования (AGB)")
+                .contains("https://hotel.check24.de/agb");
     }
 
     @Test
+    @DisplayName("VS007 - At the search bar with filters placeholder \"Wohin?\" is displayed.")
     void testVS007() {
         final String expectedPlaceholder = "Wohin?";
-
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
 
         assertThat(homePage.getSearchHotelInputPlaceholder())
                 .withFailMessage("The placeholder does not match " + expectedPlaceholder)
@@ -157,17 +126,14 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("SE002 - The suggestions in the search bar are clickable.")
     public void testSE002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickSearchBar();
         homePage.sendKeysSearchBar();
 
-        String actual = homePage.getParisHotelCurrentUrl();
-        Assertions.assertTrue(
-                actual.contains("https://www.check24.de/suche/?q=paris"),
-                "Unexpected URL: " + actual);
+        assertThat(homePage.getParisHotelCurrentUrl())
+                .as("URL после поиска отелей в Париже")
+                .contains("https://www.check24.de/suche/?q=paris");
     }
 
     @Test
