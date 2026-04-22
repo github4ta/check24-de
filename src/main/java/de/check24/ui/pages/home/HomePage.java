@@ -18,6 +18,7 @@ import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
  */
 public class HomePage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
     private final By logoCheckInHeader = By.xpath("//a[@class='c24-logo']");
@@ -60,8 +61,11 @@ public class HomePage {
     private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
     private final By sectionPopularDestinationsForVacationRentals = By.xpath("//*[@id='c24-container-18']/div[6]/div[2]/a[4]/div[1]");
 
+    private static final Duration TIMEOUT = Duration.ofSeconds(10);
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver,TIMEOUT);
     }
 
     /**
@@ -164,13 +168,12 @@ public class HomePage {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
 
-    public void clickSectionTurkey() {
+    private void scrollByJavascriptExecutor(int pixels){
         JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        js.executeScript("window.scrollBy(0, 1000)");
-
+        js.executeScript(String.format("window.scrollBy(0, %d)", pixels));
+    }
+    public void clickSectionTurkey() {
+        scrollByJavascriptExecutor(1000);
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
         element.click();
     }
@@ -249,21 +252,17 @@ public class HomePage {
         return driver.findElement(personalAccountButton).isDisplayed();
     }
 
+    private boolean isElementClickable(By locator) {
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        return element != null;
+    }
+
     public boolean isAGBLinkClickable() {
-        try {
-            driver.findElement(agbLink).click();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return isElementClickable(agbLink);
     }
 
     public int getSocialIconCount() {
-        try {
-            return driver.findElements(socialIcon).size();
-        } catch (Exception e) {
-            return 0;
-        }
+        return driver.findElements(socialIcon).size();
     }
 
     public void clickToSearchFieldInHeaderUsingActions() {
@@ -291,7 +290,6 @@ public class HomePage {
     }
 
     public void clickToSearchParisHotelsButton() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement button = wait.until(ExpectedConditions.visibilityOfElementLocated(searchParisHotelsButton));
 
         new Actions(driver)
@@ -302,7 +300,6 @@ public class HomePage {
     }
 
     public void clickOnPopupWindowCross() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement cross = wait.until(ExpectedConditions.elementToBeClickable(popupSplashScreenSpringDealContainer));
 
         new Actions(driver)
@@ -326,7 +323,6 @@ public class HomePage {
     }
 
     public void clickOnSortingByPopularityInDescendingOrder() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.presenceOfElementLocated(sortingByPopularityInDescendingOrder)).click();
     }
 
@@ -337,24 +333,22 @@ public class HomePage {
         option.click();
     }
 
-    public boolean checkIfSortingByPopularityInDescendingOrderIsWorking() {
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+    public boolean isSortingByPopularityInDescendingOrderFilterWorking() {
         List<WebElement> hotels = wait.until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@data-test-id-qa=\"static-results-list-result\"]"))
         );
         if(hotels.size()>2){
-            String priceText1 = hotels.get(0).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
-            String priceText2 = hotels.get(1).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
-            double rating1 = Double.parseDouble(priceText1.replaceAll("[^0-9.]", ""));
-            double rating2 = Double.parseDouble(priceText2.replaceAll("[^0-9.]", ""));
+            String ratingText1 = hotels.get(0).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
+            String ratingText2 = hotels.get(1).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
+            double rating1 = Double.parseDouble(ratingText1.replaceAll("[^0-9.]", ""));
+            double rating2 = Double.parseDouble(ratingText2.replaceAll("[^0-9.]", ""));
             return rating1 >= rating2;
         }
         return false;
     }
 
     /*Check sorting by price method*/
-    public  boolean checkIsSortingByPriceAscending() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public  boolean isSortingByPriceAscendingFilterWorking() {
         List<WebElement> hotels = wait.until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[contains(@data-test-id-qa,'results-list') and contains(@data-test-id-qa,'result')]"))
         );
