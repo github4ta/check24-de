@@ -1,5 +1,6 @@
 package de.check24.tests.ui;
 
+import com.google.common.base.Verify;
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.login.LoginPage;
 import de.check24.ui.pages.login.LoginText;
@@ -373,6 +374,25 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("SR002-The price sorting function on the Paris hotels list page works correctly.")
+    @Description("Verify, that hotels sort by price in ascending order ")
+    public void testSR002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeaderUsingActions();
+        homePage.fillInputInSearchHeaderUsingActions("paris");
+        homePage.submitSearchByEnter();
+        homePage.clickToSearchParisHotelsButton();
+        homePage.clickOnPopupWindowCross();
+        homePage.clickOnSortingField();
+        homePage.selectSortingByPriceAscending();
+
+        assertThat(homePage.checkIsSortingByPriceAscending())
+                .withFailMessage("Price sorting is NOT working correctly (ascending order expected)")
+                .isTrue();
+    }
+
+    @Test
     public void testVS010() {
         homePage.navigateToHomePage();
         homePage.clickHotelButton();
@@ -492,6 +512,19 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("Verify 'Suchen' button visibility and functionality")
+    public void testVS012() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickSearchBar();
+        homePage.sendKeysSearchBar();
+        homePage.clickSearchButton();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl)
+                .withFailMessage("Search did not redirect to results page. Current URL:" + currentUrl)
+                .containsIgnoringCase("paris");
+        log.info("Search button works correctly. Redirected to: {}", currentUrl);
     @Description("Successful logout")
     public void testAU002() {
         LoginPage loginPage = new LoginPage(driver);

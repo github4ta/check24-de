@@ -44,6 +44,7 @@ public class HomePage {
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
+    private final By sortingByPriceAscending = By.xpath("//*[@id=\":r0:\"]/div/div/div/div[5]/span");
     private final By popupSplashScreenSpringDealContainer = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
@@ -331,6 +332,13 @@ public class HomePage {
         wait.until(ExpectedConditions.presenceOfElementLocated(sortingByPopularityInDescendingOrder)).click();
     }
 
+    /*Select sorting by price method*/
+    public void selectSortingByPriceAscending() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement option = wait.until(ExpectedConditions.elementToBeClickable(sortingByPriceAscending));
+        option.click();
+    }
+
     public boolean checkIfSortingByPopularityInDescendingOrderIsWorking() {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         List<WebElement> hotels = wait.until(
@@ -344,6 +352,33 @@ public class HomePage {
             return rating1 >= rating2;
         }
         return false;
+    }
+
+    /*Check sorting by price method*/
+    public  boolean checkIsSortingByPriceAscending() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        List<WebElement> hotels = wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[contains(@data-test-id-qa,'results-list') and contains(@data-test-id-qa,'result')]"))
+        );
+        if (hotels.size() < 2) {
+            return false;
+        }
+        double previousPrice = extractPrice(hotels.get(0));
+        for (int i = 1; i < hotels.size(); i++) {
+            double currentPrice = extractPrice(hotels.get(i));
+            if (currentPrice < previousPrice){
+                return false;
+            }
+            previousPrice = currentPrice;
+        }
+        return true;
+    }
+
+    /*helper for checkIsSortingByPriceAscending method*/
+    public double extractPrice(WebElement hotel) {
+        String priceText = hotel.findElement(By.xpath("//*[data-test-id-qa='results-list-price']")
+        ).getText();
+        return Double.parseDouble(priceText.replaceAll("[^0-9]", ""));
     }
 
     public void clickHotelButton() {
