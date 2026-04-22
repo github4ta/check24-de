@@ -2,13 +2,10 @@ package de.check24.tests.ui;
 
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.login.LoginPage;
-import de.check24.ui.pages.login.LoginText;
+import org.junit.jupiter.api.*;
 import io.qameta.allure.Description;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
+import static de.check24.ui.pages.login.LoginText.EXPECTED_PASSWORD_ERROR_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginTest extends BaseUITest{
@@ -58,6 +55,23 @@ public class LoginTest extends BaseUITest{
         assertThat(loginPage.isActualInfoTextEqualsToExpected())
                 .withFailMessage("Actual info text is different from expected")
                 .isTrue();
+    }
+
+    @DisplayName("AU-005: Negative Login - Incorrect Password")
+    @Test
+    public void testAU005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLoginIcon();
+        loginPage.enterEmailLogin();
+        loginPage.clickEmailButton();
+        loginPage.enterInvalidPassword();
+        loginPage.clickPasswordButton();
+        String actualError = loginPage.getErrorPasswordText();
+        assertThat(actualError)
+                .as("Checking the error message when the password is incorrect")
+                .isNotNull()
+                .isEqualTo(EXPECTED_PASSWORD_ERROR_MESSAGE);
     }
 
     @AfterEach

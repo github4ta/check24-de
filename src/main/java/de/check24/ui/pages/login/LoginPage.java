@@ -1,11 +1,13 @@
 package de.check24.ui.pages.login;
 
-import org.openqa.selenium.By;
+import de.check24.ui.util.ShadowWaits;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import static de.check24.ui.pages.login.LoginLocator.*;
+import static de.check24.ui.pages.login.LoginText.INVALID_PASSWORD;
 import static de.check24.ui.util.ShadowWaits.waitForElementInShadow;
 
 public class LoginPage {
@@ -17,11 +19,7 @@ public class LoginPage {
 
     private static final String EMAIL_FOR_LOGIN = "logob86924@sskaid.com";
     private static final String PASSWORD_FOR_LOGIN = "qwerty@443";
-    private final By HOST_SHADOW = By.cssSelector("unified-login");
-    private final By EMAIL_INPUT = By.cssSelector("input#cl_login");
-    private final By EMAIL_BUTTON = By.cssSelector("button.c24-uli-button");
-    private final By PASSWORD_INPUT = By.cssSelector("#cl_pw_login");
-    private final By PASSWORD_BUTTON = By.cssSelector("#c24-uli-pw-btn");
+
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -58,6 +56,18 @@ public class LoginPage {
         inputPassword.sendKeys(PASSWORD_FOR_LOGIN);
     }
 
+    public void enterInvalidPassword() {
+        WebElement inputPassword = waitForElementInShadow(driver, HOST_SHADOW, PASSWORD_INPUT);
+        inputPassword.click();
+        inputPassword.clear();
+        inputPassword.sendKeys(INVALID_PASSWORD);
+    }
+
+    public String getErrorPasswordText() {
+        WebElement errorElement = ShadowWaits.waitForElementInShadow(driver, HOST_SHADOW, PASSWORD_ERROR_MESSAGE);
+        return errorElement.getText().trim();
+    }
+
     public void enterPasswordWithParameters(String passwordForLogin) {
         WebElement inputPassword = waitForElementInShadow(driver, HOST_SHADOW, PASSWORD_INPUT);
         inputPassword.click();
@@ -77,7 +87,7 @@ public class LoginPage {
     public void setEmail(String email) {
         WebElement input = wait.until(d -> {
                     try {
-                        WebElement el = getSearchContext().findElement(LoginLocator.EMAIL_INPUT);
+                        WebElement el = getSearchContext().findElement(EMAIL_INPUT);
                         return (el.isDisplayed() && el.isEnabled()) ? el : null;
                     } catch (Exception e) {
                         return null;
