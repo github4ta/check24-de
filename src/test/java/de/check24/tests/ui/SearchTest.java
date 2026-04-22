@@ -17,7 +17,7 @@ public class SearchTest extends BaseUITest {
     void setupHomePage() {
         searchPage = new SearchPage(driver);
         log.info("SearchPage instance created");
-    }
+
         homePage = new HomePage(driver);
         log.info("SearchPage instance created");
     }
