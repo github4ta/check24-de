@@ -151,9 +151,11 @@ public class HomePage {
      */
     public void search(String searchTerm) {
         try {
-            driver.findElement(searchInput).clear();
-            driver.findElement(searchInput).sendKeys(searchTerm);
-            driver.findElement(searchButton).click();
+            WebElement input = driver.findElement(searchInHeader);
+            input.click();
+            input.clear();
+            input.sendKeys(searchTerm);
+            driver.findElement(searchBtn).click();
         } catch (Exception e) {
             throw new RuntimeException("Search functionality failed: " + e.getMessage());
         }
