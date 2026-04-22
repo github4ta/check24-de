@@ -356,7 +356,7 @@ public class HomeTest extends BaseUITest {
 
     @Test
     @DisplayName("SR002-The price sorting function on the Paris hotels list page works correctly.")
-    @Description("Verify, that hotels sort by price in ascending order")
+    @Description("Verify, that hotels sort by price in ascending order ")
     public void testSR002() {
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
