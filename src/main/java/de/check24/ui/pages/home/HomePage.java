@@ -1,19 +1,17 @@
 package de.check24.ui.pages.home;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
-import static de.check24.ui.pages.home.HomeLocator.*;
+
+import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
 
 /**
  * Page Object for Check24 HomePage
@@ -31,7 +29,7 @@ public class HomePage {
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
-    private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By cookieAcceptButton = By.xpath("//a[text()='geht klar']");
     private final By loginIcon = By.xpath("//a[@class='c24-customer-hover-wrapper c24-login-opener']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
     private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
@@ -77,11 +75,7 @@ public class HomePage {
      * Check if logo is displayed
      */
     public boolean isLogoDisplayed() {
-        try {
-            return driver.findElement(logo).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return driver.findElement(logo).isDisplayed();
     }
 
     /**
@@ -163,6 +157,10 @@ public class HomePage {
     }
 
     public String getUrl() {
+        return getUrlAsUTF8String();
+    }
+
+    private String getUrlAsUTF8String() {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
 
