@@ -1,6 +1,5 @@
 package de.check24.tests.ui;
 
-//import de.check24.ui.pages.login.LoginLocator;
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.login.LoginPage;
 import de.check24.ui.pages.login.LoginText;
@@ -48,6 +47,7 @@ public class LoginTest extends BaseUITest{
     }
 
     @Test
+    @DisplayName("AU006 - When click on the info icon, a text with a hint appears on the login page")
     @Description("Verify that info icon on login page is working correctly")
     void testAU006() {
         homePage.navigateToHomePage();
