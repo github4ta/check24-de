@@ -1,5 +1,6 @@
 package de.check24.tests.ui;
 
+import com.google.common.base.Verify;
 import de.check24.ui.pages.home.HomePage;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
@@ -350,6 +351,25 @@ public class HomeTest extends BaseUITest {
 
         assertThat(homePage.checkIfSortingByPopularityInDescendingOrderIsWorking())
                 .withFailMessage("Popularity sorting filter is working incorrectly")
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("SR002-The price sorting function on the Paris hotels list page works correctly.")
+    @Description("Verify, that hotels sort by price in ascending order")
+    public void testSR002() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickToSearchFieldInHeaderUsingActions();
+        homePage.fillInputInSearchHeaderUsingActions("paris");
+        homePage.submitSearchByEnter();
+        homePage.clickToSearchParisHotelsButton();
+        homePage.clickOnPopupWindowCross();
+        homePage.clickOnSortingField();
+        homePage.selectSortingByPriceAscending();
+
+        assertThat(homePage.checkIsSortingByPriceAscending())
+                .withFailMessage("Price sorting is NOT working correctly (ascending order expected)")
                 .isTrue();
     }
 
