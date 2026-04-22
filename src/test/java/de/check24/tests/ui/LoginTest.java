@@ -1,14 +1,11 @@
 package de.check24.tests.ui;
 
-import de.check24.ui.pages.login.LoginLocator;
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.login.LoginPage;
+import org.junit.jupiter.api.*;
 import io.qameta.allure.Description;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
+import static de.check24.ui.pages.login.LoginText.EXPECTED_PASSWORD_ERROR_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginTest extends BaseUITest{
@@ -44,6 +41,37 @@ public class LoginTest extends BaseUITest{
         assertThat(loginPage.isExpectedErrorMessage())
                 .withFailMessage("An error massage doesn't match the expected error message")
                 .isTrue();
+    }
+
+    @Test
+    @DisplayName("AU006 - When click on the info icon, a text with a hint appears on the login page")
+    @Description("Verify that info icon on login page is working correctly")
+    void testAU006() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLoginIcon();
+        loginPage.clickInfoIcon();
+
+        assertThat(loginPage.isActualInfoTextEqualsToExpected())
+                .withFailMessage("Actual info text is different from expected")
+                .isTrue();
+    }
+
+    @DisplayName("AU-005: Negative Login - Incorrect Password")
+    @Test
+    public void testAU005() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLoginIcon();
+        loginPage.enterEmailLogin();
+        loginPage.clickEmailButton();
+        loginPage.enterInvalidPassword();
+        loginPage.clickPasswordButton();
+        String actualError = loginPage.getErrorPasswordText();
+        assertThat(actualError)
+                .as("Checking the error message when the password is incorrect")
+                .isNotNull()
+                .isEqualTo(EXPECTED_PASSWORD_ERROR_MESSAGE);
     }
 
     @AfterEach

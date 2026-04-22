@@ -1,19 +1,17 @@
 package de.check24.ui.pages.home;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
-import static de.check24.ui.pages.home.HomeLocator.*;
+
+import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
 
 /**
  * Page Object for Check24 HomePage
@@ -31,7 +29,7 @@ public class HomePage {
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
-    private final By cookieAcceptButton = By.xpath("//*[@id=\"c24-html\"]/body/div[2]/div[1]/div[3]/a[2]");
+    private final By cookieAcceptButton = By.xpath("//a[text()='geht klar']");
     private final By loginIcon = By.xpath("//a[@class='c24-customer-hover-wrapper c24-login-opener']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
     private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
@@ -44,6 +42,7 @@ public class HomePage {
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
+    private final By sortingByPriceAscending = By.xpath("//*[@id=\":r0:\"]/div/div/div/div[5]/span");
     private final By popupSplashScreenSpringDealContainer = By.xpath("//*[@id='splashScreenContainer']//div[contains(@class, 'close')]\n");
     private final By hotelButton = By.xpath("//*[@id=\"c24-quickchips\"]/div/div/a[1]");
     private final By reiseButton = By.xpath("//*[@id=\"travelToggleContainer\"]/div/div/div[1]/button/div[2]");
@@ -76,11 +75,7 @@ public class HomePage {
      * Check if logo is displayed
      */
     public boolean isLogoDisplayed() {
-        try {
-            return driver.findElement(logo).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return driver.findElement(logo).isDisplayed();
     }
 
     /**
@@ -151,15 +146,21 @@ public class HomePage {
      */
     public void search(String searchTerm) {
         try {
-            driver.findElement(searchInput).clear();
-            driver.findElement(searchInput).sendKeys(searchTerm);
-            driver.findElement(searchButton).click();
+            WebElement input = driver.findElement(searchInHeader);
+            input.click();
+            input.clear();
+            input.sendKeys(searchTerm);
+            driver.findElement(searchBtn).click();
         } catch (Exception e) {
             throw new RuntimeException("Search functionality failed: " + e.getMessage());
         }
     }
 
     public String getUrl() {
+        return getUrlAsUTF8String();
+    }
+
+    private String getUrlAsUTF8String() {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
 
@@ -329,6 +330,13 @@ public class HomePage {
         wait.until(ExpectedConditions.presenceOfElementLocated(sortingByPopularityInDescendingOrder)).click();
     }
 
+    /*Select sorting by price method*/
+    public void selectSortingByPriceAscending() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement option = wait.until(ExpectedConditions.elementToBeClickable(sortingByPriceAscending));
+        option.click();
+    }
+
     public boolean checkIfSortingByPopularityInDescendingOrderIsWorking() {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         List<WebElement> hotels = wait.until(
@@ -342,6 +350,33 @@ public class HomePage {
             return rating1 >= rating2;
         }
         return false;
+    }
+
+    /*Check sorting by price method*/
+    public  boolean checkIsSortingByPriceAscending() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        List<WebElement> hotels = wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[contains(@data-test-id-qa,'results-list') and contains(@data-test-id-qa,'result')]"))
+        );
+        if (hotels.size() < 2) {
+            return false;
+        }
+        double previousPrice = extractPrice(hotels.get(0));
+        for (int i = 1; i < hotels.size(); i++) {
+            double currentPrice = extractPrice(hotels.get(i));
+            if (currentPrice < previousPrice){
+                return false;
+            }
+            previousPrice = currentPrice;
+        }
+        return true;
+    }
+
+    /*helper for checkIsSortingByPriceAscending method*/
+    public double extractPrice(WebElement hotel) {
+        String priceText = hotel.findElement(By.xpath("//*[data-test-id-qa='results-list-price']")
+        ).getText();
+        return Double.parseDouble(priceText.replaceAll("[^0-9]", ""));
     }
 
     public void clickHotelButton() {
