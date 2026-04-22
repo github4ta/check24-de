@@ -12,4 +12,6 @@ class LoginLocator {
     static By PASSWORD_INPUT = By.cssSelector("#cl_pw_login");
     static By PASSWORD_BUTTON = By.cssSelector("#c24-uli-pw-btn");
     static By PASSWORD_ERROR_MESSAGE = By.cssSelector(".c24-uli-error-pw");
+    static By INFO_ICON = By.cssSelector(".c24-uli-info-icon");
+    static By INFO_TEXT = By.cssSelector(".c24-uli-info-text.c24-uli-login-faq");
 }

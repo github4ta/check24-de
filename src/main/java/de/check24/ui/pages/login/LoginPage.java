@@ -129,4 +129,16 @@ public class LoginPage {
 
         return msg.getText().equals(LoginText.EMAIL_ERROR_MESSAGE);
     }
+
+    public void clickInfoIcon(){
+        waitForElementInShadow(driver, LoginLocator.SHADOW_HOST_LOGIN,LoginLocator.INFO_ICON).click();
+    }
+
+    public String getActualInfoText() {
+        return waitForElementInShadow(driver, LoginLocator.SHADOW_HOST_LOGIN,LoginLocator.INFO_TEXT).getText();
+    }
+
+    public boolean isActualInfoTextEqualsToExpected() {
+        return getActualInfoText().equals(LoginText.EXPECTED_INFO_TEXT);
+    }
 }
