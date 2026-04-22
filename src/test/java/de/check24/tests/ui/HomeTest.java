@@ -2,6 +2,8 @@ package de.check24.tests.ui;
 
 import com.google.common.base.Verify;
 import de.check24.ui.pages.home.HomePage;
+import de.check24.ui.pages.login.LoginPage;
+import de.check24.ui.pages.login.LoginText;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,33 +47,50 @@ public class HomeTest extends BaseUITest {
         log.info("Homepage loaded successfully with title: {}", driver.getTitle());
     }
 
+ //  @Test
+   //@Story("Copyright Verification")
+  // @DisplayName("Copyright text is present")
+  // @Description("Verify that the copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' is displayed")
+  // void testCopyrightPresence() {
+       // When
+    //    homePage.navigateToHomePage();
+
+      // Then
+    //    boolean hasExactCopyright = homePage.isCopyrightTextPresent();
+    //    boolean hasCopyright2026 = homePage.isCopyright2026Present();
+
+     //   assertThat(hasExactCopyright || hasCopyright2026)
+     //           .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
+      //          .isTrue();
+
+      //  if (hasExactCopyright) {
+      //   log.info("Exact copyright text found");
+      //  } else if (hasCopyright2026) log.info("Copyright with 2026 and CHECK24 found");
+     //   }
+
+       //Additional check - get actual copyright text
+      //  String copyrightText = homePage.getCopyrightText(String);
+      //  if (!copyrightText.isEmpty()) {
+      //     log.info("Found copyright text: {}", GET_COPYRIGHT_TEXT);
+     //   }
+
     @Test
     @Story("Copyright Verification")
-    @DisplayName("Copyright text is present")
+    @DisplayName("Verification of copyright text: «© 2026 CHECK24 Vergleichsportal GmbH München»")
     @Description("Verify that the copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' is displayed")
-    void testCopyrightPresence() {
-        // When
+    void testVM001() {
+
         homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
 
-        // Then
-        boolean hasExactCopyright = homePage.isCopyrightTextPresent();
-        boolean hasCopyright2026 = homePage.isCopyright2026Present();
+        String actualCopyright = homePage.getCopyrightText();
+        log.info("Found copyright text: {}", actualCopyright);
 
-        assertThat(hasExactCopyright || hasCopyright2026)
-                .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
-                .isTrue();
-
-        if (hasExactCopyright) {
-            log.info("Exact copyright text found");
-        } else if (hasCopyright2026) {
-            log.info("Copyright with 2026 and CHECK24 found");
-        }
-
-        // Additional check - get actual copyright text
-        String copyrightText = homePage.getCopyrightText();
-        if (!copyrightText.isEmpty()) {
-            log.info("Found copyright text: {}", copyrightText);
-        }
+        assertThat(actualCopyright)
+                .as("Проверка текста копирайта в футере")
+                .isNotBlank()
+                .contains("2026")
+                .contains("CHECK24 Vergleichsportal GmbH München");
     }
 
     @Test
@@ -506,6 +525,31 @@ public class HomeTest extends BaseUITest {
                 .withFailMessage("Search did not redirect to results page. Current URL:" + currentUrl)
                 .containsIgnoringCase("paris");
         log.info("Search button works correctly. Redirected to: {}", currentUrl);
+    @Description("Successful logout")
+    public void testAU002() {
+        LoginPage loginPage = new LoginPage(driver);
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.clickLoginIcon();
+        loginPage.enterEmailLoginWithParameters(LoginText.EMAIL_FOR_LOGIN);
+        loginPage.clickEmailButton();
+        loginPage.enterPasswordWithParameters(LoginText.PASSWORD_FOR_LOGIN);
+        loginPage.clickPasswordButton();
+        homePage.clickProfileIconInHeader();
+        homePage.clickLogoutLink();
+
+        assertThat(homePage.isCurrentPageContainLinkToLoginPage())
+                .isTrue();
+    }
+
+    @Test
+    public void testSE004() {
+        homePage.navigateToHomePage();
+        homePage.clickCookieAcceptButton();
+        homePage.сlickSectionPopularDestinationsForVacationRentals();
+
+        assertThat(homePage.getUrl())
+                .contains("Istrien");
     }
 
     @AfterEach

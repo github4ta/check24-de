@@ -13,8 +13,7 @@ import java.time.Duration;
 import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.Random;
-
-import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
+import static de.check24.ui.pages.home.HomeLocator.*;
 
 /**
  * Page Object for Check24 HomePage
@@ -61,6 +60,7 @@ public class HomePage {
     private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
     private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
     private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
+    private final By sectionPopularDestinationsForVacationRentals = By.xpath("//*[@id='c24-container-18']/div[6]/div[2]/a[4]/div[1]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -152,9 +152,11 @@ public class HomePage {
      */
     public void search(String searchTerm) {
         try {
-            driver.findElement(searchInput).clear();
-            driver.findElement(searchInput).sendKeys(searchTerm);
-            driver.findElement(searchButton).click();
+            WebElement input = driver.findElement(searchInHeader);
+            input.click();
+            input.clear();
+            input.sendKeys(searchTerm);
+            driver.findElement(searchBtn).click();
         } catch (Exception e) {
             throw new RuntimeException("Search functionality failed: " + e.getMessage());
         }
@@ -456,5 +458,30 @@ public class HomePage {
             }
         }
         return false;
+    }
+
+    public void clickProfileIconInHeader() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.PROFILE_ICON_IN_HEADER)).click();
+    }
+
+    public void clickLogoutLink() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(HomeLocator.LOGOUT_LINK)).click();
+    }
+
+    public boolean isCurrentPageContainLinkToLoginPage() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(loginIcon));
+        String classes = loginIconElem.getAttribute("class");
+        return classes != null && classes.contains("c24-login-opener");
+    }
+
+    public void сlickSectionPopularDestinationsForVacationRentals() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0, 3000)");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionPopularDestinationsForVacationRentals));
+        element.click();
     }
 }
