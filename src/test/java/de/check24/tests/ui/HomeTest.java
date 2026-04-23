@@ -19,10 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Homepage Verification")
 public class HomeTest extends BaseUITest {
     private HomePage homePage;
+    private LoginPage loginPage;
 
     @BeforeEach
     void setupHomePage() {
         homePage = new HomePage(driver);
+        loginPage = new LoginPage(driver);
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
     }
@@ -136,28 +138,24 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VM005 - The link to «AGB» clickable")
     void testVM005() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         assertThat(homePage.isAGBLinkClickable())
                 .withFailMessage("AGB link is not clickable")
                 .isTrue();
     }
 
     @Test
+    @DisplayName("VS006 - Verify Social Media links visibility and functionality (Facebook, Instagram, YouTube, TikTok)")
     void testVS006() {
-        homePage.navigateToHomePage();
-
         assertThat(homePage.getSocialIconCount())
                 .withFailMessage("The number of icons does not meet the requirements")
                 .isEqualTo(4);
     }
 
     @Test
+    @DisplayName("SR001-Sorting function based on stars amount in descending order is working correctly")
     public void testSR001() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickToSearchFieldInHeaderUsingActions();
         homePage.fillInputInSearchHeaderUsingActions("paris");
         homePage.submitSearchByEnter();
@@ -166,7 +164,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickOnSortingField();
         homePage.clickOnSortingByPopularityInDescendingOrder();
 
-        assertThat(homePage.checkIfSortingByPopularityInDescendingOrderIsWorking())
+        assertThat(homePage.isSortingByPopularityInDescendingOrderFilterWorking())
                 .withFailMessage("Popularity sorting filter is working incorrectly")
                 .isTrue();
     }
@@ -175,8 +173,6 @@ public class HomeTest extends BaseUITest {
     @DisplayName("SR002-The price sorting function on the Paris hotels list page works correctly.")
     @Description("Verify, that hotels sort by price in ascending order ")
     public void testSR002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickToSearchFieldInHeaderUsingActions();
         homePage.fillInputInSearchHeaderUsingActions("paris");
         homePage.submitSearchByEnter();
@@ -185,18 +181,19 @@ public class HomeTest extends BaseUITest {
         homePage.clickOnSortingField();
         homePage.selectSortingByPriceAscending();
 
-        assertThat(homePage.checkIsSortingByPriceAscending())
+        assertThat(homePage.isSortingByPriceAscendingFilterWorking())
                 .withFailMessage("Price sorting is NOT working correctly (ascending order expected)")
                 .isTrue();
     }
 
     @Test
+    @DisplayName("VS010 -Validation of Hotel button functionality")
     public void testVS010() {
-        homePage.navigateToHomePage();
-
         homePage.clickHotelButton();
-        String hotelUrl = driver.getCurrentUrl();
-        assertTrue(hotelUrl.contains("https://hotel.check24.de/"));
+
+        assertThat(homePage.isHotelPageUrl())
+                .withFailMessage("Hotel button does not link to the hotelpage")
+                .isTrue();
     }
 
     @Test
@@ -317,6 +314,7 @@ public class HomeTest extends BaseUITest {
 
     @DisplayName("AU002-Successful logout")
     @Description("Successful logout")
+    @Test
     public void testAU002() {
         LoginPage loginPage = new LoginPage(driver);
 
