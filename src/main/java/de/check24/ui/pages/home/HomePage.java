@@ -205,7 +205,7 @@ public class HomePage {
     }
 
     public void clickLoginIcon() {
-        driver.findElement(LOGIN_IKON).click();
+        driver.findElement(LOGIN_IСON).click();
     }
 
     public void enterEmail() {
@@ -465,7 +465,7 @@ public class HomePage {
 
     public boolean isCurrentPageContainLinkToLoginPage() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(LOGIN_IKON));
+        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(LOGIN_IСON));
         String classes = loginIconElem.getAttribute("class");
         return classes != null && classes.contains("c24-login-opener");
     }
