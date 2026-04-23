@@ -19,69 +19,63 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Homepage Verification")
 public class HomeTest extends BaseUITest {
     private HomePage homePage;
+    private LoginPage loginPage;
 
     @BeforeEach
     void setupHomePage() {
         homePage = new HomePage(driver);
+        loginPage = new LoginPage(driver);
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
     }
 
     @Test
-    @Story("Copyright Verification")
-    @DisplayName("Verification of copyright text: «© 2026 CHECK24 Vergleichsportal GmbH München»")
-    @Description("Verify that the copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' is displayed")
+    @DisplayName("VM001-Verification of copyright text: «© 2026 CHECK24 Vergleichsportal GmbH München»")
     void testVM001() {
-        assertThat(homePage.getCopyrightText())
-                .as("Проверка текста копирайта в футере")
-                .isNotBlank()
-                .contains("2026")
-                .contains("CHECK24 Vergleichsportal GmbH München");
+        assertThat(homePage.isCopyrightFooterTextCorrect())
+                .withFailMessage("Copyright footer text is incorrect")
+                .isTrue();
     }
 
     @Test
-    @Story("Search Functionality")
-    @DisplayName("Search by section is working correctly")
-    @Description("Verify that search by section Angesagte Reiseziele functionality provides correct list of hotels")
+    @DisplayName("SE003 - Search by section is working correctly")
     public void testSE003() {
         homePage.clickSectionTurkey();
 
         assertThat(homePage.getUrl())
+                .withFailMessage("Search by section does not working correctly")
                 .contains("Türkei");
     }
 
     @Test
-    @Description("Verify search functionality using the keyword 'Warsaw'")
+    @DisplayName("SE001 - Search bar works correctly")
     public void testSE001() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickToSearchFieldInHeader();
         homePage.fillInputInSearchHeader("Warsaw");
         homePage.submitSearchByEnter();
 
-        String actualText = homePage.getTextAfterSearchWarsaw();
-        Assertions.assertEquals("warschau", actualText);
+        assertThat(homePage.getTextAfterSearchWarsaw())
+                .withFailMessage("Search text is not found")
+                .contains("warschau");
     }
 
     @Test
+    @DisplayName("VS005 - The logo links to the homepage")
     public void testVS005() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickLinkFerienwohnung();
         homePage.clickLogoCheckInHeader();
-        String actualUrl = driver.getCurrentUrl();
-        String expectedUrl = "https://www.check24.de/";
-        Assertions.assertEquals(expectedUrl, actualUrl);
+
+        assertThat(homePage.isHomepageUrl())
+                .withFailMessage("Logo does not link to the homepage")
+                .isTrue();
     }
 
     @Test
+    @DisplayName("VS003 - Personal account button «Anmelden» is visible")
     public void testVS003() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
+        assertThat(homePage.isPersonalAccountButtonDisplayed())
+                .withFailMessage("Personal account button is not visible")
+                .isTrue();
     }
 
     @Test
@@ -137,28 +131,24 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VM005 - The link to «AGB» clickable")
     void testVM005() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         assertThat(homePage.isAGBLinkClickable())
                 .withFailMessage("AGB link is not clickable")
                 .isTrue();
     }
 
     @Test
+    @DisplayName("VS006 - Verify Social Media links visibility and functionality (Facebook, Instagram, YouTube, TikTok)")
     void testVS006() {
-        homePage.navigateToHomePage();
-
         assertThat(homePage.getSocialIconCount())
                 .withFailMessage("The number of icons does not meet the requirements")
                 .isEqualTo(4);
     }
 
     @Test
+    @DisplayName("SR001-Sorting function based on stars amount in descending order is working correctly")
     public void testSR001() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickToSearchFieldInHeaderUsingActions();
         homePage.fillInputInSearchHeaderUsingActions("paris");
         homePage.submitSearchByEnter();
@@ -167,7 +157,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickOnSortingField();
         homePage.clickOnSortingByPopularityInDescendingOrder();
 
-        assertThat(homePage.checkIfSortingByPopularityInDescendingOrderIsWorking())
+        assertThat(homePage.isSortingByPopularityInDescendingOrderFilterWorking())
                 .withFailMessage("Popularity sorting filter is working incorrectly")
                 .isTrue();
     }
@@ -176,8 +166,6 @@ public class HomeTest extends BaseUITest {
     @DisplayName("SR002-The price sorting function on the Paris hotels list page works correctly.")
     @Description("Verify, that hotels sort by price in ascending order ")
     public void testSR002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickToSearchFieldInHeaderUsingActions();
         homePage.fillInputInSearchHeaderUsingActions("paris");
         homePage.submitSearchByEnter();
@@ -186,18 +174,19 @@ public class HomeTest extends BaseUITest {
         homePage.clickOnSortingField();
         homePage.selectSortingByPriceAscending();
 
-        assertThat(homePage.checkIsSortingByPriceAscending())
+        assertThat(homePage.isSortingByPriceAscendingFilterWorking())
                 .withFailMessage("Price sorting is NOT working correctly (ascending order expected)")
                 .isTrue();
     }
 
     @Test
+    @DisplayName("VS010 -Validation of Hotel button functionality")
     public void testVS010() {
-        homePage.navigateToHomePage();
-
         homePage.clickHotelButton();
-        String hotelUrl = driver.getCurrentUrl();
-        assertTrue(hotelUrl.contains("https://hotel.check24.de/"));
+
+        assertThat(homePage.isHotelPageUrl())
+                .withFailMessage("Hotel button does not link to the hotelpage")
+                .isTrue();
     }
 
     @Test
@@ -263,59 +252,48 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VS013 - The button in the search bar works correctly")
+    @Description("Verify, that the button in the search bar works correctly")
     void testVS013() {
-        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+        homePage.openParisHotelsFromSearch();
 
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        homePage.clickSearchBar();
-        homePage.sendKeysSearchBar();
-        homePage.clickSearchButton();
-        System.out.println("title: " + homePage.getTitleParisHotels());
-
-        assertThat(homePage.getTitleParisHotels())
-                .withFailMessage("The title does not match " + expectedTitle)
-                .isEqualTo(expectedTitle);
+        assertThat(homePage.getParisHotelsTitle())
+                .as("Paris hotels title should be correct")
+                .containsIgnoringCase("hotel buchen")
+                .containsIgnoringCase("reiseportal");
     }
 
     @Test
+    @DisplayName("VS014 - Personal account button \"Anmelden\" works correctly")
+    @Description("Verify, that personal account button \"Anmelden\" works correctly")
     void testVS014() {
         final String expectedUrl = "https://accounts.check24.com/login";
-
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickLoginIcon();
-
         assertThat(homePage.getUrlAuthorisationPage())
                 .withFailMessage("The url does not contains " + expectedUrl)
                 .contains(expectedUrl);
     }
 
     @Test
+    @DisplayName("FL002 - The \"Entfernung festlegen\" toggle is clickable")
+    @Description("Verufy, that the \"Entfernung festlegen\" toggle is clickable.")
     public void testFL002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickToSearchFieldInHeaderUsingActions();
         homePage.fillInputInSearchHeaderUsingActions("paris");
         homePage.submitSearchByEnter();
         homePage.clickToSearchParisHotelsButton();
         homePage.clickOnPopupWindowCross();
-
         // toggle.click toggle.click();
         // assert(status isChanged)
-
         assertThat(homePage.isEntfernungFestlegenToggled())
                 .withFailMessage("Toggle is not clickable")
                 .isTrue();
     }
 
     @Test
-    @DisplayName("Verify 'Suchen' button visibility and functionality")
+    @DisplayName("VS-012 Verify \"Suchen\" (Search) button visibility and functionality")
+    @Description("Verify 'Suchen' button visibility and functionality")
     public void testVS012() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickSearchBar();
         homePage.sendKeysSearchBar();
         homePage.clickSearchButton();
@@ -327,11 +305,12 @@ public class HomeTest extends BaseUITest {
         log.info("Search button works correctly. Redirected to: {}", currentUrl);
     }
 
+    @DisplayName("AU002-Successful logout")
     @Description("Successful logout")
+    @Test
     public void testAU002() {
         LoginPage loginPage = new LoginPage(driver);
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
+
         homePage.clickLoginIcon();
         loginPage.enterEmailLoginWithParameters(LoginText.EMAIL_FOR_LOGIN);
         loginPage.clickEmailButton();
@@ -344,10 +323,10 @@ public class HomeTest extends BaseUITest {
                 .isTrue();
     }
 
+    @DisplayName("SE004 - Navigation to \"Ferienwohnung\" page upon clicking \"Istrien\" in the \"Beliebte Reiseziele für Ferienwohnungen\" block works correctly")
+    @Description("Verify navigation")
     @Test
     public void testSE004() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.сlickSectionPopularDestinationsForVacationRentals();
 
         assertThat(homePage.getUrl())

@@ -12,20 +12,22 @@ import java.util.List;
 import java.util.Random;
 
 import static de.check24.ui.pages.home.HomeLocator.*;
+import static de.check24.ui.pages.home.HomeText.*;
 
 /**
  * Page Object for Check24 HomePage
  */
 public class HomePage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
+    private final JavascriptExecutor js;
 
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
     private final By linkFerienwohnung = By.xpath("//div[text()='Ferienwohnung buchen']");
+    private final By logoCheckInHeader = By.xpath("//a[@class='c24-logo']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
-    private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
-    private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By cookieAcceptButton = By.xpath("//a[text()='geht klar']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
@@ -35,6 +37,8 @@ public class HomePage {
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
+    private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
+    private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
     private final By sortingByPopularityInDescendingOrder = By.xpath("//span[text()='Beliebtheit']");
     private final By sortingByPriceAscending = By.xpath("//*[@id=\":r0:\"]/div/div/div/div[5]/span");
@@ -49,97 +53,33 @@ public class HomePage {
     private final By sportWander = By.xpath("//a[@href='https://individualreisen.check24.de/wandern?tid=widget']");
     private final By titleWander =  By.xpath("//h1");
     private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
-    private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
+    private final By parisHotelsTitle = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
     private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
     private final By sectionPopularDestinationsForVacationRentals = By.xpath("//*[@id='c24-container-18']/div[6]/div[2]/a[4]/div[1]");
 
+    private static final Duration TIMEOUT = Duration.ofSeconds(10);
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver,TIMEOUT);
+        js = (JavascriptExecutor) driver;
     }
 
-    /**
-     * Navigate to Check24 homepage
-     */
     public void navigateToHomePage() {
         driver.get("https://www.check24.de/");
     }
 
-    /**
-     * Check if logo is displayed
-     */
-    public boolean isLogoDisplayed() {
-        return driver.findElement(logo).isDisplayed();
-    }
-
-    /**
-     * Check if search input is present
-     */
-    public boolean isSearchInputPresent() {
-        try {
-            return driver.findElement(searchInput).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if search button is present
-     */
-    public boolean isSearchButtonPresent() {
-        try {
-            return driver.findElement(searchButton).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if the specific copyright text is present
-     */
-    public boolean isCopyrightTextPresent() {
-        try {
-            return driver.findElement(copyrightText).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if any copyright text with 2026 and CHECK24 is present
-     */
-    public boolean isCopyright2026Present() {
-        try {
-            return driver.findElement(anyCopyright2026).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get the actual copyright text from footer
-     */
     public String getCopyrightText() {
-        try {
-            return driver.findElement(copyrightFooter).getText();
-        } catch (Exception e) {
-            return "";
-        }
+        return driver.findElement(COPYRIGHT_FOOTER).getText();
     }
 
-    /**
-     * Verify that page is loaded and basic elements are present
-     */
-    public boolean isPageLoaded() {
-        return driver.getTitle().contains("CHECK24") ||
-               driver.getCurrentUrl().contains("check24.de");
+    public boolean isCopyrightFooterTextCorrect() {
+        return getCopyrightText().contains(COPYRIGHT_FOOTER_TEXT);
     }
 
-    /**
-     * Search for a term
-     */
     public void search(String searchTerm) {
         try {
-            WebElement input = driver.findElement(searchInHeader);
+            WebElement input = driver.findElement(SEARCH_IN_HEADER);
             input.click();
             input.clear();
             input.sendKeys(searchTerm);
@@ -157,14 +97,17 @@ public class HomePage {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
 
+    private void scrollByJavascriptExecutor(int pixels){
+        js.executeScript(String.format("window.scrollBy(0, %d)", pixels));
+    }
+
+    private void scrollDown(int px) {
+        js.executeScript("window.scrollBy(0, " + px + ")");
+    }
+
     public void clickSectionTurkey() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        js.executeScript("window.scrollBy(0, 1000)");
-
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
+        scrollDown(1000);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(SECTION_TURKEY));
         element.click();
     }
 
@@ -172,24 +115,32 @@ public class HomePage {
         driver.findElement(LOGIN_CHECK_IN_HEADER).click();
     }
 
+    public boolean isHomepageUrl() {
+        return HOMEPAGE_URL.equals(driver.getCurrentUrl());
+    }
+
+    public boolean isHotelPageUrl() {
+        return HOTEL_PAGE_URL.equals(driver.getCurrentUrl());
+    }
+
     public void clickLinkFerienwohnung() {
-        driver.findElement(linkFerienwohnung).click();
+        driver.findElement(LINK_FERIENWOHNUNG).click();
     }
 
     public void clickToSearchFieldInHeader() {
-        driver.findElement(searchInHeader).click();
+        driver.findElement(SEARCH_IN_HEADER).click();
     }
 
     public void fillInputInSearchHeader(String value) {
-        driver.findElement(searchInHeader).sendKeys(value);
+        driver.findElement(SEARCH_IN_HEADER).sendKeys(value);
     }
 
     public void submitSearchByEnter() {
-        driver.findElement(searchInHeader).sendKeys(Keys.ENTER);
+        driver.findElement(SEARCH_IN_HEADER).sendKeys(Keys.ENTER);
     }
 
     public String getTextAfterSearchWarsaw() {
-       return driver.findElement(labelWarschau).getText().replace("\"", "").trim();
+       return driver.findElement(LABEL_WARSCHAU).getText().replace("\"", "").trim();
     }
 
     public void clickFacebookButton() {
@@ -239,41 +190,45 @@ public class HomePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH_BAR)).sendKeys("Paris", Keys.ENTER);
     }
 
-    public String getParisHotelCurrentUrl() { return driver.getCurrentUrl();}
+    public String getParisHotelCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
     public boolean isPersonalAccountButtonDisplayed() {
-        return driver.findElement(personalAccountButton).isDisplayed();
+        return driver.findElement(PERSONAL_ACCOUNT_BUTTON).isDisplayed();
+    }
+
+    private boolean elementIsNotNull(WebElement elem){
+        return elem != null;
+    }
+    private boolean isElementClickable(By locator) {
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        return elementIsNotNull(element);
     }
 
     public boolean isAGBLinkClickable() {
-        try {
-            driver.findElement(agbLink).click();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return isElementClickable(AGB_LINK);
     }
 
     public int getSocialIconCount() {
-        try {
-            return driver.findElements(socialIcon).size();
-        } catch (Exception e) {
-            return 0;
-        }
+        return driver.findElements(SOCIAL_ICON).size();
     }
 
-    public void clickToSearchFieldInHeaderUsingActions() {
-        WebElement element = driver.findElement(searchInHeader);
-
-        Actions actions = new Actions(driver);
-        actions
+    private void moveToElementAndClickWithPause(WebElement element, int millis) {
+        new Actions(driver)
                 .moveToElement(element)
-                .pause(Duration.ofMillis(400))
+                .pause(Duration.ofMillis(millis))
                 .click()
                 .perform();
     }
 
+    public void clickToSearchFieldInHeaderUsingActions() {
+        WebElement element = driver.findElement(SEARCH_IN_HEADER);
+        moveToElementAndClickWithPause(element,400);
+    }
+
     public void fillInputInSearchHeaderUsingActions(String value) {
-        WebElement input = driver.findElement(searchInHeader);
+        WebElement input = driver.findElement(SEARCH_IN_HEADER);
         Actions actions = new Actions(driver);
         Random random = new Random();
 
@@ -286,70 +241,49 @@ public class HomePage {
     }
 
     public void clickToSearchParisHotelsButton() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement button = wait.until(ExpectedConditions.visibilityOfElementLocated(searchParisHotelsButton));
-
-        new Actions(driver)
-                .moveToElement(button)
-                .pause(Duration.ofMillis(500))
-                .click()
-                .perform();
+        moveToElementAndClickWithPause(button,500);
     }
 
     public void clickOnPopupWindowCross() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement cross = wait.until(ExpectedConditions.elementToBeClickable(popupSplashScreenSpringDealContainer));
-
-        new Actions(driver)
-                .moveToElement(cross)
-                .pause(Duration.ofMillis(400))
-                .click()
-                .perform();
+        moveToElementAndClickWithPause(cross,500);
     }
 
     public void clickOnSortingField() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         By locator = By.xpath("//div[contains(@class, 'sorting')]//span/div");
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-
         new Actions(driver).scrollToElement(element).perform();
-        new Actions(driver)
-                .moveToElement(element)
-                .pause(Duration.ofMillis(500))
-                .click()
-                .perform();
+        moveToElementAndClickWithPause(element,500);
     }
 
     public void clickOnSortingByPopularityInDescendingOrder() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.presenceOfElementLocated(sortingByPopularityInDescendingOrder)).click();
     }
 
     /*Select sorting by price method*/
     public void selectSortingByPriceAscending() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement option = wait.until(ExpectedConditions.elementToBeClickable(sortingByPriceAscending));
         option.click();
     }
 
-    public boolean checkIfSortingByPopularityInDescendingOrderIsWorking() {
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+    public boolean isSortingByPopularityInDescendingOrderFilterWorking() {
         List<WebElement> hotels = wait.until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@data-test-id-qa=\"static-results-list-result\"]"))
         );
         if(hotels.size()>2){
-            String priceText1 = hotels.get(0).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
-            String priceText2 = hotels.get(1).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
-            double rating1 = Double.parseDouble(priceText1.replaceAll("[^0-9.]", ""));
-            double rating2 = Double.parseDouble(priceText2.replaceAll("[^0-9.]", ""));
+            String ratingText1 = hotels.get(0).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
+            String ratingText2 = hotels.get(1).findElement(By.xpath(".//*[@data-test-id-qa=\"hotel-rating\"]")).getText();
+            double rating1 = Double.parseDouble(ratingText1.replaceAll("[^0-9.]", ""));
+            double rating2 = Double.parseDouble(ratingText2.replaceAll("[^0-9.]", ""));
             return rating1 >= rating2;
         }
         return false;
     }
 
     /*Check sorting by price method*/
-    public  boolean checkIsSortingByPriceAscending() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public  boolean isSortingByPriceAscendingFilterWorking() {
         List<WebElement> hotels = wait.until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[contains(@data-test-id-qa,'results-list') and contains(@data-test-id-qa,'result')]"))
         );
@@ -422,12 +356,18 @@ public class HomePage {
         driver.findElement(searchBtn).click();
     }
 
-    public String getTitleParisHotels() {
-        try {
-            return driver.findElement(titleParisHotels).getText();
-        } catch (Exception e) {
-            return "";
-        }
+    /*button in the search bar works correctly method*/
+    public String getParisHotelsTitle() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(parisHotelsTitle))
+                .getText()
+                .trim();
+    }
+
+    /*helper for getParisHotelsTitle*/
+    public void openParisHotelsFromSearch() {
+        clickSearchBar();
+        sendKeysSearchBar();
+        clickSearchButton();
     }
 
     public String getUrlAuthorisationPage() {
