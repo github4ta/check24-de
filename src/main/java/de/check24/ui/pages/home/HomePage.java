@@ -364,12 +364,18 @@ public class HomePage {
         driver.findElement(searchBtn).click();
     }
 
-    public String getTitleParisHotels() {
-        try {
-            return driver.findElement(titleParisHotels).getText();
-        } catch (Exception e) {
-            return "";
-        }
+    /*button in the search bar works correctly method*/
+    public String getParisHotelsTitle() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(titleParisHotels))
+                .getText()
+                .trim();
+    }
+
+    /*helper for getParisHotelsTitle*/
+    public void openParisHotelsFromSearch() {
+        clickSearchBar();
+        sendKeysSearchBar();
+        clickSearchButton();
     }
 
     public String getUrlAuthorisationPage() {

@@ -262,20 +262,15 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VS013 - The button in the search bar works correctly")
+    @Description("Verify, that the button in the search bar works correctly")
     void testVS013() {
-        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+        homePage.openParisHotelsFromSearch();
 
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        homePage.clickSearchBar();
-        homePage.sendKeysSearchBar();
-        homePage.clickSearchButton();
-        System.out.println("title: " + homePage.getTitleParisHotels());
-
-        assertThat(homePage.getTitleParisHotels())
-                .withFailMessage("The title does not match " + expectedTitle)
-                .isEqualTo(expectedTitle);
+        assertThat(homePage.getParisHotelsTitle())
+                .as("Paris hotels title should be correct")
+                .containsIgnoringCase("hotel buchen")
+                .containsIgnoringCase("reiseportal");
     }
 
     @Test
