@@ -53,7 +53,7 @@ public class HomePage {
     private final By sportWander = By.xpath("//a[@href='https://individualreisen.check24.de/wandern?tid=widget']");
     private final By titleWander =  By.xpath("//h1");
     private final By searchBtn = By.xpath("//div[@class='c24-search-button']");
-    private final By titleParisHotels = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
+    private final By parisHotelsTitle = By.xpath("//div[@class='travel-widget__form-title travel-widget__form-title--desktop new']");
     private final By entfernungFestlegenToggle = By.xpath("//button[@type='button' and contains(@class, 'slideToggle')]");
     private final By sectionPopularDestinationsForVacationRentals = By.xpath("//*[@id='c24-container-18']/div[6]/div[2]/a[4]/div[1]");
 
@@ -366,7 +366,7 @@ public class HomePage {
 
     /*button in the search bar works correctly method*/
     public String getParisHotelsTitle() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(titleParisHotels))
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(parisHotelsTitle))
                 .getText()
                 .trim();
     }
