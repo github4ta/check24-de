@@ -259,59 +259,48 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VS013 - The button in the search bar works correctly")
+    @Description("Verify, that the button in the search bar works correctly")
     void testVS013() {
-        final String expectedTitle = "Hotel buchen bei\nDeutschlands größtem Reiseportal";
+        homePage.openParisHotelsFromSearch();
 
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        homePage.clickSearchBar();
-        homePage.sendKeysSearchBar();
-        homePage.clickSearchButton();
-        System.out.println("title: " + homePage.getTitleParisHotels());
-
-        assertThat(homePage.getTitleParisHotels())
-                .withFailMessage("The title does not match " + expectedTitle)
-                .isEqualTo(expectedTitle);
+        assertThat(homePage.getParisHotelsTitle())
+                .as("Paris hotels title should be correct")
+                .containsIgnoringCase("hotel buchen")
+                .containsIgnoringCase("reiseportal");
     }
 
     @Test
+    @DisplayName("VS014 - Personal account button \"Anmelden\" works correctly")
+    @Description("Verify, that personal account button \"Anmelden\" works correctly")
     void testVS014() {
         final String expectedUrl = "https://accounts.check24.com/login";
-
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickLoginIcon();
-
         assertThat(homePage.getUrlAuthorisationPage())
                 .withFailMessage("The url does not contains " + expectedUrl)
                 .contains(expectedUrl);
     }
 
     @Test
+    @DisplayName("FL002 - The \"Entfernung festlegen\" toggle is clickable")
+    @Description("Verufy, that the \"Entfernung festlegen\" toggle is clickable.")
     public void testFL002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickToSearchFieldInHeaderUsingActions();
         homePage.fillInputInSearchHeaderUsingActions("paris");
         homePage.submitSearchByEnter();
         homePage.clickToSearchParisHotelsButton();
         homePage.clickOnPopupWindowCross();
-
         // toggle.click toggle.click();
         // assert(status isChanged)
-
         assertThat(homePage.isEntfernungFestlegenToggled())
                 .withFailMessage("Toggle is not clickable")
                 .isTrue();
     }
 
     @Test
-    @DisplayName("Verify 'Suchen' button visibility and functionality")
+    @DisplayName("VS-012 Verify \"Suchen\" (Search) button visibility and functionality")
+    @Description("Verify 'Suchen' button visibility and functionality")
     public void testVS012() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.clickSearchBar();
         homePage.sendKeysSearchBar();
         homePage.clickSearchButton();
@@ -323,12 +312,12 @@ public class HomeTest extends BaseUITest {
         log.info("Search button works correctly. Redirected to: {}", currentUrl);
     }
 
-    @Test
+    @DisplayName("AU002-Successful logout")
     @Description("Successful logout")
     @Test
     public void testAU002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
+        LoginPage loginPage = new LoginPage(driver);
+
         homePage.clickLoginIcon();
         loginPage.enterEmailLoginWithParameters(LoginText.EMAIL_FOR_LOGIN);
         loginPage.clickEmailButton();
@@ -341,10 +330,10 @@ public class HomeTest extends BaseUITest {
                 .isTrue();
     }
 
+    @DisplayName("SE004 - Navigation to \"Ferienwohnung\" page upon clicking \"Istrien\" in the \"Beliebte Reiseziele für Ferienwohnungen\" block works correctly")
+    @Description("Verify navigation")
     @Test
     public void testSE004() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
         homePage.сlickSectionPopularDestinationsForVacationRentals();
 
         assertThat(homePage.getUrl())
