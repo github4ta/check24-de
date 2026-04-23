@@ -88,10 +88,11 @@ public class HomeTest extends BaseUITest {
     @DisplayName("VS004 - Facebook icon clickability in the footer.")
     public void testVS004() {
         homePage.clickFacebookButton();
-        assertThat(homePage.getFacebookPageUrl())
-                .as("Ссылка на Facebook кликабельна в футере")
-                .contains("https://www.check24.de/");
-    }
+    assertThat(homePage.getFacebookPageUrl())
+            .withFailMessage("Переход на Facebook не удался! Текущий URL: %s",
+                    homePage.getFacebookPageUrl())
+            .contains("https://www.check24.de/");
+}
 
     @Test
     @DisplayName("AU003 - Password recovery is available.")
@@ -101,7 +102,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickForgotPassword();
 
         assertThat(driver.getCurrentUrl())
-                .as("Проверка URL после запроса на восстановление пароля")
+                .withFailMessage("URL не содержит 'passwort-vergessen'. Фактический URL: %s", driver.getCurrentUrl())
                 .contains("passwort-vergessen");
     }
 
@@ -109,7 +110,7 @@ public class HomeTest extends BaseUITest {
     @DisplayName("VM004 - The link to «AGB» visible.")
     public void testVM004() {
             assertThat(homePage.getAgbLinkHref())
-                    .as("Ссылка на условия использования AGB")
+                    .withFailMessage("Ошибка! Ссылка AGB некорректна. Ожидали AGB, а получили: %s", homePage.getAgbLinkHref())
                     .isNotBlank()
                     .contains("https://www.check24.de/unternehmen/impressum/#comp1");
     }
@@ -131,7 +132,7 @@ public class HomeTest extends BaseUITest {
         homePage.sendKeysSearchBar();
 
         assertThat(homePage.getParisHotelCurrentUrl())
-                .as("URL после поиска отелей в Париже")
+                .withFailMessage("Ошибка! После поиска отелей в Париже открылся неверный URL. Ожидали содержание 'paris', но получили: %s", homePage.getParisHotelCurrentUrl())
                 .contains("https://www.check24.de/suche/?q=paris");
     }
 
