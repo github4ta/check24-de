@@ -135,6 +135,7 @@ public class HomeTest extends BaseUITest {
                 "Unexpected URL: " + actual);
     }
 
+    // start
     @Test
     @DisplayName("VM005 - The link to «AGB» clickable")
     void testVM005() {
@@ -185,12 +186,13 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("VS010 -Validation of Hotel button functionality")
     public void testVS010() {
         homePage.clickHotelButton();
 
-        assertThat(driver.getCurrentUrl())
-                .contains("https://hotel.check24.de/");
+        assertThat(homePage.isHotelPageUrl())
+                .withFailMessage("Hotel button does not link to the hotelpage")
+                .isTrue();
     }
 
     @Test

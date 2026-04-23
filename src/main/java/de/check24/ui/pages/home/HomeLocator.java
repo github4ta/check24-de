@@ -13,5 +13,7 @@ public class HomeLocator {
     static final By LABEL_WARSCHAU = By.xpath("//span[text()='warschau']");
     static final By LINK_FERIENWOHNUNG = By.xpath("//div[text()='Ferienwohnung buchen']");
     static final By PERSONAL_ACCOUNT_BUTTON = By.xpath("//a[@class='c24-customer-hover-wrapper c24-login-opener']");
+    static final By AGB_LINK = By.xpath("//a[@title='AGB']");
+    static final By SOCIAL_ICON = By.xpath("//a[@class='c24-footer-icon']");
 
 }
