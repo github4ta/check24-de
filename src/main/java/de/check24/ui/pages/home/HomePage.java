@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
-import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
+import static de.check24.ui.pages.home.HomeLocator.*;
 
 /**
  * Page Object for Check24 HomePage
@@ -27,15 +27,11 @@ public class HomePage {
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
     private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
-    private final By facebookButton = By.xpath("//div[@class='c24-facebook-logo']");
     private final By cookieAcceptButton = By.xpath("//a[text()='geht klar']");
-    private final By loginIcon = By.xpath("//div[@class='c24-customer-icon c24-customer-icon-lo c24-icon']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
     private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
     private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
     private final By labelWarschau = By.xpath("//span[text()='warschau']");
-    private final By AGBlink = By.xpath("//a[@title='AGB']");
-    private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
     private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
@@ -49,7 +45,6 @@ public class HomePage {
     private final By wandernBlock = By.xpath("//*[@id='c24-container-18']/div[5]/div[2]/a[2]/div[2]/div[1]");
     private final By funchalMadeiraLink = By.xpath("//*[@id='c24-indi-page-container-content']/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/a/div");
     private final By datenschutzLink = By.xpath("//a[@title='Datenschutz']");
-    private final By searchBar = By.xpath("//*[@id=\"c24-search-header\"]");
     private final By impressumLink = By.xpath("//a[@title='Impressum']");
     private final By sportWander = By.xpath("//a[@href='https://individualreisen.check24.de/wandern?tid=widget']");
     private final By titleWander =  By.xpath("//h1");
@@ -198,7 +193,7 @@ public class HomePage {
     }
 
     public void clickFacebookButton() {
-        driver.findElement(facebookButton).click();
+        driver.findElement(FACEBOOK_BUTTON).click();
     }
 
     public String getFacebookPageUrl() {
@@ -210,7 +205,7 @@ public class HomePage {
     }
 
     public void clickLoginIcon() {
-        driver.findElement(loginIcon).click();
+        driver.findElement(LOGIN_IKON).click();
     }
 
     public void enterEmail() {
@@ -221,13 +216,13 @@ public class HomePage {
         driver.findElement(forgotPassword).click();
     }
 
-    public void clickAGBlink() {
-        driver.findElement(AGBlink).click();
-    }
+        public String getAgbLinkHref() {
+            return driver.findElement(AGB_LINK).getAttribute("href");
+        }
 
     public String getSearchHotelInputPlaceholder() {
         try {
-            WebElement input = driver.findElement(searchHotelInput);
+            WebElement input = driver.findElement(SEARCH_HOTEL_INPUT);
             return input.getAttribute("placeholder");
         } catch (Exception e) {
             return "";
@@ -235,11 +230,13 @@ public class HomePage {
     }
 
     public void clickSearchBar() {
-        driver.findElement(searchBar).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(SEARCH_BAR)).click();
     }
 
     public void sendKeysSearchBar() {
-        driver.findElement(searchBar).sendKeys("Paris");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH_BAR)).sendKeys("Paris", Keys.ENTER);
     }
 
     public String getParisHotelCurrentUrl() { return driver.getCurrentUrl();}
@@ -468,7 +465,7 @@ public class HomePage {
 
     public boolean isCurrentPageContainLinkToLoginPage() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(loginIcon));
+        WebElement loginIconElem = wait.until(ExpectedConditions.presenceOfElementLocated(LOGIN_IKON));
         String classes = loginIconElem.getAttribute("class");
         return classes != null && classes.contains("c24-login-opener");
     }

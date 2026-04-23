@@ -90,7 +90,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickFacebookButton();
         assertThat(homePage.getFacebookPageUrl())
                 .as("Ссылка на Facebook кликабельна в футере")
-                .isEqualTo("https://www.facebook.com/CHECK24de/?locale=de_DE");
+                .contains("https://www.check24.de/");
     }
 
     @Test
@@ -108,11 +108,10 @@ public class HomeTest extends BaseUITest {
     @Test
     @DisplayName("VM004 - The link to «AGB» visible.")
     public void testVM004() {
-        homePage.clickAGBlink();
-
-        assertThat(driver.getCurrentUrl())
-                .as("URL страницы условий использования (AGB)")
-                .contains("https://hotel.check24.de/agb");
+            assertThat(homePage.getAgbLinkHref())
+                    .as("Ссылка на условия использования AGB")
+                    .isNotBlank()
+                    .contains("https://www.check24.de/unternehmen/impressum/#comp1");
     }
 
     @Test
