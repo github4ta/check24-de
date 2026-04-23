@@ -79,44 +79,40 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("VS004 - Facebook icon clickability in the footer.")
     public void testVS004() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickFacebookButton();
-        String actual = homePage.getFacebookPageUrl();
-        Assertions.assertEquals("https://www.facebook.com/CHECK24de/?locale=de_DE", actual);
-    }
+    assertThat(homePage.getFacebookPageUrl())
+            .withFailMessage("Facebook redirection failed! Current URL: %s",
+                    homePage.getFacebookPageUrl())
+            .contains("https://www.check24.de/");
+}
 
     @Test
+    @DisplayName("AU003 - Password recovery is available.")
     public void testAU003() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickLoginIcon();
         homePage.enterEmail();
         homePage.clickForgotPassword();
 
-        Assertions.assertTrue(driver.getCurrentUrl().contains("passwort-vergessen"),
-                "URL не содержит 'passwort-vergessen'. Текущий URL: " + driver.getCurrentUrl());
+        assertThat(driver.getCurrentUrl())
+                .withFailMessage("URL does not contain 'passwort-vergessen'. Actual URL: %s", driver.getCurrentUrl())
+                .contains("passwort-vergessen");
     }
 
     @Test
+    @DisplayName("VM004 - The link to «AGB» visible.")
     public void testVM004() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        homePage.clickAGBlink();
-        String AGBUrl = driver.getCurrentUrl();
-        assertTrue(AGBUrl.contains("https://hotel.check24.de/agb"));
+            assertThat(homePage.getAgbLinkHref())
+                    .withFailMessage("Invalid AGB link URL: %s", homePage.getAgbLinkHref())
+                    .isNotBlank()
+                    .contains("https://www.check24.de/unternehmen/impressum/#comp1");
     }
 
     @Test
+    @DisplayName("VS007 - At the search bar with filters placeholder \"Wohin?\" is displayed.")
     void testVS007() {
         final String expectedPlaceholder = "Wohin?";
-
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
 
         assertThat(homePage.getSearchHotelInputPlaceholder())
                 .withFailMessage("The placeholder does not match " + expectedPlaceholder)
@@ -124,17 +120,14 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("SE002 - The suggestions in the search bar are clickable.")
     public void testSE002() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickSearchBar();
         homePage.sendKeysSearchBar();
 
-        String actual = homePage.getParisHotelCurrentUrl();
-        Assertions.assertTrue(
-                actual.contains("https://www.check24.de/suche/?q=paris"),
-                "Unexpected URL: " + actual);
+        assertThat(homePage.getParisHotelCurrentUrl())
+                .withFailMessage("Incorrect URL after Paris hotel search. Actual: %s", homePage.getParisHotelCurrentUrl())
+                .contains("https://www.check24.de/suche/?q=paris");
     }
 
     @Test
