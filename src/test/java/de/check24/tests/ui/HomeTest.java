@@ -27,88 +27,53 @@ public class HomeTest extends BaseUITest {
         homePage.clickCookieAcceptButton();
     }
 
-    //  @Test
-    //@Story("Copyright Verification")
-    // @DisplayName("Copyright text is present")
-    // @Description("Verify that the copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' is displayed")
-    // void testCopyrightPresence() {
-    // When
-    //    homePage.navigateToHomePage();
-
-    // Then
-    //    boolean hasExactCopyright = homePage.isCopyrightTextPresent();
-    //    boolean hasCopyright2026 = homePage.isCopyright2026Present();
-
-    //   assertThat(hasExactCopyright || hasCopyright2026)
-    //           .withFailMessage("Copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' not found on homepage")
-    //          .isTrue();
-
-    //  if (hasExactCopyright) {
-    //   log.info("Exact copyright text found");
-    //  } else if (hasCopyright2026) log.info("Copyright with 2026 and CHECK24 found");
-    //   }
-
-    //Additional check - get actual copyright text
-    //  String copyrightText = homePage.getCopyrightText(String);
-    //  if (!copyrightText.isEmpty()) {
-    //     log.info("Found copyright text: {}", GET_COPYRIGHT_TEXT);
-    //   }
-
     @Test
-    @Story("Copyright Verification")
-    @DisplayName("Verification of copyright text: «© 2026 CHECK24 Vergleichsportal GmbH München»")
-    @Description("Verify that the copyright text '© 2026 CHECK24 Vergleichsportal GmbH München' is displayed")
+    @DisplayName("VM001-Verification of copyright text: «© 2026 CHECK24 Vergleichsportal GmbH München»")
     void testVM001() {
-        assertThat(homePage.getCopyrightText())
-                .as("Проверка текста копирайта в футере")
-                .isNotBlank()
-                .contains("2026")
-                .contains("CHECK24 Vergleichsportal GmbH München");
+        assertThat(homePage.isCopyrightFooterTextCorrect())
+                .withFailMessage("Copyright footer text is incorrect")
+                .isTrue();
     }
 
     @Test
-    @Story("Search Functionality")
-    @DisplayName("Search by section is working correctly")
-    @Description("Verify that search by section Angesagte Reiseziele functionality provides correct list of hotels")
+    @DisplayName("SE003 - Search by section is working correctly")
     public void testSE003() {
         homePage.clickSectionTurkey();
 
         assertThat(homePage.getUrl())
+                .isEqualTo("Search by section does not working correctly")
                 .contains("Türkei");
     }
 
     @Test
-    @Description("Verify search functionality using the keyword 'Warsaw'")
+    @DisplayName("SE001 - Search bar works correctly")
     public void testSE001() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickToSearchFieldInHeader();
         homePage.fillInputInSearchHeader("Warsaw");
         homePage.submitSearchByEnter();
 
-        String actualText = homePage.getTextAfterSearchWarsaw();
-        Assertions.assertEquals("warschau", actualText);
+        assertThat(homePage.getTextAfterSearchWarsaw())
+                .withFailMessage("Search text is not found")
+                .contains("warschau");
     }
 
     @Test
+    @DisplayName("VS005 - The logo links to the homepage")
     public void testVS005() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
         homePage.clickLinkFerienwohnung();
         homePage.clickLogoCheckInHeader();
-        String actualUrl = driver.getCurrentUrl();
-        String expectedUrl = "https://www.check24.de/";
-        Assertions.assertEquals(expectedUrl, actualUrl);
+
+        assertThat(homePage.isHomepageUrl())
+                .withFailMessage("Logo does not link to the homepage")
+                .isTrue();
     }
 
     @Test
+    @DisplayName("VS003 - Personal account button «Anmelden» is visible")
     public void testVS003() {
-        homePage.navigateToHomePage();
-        homePage.clickCookieAcceptButton();
-
-        Assertions.assertTrue(homePage.isPersonalAccountButtonDisplayed(), "Button should be visible");
+        assertThat(homePage.isPersonalAccountButtonDisplayed())
+                .withFailMessage("Personal account button is not visible")
+                .isTrue();
     }
 
     @Test
