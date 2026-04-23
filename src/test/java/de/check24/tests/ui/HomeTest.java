@@ -89,7 +89,7 @@ public class HomeTest extends BaseUITest {
     public void testVS004() {
         homePage.clickFacebookButton();
     assertThat(homePage.getFacebookPageUrl())
-            .withFailMessage("Переход на Facebook не удался! Текущий URL: %s",
+            .withFailMessage("Facebook redirection failed! Current URL: %s",
                     homePage.getFacebookPageUrl())
             .contains("https://www.check24.de/");
 }
@@ -102,7 +102,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickForgotPassword();
 
         assertThat(driver.getCurrentUrl())
-                .withFailMessage("URL не содержит 'passwort-vergessen'. Фактический URL: %s", driver.getCurrentUrl())
+                .withFailMessage("URL does not contain 'passwort-vergessen'. Actual URL: %s", driver.getCurrentUrl())
                 .contains("passwort-vergessen");
     }
 
@@ -110,7 +110,7 @@ public class HomeTest extends BaseUITest {
     @DisplayName("VM004 - The link to «AGB» visible.")
     public void testVM004() {
             assertThat(homePage.getAgbLinkHref())
-                    .withFailMessage("Ошибка! Ссылка AGB некорректна. Ожидали AGB, а получили: %s", homePage.getAgbLinkHref())
+                    .withFailMessage("Invalid AGB link URL: %s", homePage.getAgbLinkHref())
                     .isNotBlank()
                     .contains("https://www.check24.de/unternehmen/impressum/#comp1");
     }
@@ -132,7 +132,7 @@ public class HomeTest extends BaseUITest {
         homePage.sendKeysSearchBar();
 
         assertThat(homePage.getParisHotelCurrentUrl())
-                .withFailMessage("Ошибка! После поиска отелей в Париже открылся неверный URL. Ожидали содержание 'paris', но получили: %s", homePage.getParisHotelCurrentUrl())
+                .withFailMessage("Incorrect URL after Paris hotel search. Actual: %s", homePage.getParisHotelCurrentUrl())
                 .contains("https://www.check24.de/suche/?q=paris");
     }
 
