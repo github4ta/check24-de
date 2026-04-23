@@ -135,7 +135,6 @@ public class HomeTest extends BaseUITest {
                 "Unexpected URL: " + actual);
     }
 
-    // start
     @Test
     @DisplayName("VM005 - The link to «AGB» clickable")
     void testVM005() {
