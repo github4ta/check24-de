@@ -41,7 +41,7 @@ public class HomeTest extends BaseUITest {
         homePage.clickSectionTurkey();
 
         assertThat(homePage.getUrl())
-                .isEqualTo("Search by section does not working correctly")
+                .withFailMessage("Search by section does not working correctly")
                 .contains("Türkei");
     }
 
