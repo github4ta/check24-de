@@ -19,10 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Homepage Verification")
 public class HomeTest extends BaseUITest {
     private HomePage homePage;
+    private LoginPage loginPage;
 
     @BeforeEach
     void setupHomePage() {
         homePage = new HomePage(driver);
+        loginPage = new LoginPage(driver);
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
     }
@@ -321,10 +323,10 @@ public class HomeTest extends BaseUITest {
         log.info("Search button works correctly. Redirected to: {}", currentUrl);
     }
 
+    @Test
     @Description("Successful logout")
     @Test
     public void testAU002() {
-        LoginPage loginPage = new LoginPage(driver);
         homePage.navigateToHomePage();
         homePage.clickCookieAcceptButton();
         homePage.clickLoginIcon();
