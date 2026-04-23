@@ -11,33 +11,30 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
-import static de.check24.ui.pages.home.HomeLocator.LOGIN_CHECK_IN_HEADER;
+import static de.check24.ui.pages.home.HomeLocator.*;
+import static de.check24.ui.pages.home.HomeText.*;
 
 /**
  * Page Object for Check24 HomePage
  */
 public class HomePage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
+    private final JavascriptExecutor js;
 
     private final By logo = By.cssSelector("a[data-testid='header-logo']");
     private final By logoCheckInHeader = By.xpath("//a[@class='c24-logo']");
-    private final By linkFerienwohnung = By.xpath("//div[text()='Ferienwohnung buchen']");
     private final By searchInput = By.cssSelector("input[data-testid='search-input']");
     private final By searchButton = By.cssSelector("button[data-testid='search-button']");
-    private final By searchInHeader = By.xpath("//*[@id='c24-search-header']");
     private final By copyrightText = By.xpath("//*[contains(text(),'© 2026 CHECK24 Vergleichsportal GmbH München')]");
-    private final By copyrightFooter = By.cssSelector("footer [class*='copyright'], footer p, .footer-copyright");
     private final By anyCopyright2026 = By.xpath("//*[contains(text(),'2026') and contains(text(),'CHECK24')]");
     private final By facebookButton = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[2]/a[1]");
     private final By cookieAcceptButton = By.xpath("//a[text()='geht klar']");
     private final By loginIcon = By.xpath("//a[@class='c24-customer-hover-wrapper c24-login-opener']");
     private final By enterEmail = By.xpath("//*[@id=\"cl_login\"]");
     private final By forgotPassword = By.xpath("//*[@id=\"c24-content\"]/div/div/div/div/unified-login//div/div/div[2]/form/div[2]/div[1]/div/a/div/div[1]/font/font");
-    private final By sectionTurkey = By.xpath("//*[@id=\"c24trendingLocations\"]/div/a[2]/div/div[2]/div[1]");
-    private final By labelWarschau = By.xpath("//span[text()='warschau']");
     private final By AGBlink = By.xpath("//*[@id=\"c24-footer\"]/div[2]/div[1]/div[2]/a[1]");
     private final By searchHotelInput = By.xpath("//input[@id='id-search-form-destination']");
-    private final By personalAccountButton = By.xpath("//*[@id=\"c24-header-top\"]/div/div[2]/div[5]/a");
     private final By agbLink = By.xpath("//a[@title='AGB']");
     private final By socialIcon = By.xpath("//a[@class='c24-footer-icon']");
     private final By searchParisHotelsButton = By.xpath("//*[@id=\"serp\"]/div/div/div[1]/div[3]/div/div/div/div/div[4]/button");
@@ -62,91 +59,25 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        js = (JavascriptExecutor) driver;
     }
 
-    /**
-     * Navigate to Check24 homepage
-     */
     public void navigateToHomePage() {
         driver.get("https://www.check24.de/");
     }
 
-    /**
-     * Check if logo is displayed
-     */
-    public boolean isLogoDisplayed() {
-        return driver.findElement(logo).isDisplayed();
-    }
-
-    /**
-     * Check if search input is present
-     */
-    public boolean isSearchInputPresent() {
-        try {
-            return driver.findElement(searchInput).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if search button is present
-     */
-    public boolean isSearchButtonPresent() {
-        try {
-            return driver.findElement(searchButton).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if the specific copyright text is present
-     */
-    public boolean isCopyrightTextPresent() {
-        try {
-            return driver.findElement(copyrightText).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if any copyright text with 2026 and CHECK24 is present
-     */
-    public boolean isCopyright2026Present() {
-        try {
-            return driver.findElement(anyCopyright2026).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get the actual copyright text from footer
-     */
     public String getCopyrightText() {
-        try {
-            return driver.findElement(copyrightFooter).getText();
-        } catch (Exception e) {
-            return "";
-        }
+        return driver.findElement(COPYRIGHT_FOOTER).getText();
     }
 
-    /**
-     * Verify that page is loaded and basic elements are present
-     */
-    public boolean isPageLoaded() {
-        return driver.getTitle().contains("CHECK24") ||
-               driver.getCurrentUrl().contains("check24.de");
+    public boolean isCopyrightFooterTextCorrect() {
+        return getCopyrightText().contains(COPYRIGHT_FOOTER_TEXT);
     }
 
-    /**
-     * Search for a term
-     */
     public void search(String searchTerm) {
         try {
-            WebElement input = driver.findElement(searchInHeader);
+            WebElement input = driver.findElement(SEARCH_IN_HEADER);
             input.click();
             input.clear();
             input.sendKeys(searchTerm);
@@ -164,14 +95,13 @@ public class HomePage {
         return URLDecoder.decode(driver.getCurrentUrl(), StandardCharsets.UTF_8);
     }
 
+    private void scrollDown(int px) {
+        js.executeScript("window.scrollBy(0, " + px + ")");
+    }
+
     public void clickSectionTurkey() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        js.executeScript("window.scrollBy(0, 1000)");
-
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(sectionTurkey));
+        scrollDown(1000);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(SECTION_TURKEY));
         element.click();
     }
 
@@ -179,24 +109,28 @@ public class HomePage {
         driver.findElement(LOGIN_CHECK_IN_HEADER).click();
     }
 
+    public boolean isHomepageUrl() {
+        return HOMEPAGE_URL.equals(driver.getCurrentUrl());
+    }
+
     public void clickLinkFerienwohnung() {
-        driver.findElement(linkFerienwohnung).click();
+        driver.findElement(LINK_FERIENWOHNUNG).click();
     }
 
     public void clickToSearchFieldInHeader() {
-        driver.findElement(searchInHeader).click();
+        driver.findElement(SEARCH_IN_HEADER).click();
     }
 
     public void fillInputInSearchHeader(String value) {
-        driver.findElement(searchInHeader).sendKeys(value);
+        driver.findElement(SEARCH_IN_HEADER).sendKeys(value);
     }
 
     public void submitSearchByEnter() {
-        driver.findElement(searchInHeader).sendKeys(Keys.ENTER);
+        driver.findElement(SEARCH_IN_HEADER).sendKeys(Keys.ENTER);
     }
 
     public String getTextAfterSearchWarsaw() {
-       return driver.findElement(labelWarschau).getText().replace("\"", "").trim();
+       return driver.findElement(LABEL_WARSCHAU).getText().replace("\"", "").trim();
     }
 
     public void clickFacebookButton() {
@@ -244,9 +178,12 @@ public class HomePage {
 
     public void clickParisHotelSuggestion() {driver.findElement(parisHotelSuggestion);}
 
-    public String getParisHotelCurrentUrl() { return driver.getCurrentUrl();}
+    public String getParisHotelCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
     public boolean isPersonalAccountButtonDisplayed() {
-        return driver.findElement(personalAccountButton).isDisplayed();
+        return driver.findElement(PERSONAL_ACCOUNT_BUTTON).isDisplayed();
     }
 
     public boolean isAGBLinkClickable() {
@@ -267,7 +204,7 @@ public class HomePage {
     }
 
     public void clickToSearchFieldInHeaderUsingActions() {
-        WebElement element = driver.findElement(searchInHeader);
+        WebElement element = driver.findElement(SEARCH_IN_HEADER);
 
         Actions actions = new Actions(driver);
         actions
@@ -278,7 +215,7 @@ public class HomePage {
     }
 
     public void fillInputInSearchHeaderUsingActions(String value) {
-        WebElement input = driver.findElement(searchInHeader);
+        WebElement input = driver.findElement(SEARCH_IN_HEADER);
         Actions actions = new Actions(driver);
         Random random = new Random();
 
