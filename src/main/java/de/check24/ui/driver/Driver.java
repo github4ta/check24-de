@@ -3,6 +3,10 @@ package de.check24.ui.driver;
 import de.check24.config.ConfigLoader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class Driver {
     private static WebDriver driver;
@@ -17,6 +21,10 @@ public class Driver {
             driver.manage().window().maximize();
         }
         return driver;
+    }
+
+    public static WebDriverWait getWait(int seconds) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
     }
 
     public static void quitDriver() {
@@ -55,6 +63,11 @@ public class Driver {
     public static String waitAndGetText(String locator) {
         // можно дописать логику ожидания при необходимости
         return getDriver().findElement(By.xpath(locator)).getText();
+    }
+
+    public static boolean isElementDisplayedWithWait(String locator, int seconds) {
+        return getWait(seconds).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)))
+                .isDisplayed();
     }
 
     // далее можно дописывать любые необходимые методы (инструменты) для взаимодействия с браузером,
