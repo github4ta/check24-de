@@ -33,4 +33,12 @@ public class HomeTest extends BaseUITest {
                 homePage.getFooterCompanyLine())
                 .isEqualTo("© 2026 CHECK24 Vergleichsportal GmbH München");
     }
+
+    @Test
+    @DisplayName("HP102 - Label 'Aktivitäten' is displayed")
+    void testHP102() {
+        assertThat(
+                homePage.isLabelAktivitätenDisplayed())
+                .isTrue();
+    }
 }
