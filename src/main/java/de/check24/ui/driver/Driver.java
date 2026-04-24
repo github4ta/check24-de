@@ -2,7 +2,9 @@ package de.check24.ui.driver;
 
 import de.check24.config.ConfigLoader;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -38,8 +40,16 @@ public class Driver {
         getDriver().get(url);
     }
 
+    public static String getUrl() {
+        return getDriver().getCurrentUrl();
+    }
+
     public static void click(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
+    }
+
+    public static void click(WebElement element) {
+        element.click();
     }
 
     public static void fill(String locator, String value) {
@@ -68,6 +78,17 @@ public class Driver {
     public static boolean isElementDisplayedWithWait(String locator, int seconds) {
         return getWait(seconds).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)))
                 .isDisplayed();
+    }
+
+    public static WebElement getElementInShadowRoot(String hostLocator, String cssSelector) {
+          return getWait(10)
+                  .ignoring(NoSuchElementException.class)
+                  .until(d -> {
+                WebElement element = d.findElement(By.xpath(hostLocator))
+                        .getShadowRoot()
+                        .findElement(By.cssSelector(cssSelector));
+                return element.isDisplayed() ? element : null;
+          });
     }
 
     // далее можно дописывать любые необходимые методы (инструменты) для взаимодействия с браузером,
