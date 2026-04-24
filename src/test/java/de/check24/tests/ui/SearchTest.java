@@ -23,6 +23,7 @@ public class SearchTest extends BaseUITest {
     @Test
     public void searchTest() {
         searchPage.setDestinationInput("Lara");
+        searchPage.clickFirstDestinationSuggestionItem();
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
