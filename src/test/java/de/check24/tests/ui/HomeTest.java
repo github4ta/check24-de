@@ -35,6 +35,10 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("HP105 - Label 'Anmelden' is displayed")
+    void testHP105() {
+        assertThat(
+                homePage.isLabelAnmeldenDisplayed())
     @DisplayName("HP102 - Label 'Aktivitäten' is displayed")
     void testHP102() {
         assertThat(
