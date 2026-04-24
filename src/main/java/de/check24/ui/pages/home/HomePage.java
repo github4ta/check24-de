@@ -17,6 +17,8 @@ public class HomePage extends BasePage {
 
     public boolean isLabelAnmeldenDisplayed() {
         return isElementDisplayedWithWait(LABEL_AMNELDEN, 5);
+    }
+
     public boolean isLabelAktivitätenDisplayed() {
         return isElementDisplayedWithWait(LABEL_AKTIVITATEN, 5);
     }
