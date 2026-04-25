@@ -30,7 +30,7 @@ public class HomePage extends BasePage {
         Driver.click(QUICK_CHIPS_LINK_HOTEL);
     }
 
-    public boolean isPlaceholderInInputFieldDisplayedAndEqualsToExpectedValue() {
-        return isElementDisplayedWithExpectedValue(SEARCH_HEADER,SEARCH_HEADER_PLACEHOLDER_EXPECTED_TEXT);
+    public boolean isPlaceholderValueEqualsToExpected() {
+        return isAttributeValueEqualsToExpected(SEARCH_HEADER,"placeholder",SEARCH_HEADER_PLACEHOLDER_EXPECTED_TEXT);
     }
 }

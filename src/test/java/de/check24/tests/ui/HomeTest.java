@@ -54,7 +54,7 @@ public class HomeTest extends BaseUITest {
     @DisplayName("HP101 - Placeholder in search input is displayed")
     void testHP101() {
         assertThat(
-                homePage.isPlaceholderInInputFieldDisplayedAndEqualsToExpectedValue())
+                homePage.isPlaceholderValueEqualsToExpected())
                 .isTrue();
     }
 }

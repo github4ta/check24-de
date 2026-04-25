@@ -100,13 +100,18 @@ public class Driver {
           });
     }
 
-    public static boolean isElementDisplayedWithExpectedValue(String locator,String expectedPlaceholder) {
-        WebElement searchInput = getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
-        String actualPlaceholder = searchInput.getAttribute("placeholder");
-        if(actualPlaceholder != null && !actualPlaceholder.isEmpty()){
-            return actualPlaceholder.equals(expectedPlaceholder);
+    public static String getElementAttribute(String locator, String attributeName) {
+            WebElement element = getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+            String value = element.getAttribute(attributeName);
+            return (value != null) ? value : "";
+    }
+
+    public static boolean isAttributeValueEqualsToExpected(String locator, String attributeName, String expectedValue) {
+        String actualValue = getElementAttribute(locator, attributeName);
+        if (actualValue.isEmpty() && !expectedValue.isEmpty()) {
+            return false;
         }
-        return false;
+        return actualValue.equals(expectedValue);
     }
 
     // далее можно дописывать любые необходимые методы (инструменты) для взаимодействия с браузером,
