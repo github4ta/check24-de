@@ -3,8 +3,8 @@ package de.check24.ui.pages.home;
 import de.check24.ui.driver.Driver;
 import de.check24.ui.pages.base.BasePage;
 
-import static de.check24.ui.driver.Driver.getText;
-import static de.check24.ui.driver.Driver.isElementDisplayedWithWait;
+import static de.check24.ui.driver.Driver.*;
+import static de.check24.ui.pages.home.HomeText.*;
 
 
 public class HomePage extends BasePage {
@@ -12,6 +12,7 @@ public class HomePage extends BasePage {
     private final String LABEL_AMNELDEN = "//div[@class='c24-customer-icon c24-customer-icon-lo c24-icon']";
     private final String LABEL_AKTIVITATEN = "//a[@class='c24-activities-icon c24-header-hover']";
     private final String QUICK_CHIPS_LINK_HOTEL = "//a[@data-identifier='hotel']";
+    private final String SEARCH_HEADER = "//input[@id='c24-search-header']";
 
     public String getFooterCompanyLine() {
         return getText(FOOTER_COMPANY_LINE);
@@ -27,5 +28,9 @@ public class HomePage extends BasePage {
 
     public void clickQuickChipsLinkHotel() {
         Driver.click(QUICK_CHIPS_LINK_HOTEL);
+    }
+
+    public boolean isPlaceholderInInputFieldDisplayedAndEqualsToExpectedValue() {
+        return isElementDisplayedWithExpectedValue(SEARCH_HEADER,SEARCH_HEADER_PLACEHOLDER_EXPECTED_TEXT);
     }
 }

@@ -100,6 +100,15 @@ public class Driver {
           });
     }
 
+    public static boolean isElementDisplayedWithExpectedValue(String locator,String expectedPlaceholder) {
+        WebElement searchInput = getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+        String actualPlaceholder = searchInput.getAttribute("placeholder");
+        if(actualPlaceholder != null && !actualPlaceholder.isEmpty()){
+            return actualPlaceholder.equals(expectedPlaceholder);
+        }
+        return false;
+    }
+
     // далее можно дописывать любые необходимые методы (инструменты) для взаимодействия с браузером,
     // вкладками, страницей и элементами
 

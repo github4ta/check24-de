@@ -49,4 +49,13 @@ public class HomeTest extends BaseUITest {
                 homePage.isLabelAktivitätenDisplayed())
                 .isTrue();
     }
+
+    @Test
+    @DisplayName("HP101 - Placeholder in search input is displayed")
+    void testHP101() {
+        assertThat(
+                homePage.isPlaceholderInInputFieldDisplayedAndEqualsToExpectedValue())
+                .withFailMessage("Actual placeholfder is not equal to expected")
+                .isTrue();
+    }
 }
