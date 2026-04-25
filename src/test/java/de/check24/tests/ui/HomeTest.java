@@ -55,7 +55,6 @@ public class HomeTest extends BaseUITest {
     void testHP101() {
         assertThat(
                 homePage.isPlaceholderInInputFieldDisplayedAndEqualsToExpectedValue())
-                .withFailMessage("Actual placeholfder is not equal to expected")
                 .isTrue();
     }
 }
