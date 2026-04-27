@@ -15,7 +15,10 @@ public class SearchPage extends BasePage {
     private final String RESULT_LIST_CONTENT_CONTAINER = "//div[@data-test-id-qa='results-list-content-container']/div";
     private final String INTELLIGENT_FILTER_INPUT = "//textarea[@class='a27f8c739-textArea']";
     private final String HOTEL_CARD_DESCRIPTION = "//div[contains(@class,'hotelResultContent__withPadding')]";
-
+    private final String IHR_BUDGET_SLIDER = "//div[contains(@class, '-rail')]";
+    private final String MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
+    private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
+    private final String RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']";
     public void clickSplashScreenButtonClose() {
         Driver.click(SPLASH_SCREEN_BUTTON_CLOSE);
     }
@@ -44,6 +47,10 @@ public class SearchPage extends BasePage {
         return Driver.getQuantityOfElements(RESULT_LIST_CONTENT_CONTAINER);
     }
 
+    public List<Double> getPrises() {
+        return Driver.getPrices(RESULT_LIST_PRICE);
+    }
+
     public void fillIntelligentFilter(String value) {
         Driver.sendKeys(INTELLIGENT_FILTER_INPUT, value);
     }
@@ -56,5 +63,17 @@ public class SearchPage extends BasePage {
 
             return isUpdated ? currentTexts : null;
          });
+    }
+
+    public void scrollIhrBudgetSliderToCenter() {
+        Driver.scrollSliderToCenter(IHR_BUDGET_SLIDER);
+    }
+
+    public void scrollScreen() {
+        Driver.scrollScreenToTheEnd();
+    }
+
+    public boolean isPriceInChosenDiapazon() {
+        return Driver.isAttributeInChosenDiapazon(MIN_PRICE_RANGE,MAX_PRICE_RANGE,RESULT_LIST_PRICE);
     }
 }
