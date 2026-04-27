@@ -100,8 +100,23 @@ public class Driver {
           });
     }
 
-    // далее можно дописывать любые необходимые методы (инструменты) для взаимодействия с браузером,
-    // вкладками, страницей и элементами
 
+    public static void sendKeys(String locator, String value) {
+        WebElement element = getWait(10).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
+        element.clear();
+        element.sendKeys(value);
+        element.sendKeys(org.openqa.selenium.Keys.ENTER);
+    }
 
+    public static List<String> getTexts(String locator) {
+        return getWait(10)
+            .ignoring(org.openqa.selenium.StaleElementReferenceException.class)
+            .until(d -> {
+                List<org.openqa.selenium.WebElement> elements = d.findElements(org.openqa.selenium.By.xpath(locator));
+                return elements.stream()
+                        .map(org.openqa.selenium.WebElement::getText)
+                        .filter(text -> text != null && !text.isBlank())
+                        .toList();
+            });
+    }
 }
