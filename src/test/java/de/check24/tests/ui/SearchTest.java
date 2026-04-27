@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.List;
 
 public class SearchTest extends BaseUITest {
     private SearchPage searchPage;
@@ -42,19 +41,10 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
-        searchPage.fillIntelligentFilter("Dachterrasse");
-        List<String> descriptions = searchPage.getAllHotelDescriptions("Dachterrasse");
 
-        assertThat(descriptions)
-                .as("Hotel descriptions list")
-                .isNotEmpty()
-                .allSatisfy(description -> {
-                    String cleanDescription = description.replace("\n", " ").replaceAll("\\s+", " ");
+        searchPage.setIntelligentFilter("Dachterrasse");
 
-                    assertThat(cleanDescription.toLowerCase())
-                            .as("Checking keyword in hotel: " + cleanDescription)
-                            .contains("dachterrasse");
-                });
+        assertThat(searchPage.isHotelDescriptionsContain("Dachterrasse")).isTrue();
     }
 
     @Test
@@ -66,10 +56,8 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
 
-        searchPage.setFilterOptions("Unterkunftstyp", "Motel");
-        assertThat(
-                searchPage.isHotelNamesContain("Motel"))
-                .isTrue();
+        searchPage.setFilterOptionWithMoreLink("Unterkunftstyp", "Motel");
 
+        assertThat(searchPage.isHotelNamesContain("Motel")).isTrue();
     }
 }
