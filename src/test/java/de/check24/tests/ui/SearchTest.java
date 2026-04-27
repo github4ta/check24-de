@@ -6,10 +6,8 @@ import de.check24.ui.pages.search.SearchPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
 
 public class SearchTest extends BaseUITest {
     private SearchPage searchPage;
@@ -57,5 +55,21 @@ public class SearchTest extends BaseUITest {
                             .as("Checking keyword in hotel: " + cleanDescription)
                             .contains("dachterrasse");
                 });
+    }
+
+    @Test
+    @DisplayName("SP112 - The search results include 'motel'")
+    public void testSP112() {
+        searchPage.setDestinationInput("Hamburg");
+        searchPage.clickFirstDestinationSuggestionItem();
+        searchPage.clickDateRangePickerInput();
+        searchPage.clickDataTodayButton();
+        searchPage.clickSuchenSubmitButton();
+
+        searchPage.setFilterOptions("Unterkunftstyp", "Motel");
+        assertThat(
+                searchPage.isHotelNamesContain("Motel"))
+                .isTrue();
+
     }
 }
