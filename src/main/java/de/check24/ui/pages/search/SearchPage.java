@@ -44,14 +44,17 @@ public class SearchPage extends BasePage {
         return Driver.getQuantityOfElements(RESULT_LIST_CONTENT_CONTAINER);
     }
 
-    public void fillIntelligentFilter(String value) {Driver.sendKeys(INTELLIGENT_FILTER_INPUT, value);}
+    public void fillIntelligentFilter(String value) {
+        Driver.sendKeys(INTELLIGENT_FILTER_INPUT, value);
+    }
 
-    public List<String> getAllHotelDescriptions() {
+    public List<String> getAllHotelDescriptions(String keyword) {
          return Driver.getWait(10).until(d -> {
-             List<String> currentTexts = Driver.getTexts(HOTEL_CARD_DESCRIPTION);
+            List<String> currentTexts = Driver.getTexts(HOTEL_CARD_DESCRIPTION);
              boolean isUpdated = currentTexts.stream()
-                .anyMatch(text -> text.toLowerCase().contains("dach"));
-             return isUpdated ? currentTexts : null;
-    });
+                .anyMatch(text -> text.toLowerCase().contains(keyword.toLowerCase()));
+
+            return isUpdated ? currentTexts : null;
+         });
     }
 }

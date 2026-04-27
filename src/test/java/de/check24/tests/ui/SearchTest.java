@@ -3,12 +3,13 @@ package de.check24.tests.ui;
 import de.check24.tests.ui.base.BaseUITest;
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.search.SearchPage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SearchTest extends BaseUITest {
     private SearchPage searchPage;
@@ -44,18 +45,17 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
         searchPage.fillIntelligentFilter("Dachterrasse");
+        List<String> descriptions = searchPage.getAllHotelDescriptions("Dachterrasse");
 
-        List<String> descriptions = searchPage.getAllHotelDescriptions();
-        int count = descriptions.size();
-        System.out.println("Anzahl der gefundenen Hotels: " + count);
+        assertThat(descriptions)
+                .as("Hotel descriptions list")
+                .isNotEmpty()
+                .allSatisfy(description -> {
+                    String cleanDescription = description.replace("\n", " ").replaceAll("\\s+", " ");
 
-        for (String description : descriptions) {
-            String cleanDescription = description.replace("\n", " ").replaceAll("\\s+", " ");
-
-            Assertions.assertTrue(
-                    cleanDescription.toLowerCase().contains("dachterrasse"),
-                    "Keyword 'Dachterrasse' not found! Full text was: " + cleanDescription
-            );
-        }
+                    assertThat(cleanDescription.toLowerCase())
+                            .as("Checking keyword in hotel: " + cleanDescription)
+                            .contains("dachterrasse");
+                });
     }
 }
