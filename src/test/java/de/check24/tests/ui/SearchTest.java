@@ -72,4 +72,20 @@ public class SearchTest extends BaseUITest {
                 .isTrue();
 
     }
+
+    @Test
+    @DisplayName("SP111-Search city: 'Berlin', filter Ihr Budget (pro Nacht)")
+    void testSP111() {
+        searchPage.setDestinationInput("Berlin");
+        searchPage.clickFirstDestinationSuggestionItem();
+        searchPage.clickDateRangePickerInput();
+        searchPage.clickDataTodayButton();
+        searchPage.clickSuchenSubmitButton();
+        searchPage.scrollIhrBudgetSliderToCenter();
+        searchPage.scrollScreen();
+
+        assertThat(searchPage.isPriceInChosenDiapazon())
+                .isTrue();
+    }
+
 }

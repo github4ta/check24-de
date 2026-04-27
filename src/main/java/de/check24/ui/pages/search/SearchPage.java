@@ -19,9 +19,12 @@ public class SearchPage extends BasePage {
     private final String FILTER_CATEGORY_TITLE = "//div[@data-test-id-qa='dynamic-filter-category-title']";
     private final String MEHR_ANZEIGEN = "//a[text()='mehr anzeigen']";
     private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
-
+    private final String IHR_BUDGET_SLIDER = "//div[contains(@class, '-rail')]";
+    private final String MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
+    private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
+    private final String RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']";
     public void clickSplashScreenButtonClose() {
-        Driver.click(SPLASH_SCREEN_BUTTON_CLOSE);
+        Driver.waitAndClick(SPLASH_SCREEN_BUTTON_CLOSE);
     }
 
     public void setDestinationInput(String destination) {
@@ -96,5 +99,17 @@ public class SearchPage extends BasePage {
             if (!name.getText().contains(value)) return false;
         }
         return true;
+    }
+
+    public void scrollIhrBudgetSliderToCenter() {
+        Driver.scrollSliderToCenter(IHR_BUDGET_SLIDER);
+    }
+
+    public void scrollScreen() {
+        Driver.scrollScreenToTheEnd();
+    }
+
+    public boolean isPriceInChosenDiapazon() {
+        return Driver.isAttributeInChosenDiapazon(MIN_PRICE_RANGE,MAX_PRICE_RANGE,RESULT_LIST_PRICE);
     }
 }
