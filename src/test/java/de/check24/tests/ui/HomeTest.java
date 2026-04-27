@@ -44,4 +44,12 @@ public class HomeTest extends BaseUITest {
         assertThat(homePage.isLabelChatDisplayed())
                 .as("Chat label should be displayed").isTrue();
     }
+
+    @Test
+    @DisplayName("HP101 - Placeholder in search input is displayed")
+    void testHP101() {
+        assertThat(
+                homePage.isPlaceholderValueEqualsToExpected())
+                .isTrue();
+    }
 }
