@@ -11,6 +11,7 @@ public class HomePage extends BasePage {
     private final String FOOTER_COMPANY_LINE = "//div[@class='c24-footer-company-line']";
     private final String LABEL_AMNELDEN = "//div[@class='c24-customer-icon c24-customer-icon-lo c24-icon']";
     private final String LABEL_AKTIVITATEN = "//a[@class='c24-activities-icon c24-header-hover']";
+    private final String LABEL_CHAT = "//*[@id=\"c24-header-top\"]/div/div[2]/div[6]/a/span/span";
     private final String QUICK_CHIPS_LINK_HOTEL = "//a[@data-identifier='hotel']";
     private final String SEARCH_HEADER = "//input[@id='c24-search-header']";
 
@@ -24,6 +25,10 @@ public class HomePage extends BasePage {
 
     public boolean isLabelAktivitätenDisplayed() {
         return isElementDisplayedWithWait(LABEL_AKTIVITATEN, 5);
+    }
+
+    public  boolean isLabelChatDisplayed() {
+        return isElementDisplayedWithWait(LABEL_CHAT, 5);
     }
 
     public void clickQuickChipsLinkHotel() {
