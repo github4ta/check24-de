@@ -20,7 +20,7 @@ public class SearchPage extends BasePage {
     private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
     private final String RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']";
     public void clickSplashScreenButtonClose() {
-        Driver.click(SPLASH_SCREEN_BUTTON_CLOSE);
+        Driver.waitAndClick(SPLASH_SCREEN_BUTTON_CLOSE);
     }
 
     public void setDestinationInput(String destination) {

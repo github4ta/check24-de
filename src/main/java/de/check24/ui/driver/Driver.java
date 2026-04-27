@@ -52,7 +52,7 @@ public class Driver {
     }
 
     public static void click(String locator) {
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator))).click();
+        getDriver().findElement(By.xpath(locator)).click();
     }
 
     public static void click(WebElement element) {
