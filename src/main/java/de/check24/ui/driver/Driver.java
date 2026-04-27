@@ -114,8 +114,13 @@ public class Driver {
         return actualValue.equals(expectedValue);
     }
 
-    // далее можно дописывать любые необходимые методы (инструменты) для взаимодействия с браузером,
-    // вкладками, страницей и элементами
+    public static WebElement waitAndGetChild(WebElement parent, String locator) {
+        return getWait(10).until(ExpectedConditions
+                .presenceOfNestedElementLocatedBy(parent, By.xpath(locator)));
+    }
 
-
+    public static List<WebElement> getElementList(String locator) {
+        getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
+        return getDriver().findElements(By.xpath(locator));
+    }
 }
