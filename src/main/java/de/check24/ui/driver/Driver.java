@@ -1,15 +1,13 @@
 package de.check24.ui.driver;
 
 import de.check24.config.ConfigLoader;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import org.openqa.selenium.Keys;
 
 public class Driver {
     private static final Duration DEFAULT_WAIT_SECONDS = Duration.ofSeconds(10);
@@ -117,6 +115,25 @@ public class Driver {
     public static WebElement waitAndGetChild(WebElement parent, String locator) {
         return getWait(10).until(ExpectedConditions
                 .presenceOfNestedElementLocatedBy(parent, By.xpath(locator)));
+    }
+
+    public static void sendKeys(String locator, String value) {
+        WebElement element = getWait(10).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
+        element.clear();
+        element.sendKeys(value);
+        element.sendKeys(Keys.ENTER);
+    }
+
+    public static List<String> getTexts(String locator) {
+        return getWait(10)
+                .ignoring(StaleElementReferenceException.class)
+                .until(d -> {
+                    List<WebElement> elements = d.findElements(By.xpath(locator));
+                    return elements.stream()
+                            .map(WebElement::getText)
+                            .filter(text -> text != null && !text.isBlank())
+                            .toList();
+                });
     }
 
     public static List<WebElement> getElementList(String locator) {
