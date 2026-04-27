@@ -2,7 +2,8 @@ package de.check24.ui.pages.search;
 
 import de.check24.ui.driver.Driver;
 import de.check24.ui.pages.base.BasePage;
-
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public class SearchPage extends BasePage {
@@ -15,6 +16,9 @@ public class SearchPage extends BasePage {
     private final String RESULT_LIST_CONTENT_CONTAINER = "//div[@data-test-id-qa='results-list-content-container']/div";
     private final String INTELLIGENT_FILTER_INPUT = "//textarea[@class='a27f8c739-textArea']";
     private final String HOTEL_CARD_DESCRIPTION = "//div[contains(@class,'hotelResultContent__withPadding')]";
+    private final String FILTER_CATEGORY_TITLE = "//div[@data-test-id-qa='dynamic-filter-category-title']";
+    private final String MEHR_ANZEIGEN = "//a[text()='mehr anzeigen']";
+    private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
     private final String IHR_BUDGET_SLIDER = "//div[contains(@class, '-rail')]";
     private final String MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
     private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
@@ -47,10 +51,6 @@ public class SearchPage extends BasePage {
         return Driver.getQuantityOfElements(RESULT_LIST_CONTENT_CONTAINER);
     }
 
-    public List<Double> getPrises() {
-        return Driver.getPrices(RESULT_LIST_PRICE);
-    }
-
     public void fillIntelligentFilter(String value) {
         Driver.sendKeys(INTELLIGENT_FILTER_INPUT, value);
     }
@@ -63,6 +63,42 @@ public class SearchPage extends BasePage {
 
             return isUpdated ? currentTexts : null;
          });
+    }
+
+    private WebElement getFilter(String title) {
+        List<WebElement> filters = Driver.getElementList(FILTER_CATEGORY_TITLE);
+        for (WebElement filter : filters) {
+            if (filter.getText().equals(title)) return filter;
+        }
+        return null;
+    }
+
+    private void clickMehrAnzeigen(WebElement element) {
+        Driver.click(element.findElement(By.xpath(MEHR_ANZEIGEN)));
+    }
+
+    private WebElement getGrandparent(WebElement element) {
+        return element.findElement(By.xpath("./../.."));
+    }
+
+    private void setOption(WebElement element, String text) {
+        String option = String.format("//div[@data-label='%s']", text);
+        Driver.click(Driver.waitAndGetChild(element, option));
+    }
+
+    public void setFilterOptions(String filterTitle, String option) {
+        WebElement filter = getFilter(filterTitle);
+        WebElement grandparent = getGrandparent(filter);
+        clickMehrAnzeigen(grandparent);
+        setOption(grandparent, option);
+    }
+
+    public boolean isHotelNamesContain(String value) {
+        List<WebElement> names = Driver.getElementList(HOTEL_NAME);
+        for (WebElement name : names) {
+            if (!name.getText().contains(value)) return false;
+        }
+        return true;
     }
 
     public void scrollIhrBudgetSliderToCenter() {
