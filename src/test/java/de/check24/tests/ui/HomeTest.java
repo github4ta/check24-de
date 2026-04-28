@@ -35,19 +35,14 @@ public class HomeTest extends BaseUITest {
     }
 
     @Test
-    @DisplayName("HP105 - Label 'Anmelden' is displayed")
-    void testHP105() {
-        assertThat(
-                homePage.isLabelAnmeldenDisplayed())
-                 .isTrue();
-    }
-
-    @Test
-    @DisplayName("HP102 - Label 'Aktivitäten' is displayed")
-    void testHP102() {
-        assertThat(
-                homePage.isLabelAktivitätenDisplayed())
-                .isTrue();
+    @DisplayName("HP102, HP104, HP105 - Labels 'Aktivitäten', 'Chat', 'Anmelden' are displayed")
+    void testHP102_HP104_HP105() {
+        assertThat(homePage.isLabelAktivitätenDisplayed())
+                .as("Aktivitäten label should be displayed").isTrue();
+        assertThat(homePage.isLabelAnmeldenDisplayed())
+                .as("Anmelden label should be displayed").isTrue();
+        assertThat(homePage.isLabelChatDisplayed())
+                .as("Chat label should be displayed").isTrue();
     }
 
     @Test
