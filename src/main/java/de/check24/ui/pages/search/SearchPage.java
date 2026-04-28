@@ -101,7 +101,7 @@ public class SearchPage extends BasePage {
         return true;
     }
 
-    public void selectMax3km() {
+    public void selectOptionMax3km() {
         waitAndClick(OPTION_MAX_3_KM);
     }
 }
