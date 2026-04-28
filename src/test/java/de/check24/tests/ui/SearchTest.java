@@ -6,8 +6,10 @@ import de.check24.ui.pages.search.SearchPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SearchTest extends BaseUITest {
     private SearchPage searchPage;
@@ -66,6 +68,8 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
 
+        // задать (чек) для фильта значение (опцию)
+        // searchPage.setFilterOption("Unterkunftstyp", "Motel");
         searchPage.setFilterOptions("Unterkunftstyp", "Motel");
         assertThat(
                 searchPage.isHotelNamesContain("Motel"))

@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
-import org.openqa.selenium.Keys;
 
 public class Driver {
     private static final Duration DEFAULT_WAIT_SECONDS = Duration.ofSeconds(10);
@@ -139,5 +138,26 @@ public class Driver {
     public static List<WebElement> getElementList(String locator) {
         getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
         return getDriver().findElements(By.xpath(locator));
+    }
+
+    public static void setFilterOption(String locator, String filterTitle, String option, boolean hasWithMehrAnzeigen) {
+        WebElement filter = getElementContainsText(locator, filterTitle);
+        WebElement grandparent = getGrandparent(filter);
+        click(grandparent);
+        clickElementContainsText(grandparent, option);
+    }
+
+    private static WebElement getElementContainsText(String locator, String title) {
+        String fullXPath = String.format("%s[contains(text(), '%s')]", locator, title);
+        return getDriver().findElement(By.xpath(fullXPath));
+    }
+
+    private static WebElement getGrandparent(WebElement element) {
+        return element.findElement(By.xpath("./../.."));
+    }
+
+    private static void clickElementContainsText(WebElement element, String text) {
+        String option = String.format("//div[@data-label='%s']", text);
+        Driver.click(Driver.waitAndGetChild(element, option));
     }
 }
