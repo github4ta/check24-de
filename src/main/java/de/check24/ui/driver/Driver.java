@@ -112,12 +112,7 @@ public class Driver {
         return actualValue.equals(expectedValue);
     }
 
-    public static WebElement waitAndGetChild(WebElement parent, String locator) {
-        return getWait(10).until(ExpectedConditions
-                .presenceOfNestedElementLocatedBy(parent, By.xpath(locator)));
-    }
-
-    public static void sendKeys(String locator, String value) {
+    public static void waitAndClearAndFillAndPressEnter(String locator, String value) {
         WebElement element = getWait(10).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
         element.clear();
         element.sendKeys(value);
@@ -134,10 +129,5 @@ public class Driver {
                             .filter(text -> text != null && !text.isBlank())
                             .toList();
                 });
-    }
-
-    public static List<WebElement> getElementList(String locator) {
-        getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
-        return getDriver().findElements(By.xpath(locator));
     }
 }
