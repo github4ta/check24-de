@@ -82,7 +82,7 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
 
-        searchPage.selectMax_3_km();
+        searchPage.selectMax3km();
         assertThat(searchPage.getContainers())
                 .as("Entfernung Zentrum with 3 km filter")
                 .isGreaterThan(0);
