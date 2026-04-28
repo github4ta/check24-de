@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import java.util.List;
 
+import static de.check24.ui.driver.Driver.waitAndClick;
+
 public class SearchPage extends BasePage {
     private final String SPLASH_SCREEN_BUTTON_CLOSE = "//div[@id='splashScreenContainer']//div[contains(@class, 'close')]";
     private final String DESTINATION_INPUT = "//input[@data-test-id-qa='destination-suggestion-input']";
@@ -19,6 +21,7 @@ public class SearchPage extends BasePage {
     private final String FILTER_CATEGORY_TITLE = "//div[@data-test-id-qa='dynamic-filter-category-title']";
     private final String MEHR_ANZEIGEN = "//a[text()='mehr anzeigen']";
     private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
+    private final String OPTION_MAX_3_KM = "//div[contains(text(),'max. 3 km')]";
 
     public void clickSplashScreenButtonClose() {
         Driver.click(SPLASH_SCREEN_BUTTON_CLOSE);
@@ -33,15 +36,15 @@ public class SearchPage extends BasePage {
     }
 
     public void clickFirstDestinationSuggestionItem() {
-        Driver.waitAndClick(DESTINATION_SUGGESTION_ITEM);
+        waitAndClick(DESTINATION_SUGGESTION_ITEM);
     }
 
     public void clickDataTodayButton() {
-        Driver.waitAndClick(DATA_TODAY_BUTTON);
+        waitAndClick(DATA_TODAY_BUTTON);
     }
 
     public void clickSuchenSubmitButton() {
-        Driver.waitAndClick(SUCHEN_SUBMIT_BUTTON);
+        waitAndClick(SUCHEN_SUBMIT_BUTTON);
     }
 
     public int getContainers() {
@@ -96,5 +99,9 @@ public class SearchPage extends BasePage {
             if (!name.getText().contains(value)) return false;
         }
         return true;
+    }
+
+    public void selectOptionMax3km() {
+        waitAndClick(OPTION_MAX_3_KM);
     }
 }
