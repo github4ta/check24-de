@@ -22,9 +22,12 @@ public class SearchPage extends BasePage {
     private final String FILTER_OPTION_TEMPLATE = "//div[@data-label=\"%s\"]";
     private final String MEHR_ANZEIGEN_LINK = "//a[text()='mehr anzeigen']";
     private final String SHORT_SUMMARIES_CONTAINER = "//div[contains(@class, 'shortSummariesContainer')]";
-
+    private final String IHR_BUDGET_SLIDER = "//div[contains(@class, '-rail')]";
+    private final String MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
+    private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
+    private final String RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']";
     public void clickSplashScreenButtonClose() {
-        Driver.click(SPLASH_SCREEN_BUTTON_CLOSE);
+        Driver.waitAndClick(SPLASH_SCREEN_BUTTON_CLOSE);
     }
 
     public void setDestinationInput(String destination) {
@@ -86,5 +89,17 @@ public class SearchPage extends BasePage {
 
     public void selectOptionMax5km() {
         waitAndClick(OPTION_MAX_5_KM);
+    }
+
+    public void scrollIhrBudgetSliderToCenter() {
+        Driver.scrollSliderToCenter(IHR_BUDGET_SLIDER);
+    }
+
+    public void scrollScreen() {
+        Driver.scrollScreenToTheEnd();
+    }
+
+    public boolean isPriceInChosenDiapazon() {
+        return Driver.isAttributeInChosenDiapazon(MIN_PRICE_RANGE,MAX_PRICE_RANGE,RESULT_LIST_PRICE);
     }
 }
