@@ -21,7 +21,7 @@ public class SearchPage extends BasePage {
     private final String FILTER_CATEGORY_TITLE = "//div[@data-test-id-qa='dynamic-filter-category-title']";
     private final String MEHR_ANZEIGEN = "//a[text()='mehr anzeigen']";
     private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
-    private final String OPTION_MAX_3_KM = "//div[contains(text(),'max. 3 km')]";
+    private final String OPTION_MAX_3_KM = "//div[contains(@data-label,'3 km')]";
 
     public void clickSplashScreenButtonClose() {
         Driver.click(SPLASH_SCREEN_BUTTON_CLOSE);
