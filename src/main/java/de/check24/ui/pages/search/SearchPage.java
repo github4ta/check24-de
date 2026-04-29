@@ -5,6 +5,8 @@ import de.check24.ui.pages.base.BasePage;
 
 import java.util.List;
 
+import static de.check24.ui.driver.Driver.waitAndClick;
+
 public class SearchPage extends BasePage {
     private final String SPLASH_SCREEN_BUTTON_CLOSE = "//div[@id='splashScreenContainer']//div[contains(@class, 'close')]";
     private final String DESTINATION_INPUT = "//input[@data-test-id-qa='destination-suggestion-input']";
@@ -15,6 +17,7 @@ public class SearchPage extends BasePage {
     private final String RESULT_LIST_CONTENT_CONTAINER = "//div[@data-test-id-qa='results-list-content-container']/div";
     private final String INTELLIGENT_FILTER_INPUT = "//textarea[@class='a27f8c739-textArea']";
     private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
+    private final String OPTION_MAX_5_KM = "//div[contains(@data-label,'5 km')]";
     private final String FILTER_TEMPLATE = "//section[@data-test-id-qa=\"filter-section-wrapper\" and contains(., '%s')]";
     private final String FILTER_OPTION_TEMPLATE = "//div[@data-label=\"%s\"]";
     private final String MEHR_ANZEIGEN_LINK = "//a[text()='mehr anzeigen']";
@@ -36,15 +39,15 @@ public class SearchPage extends BasePage {
     }
 
     public void clickFirstDestinationSuggestionItem() {
-        Driver.waitAndClick(DESTINATION_SUGGESTION_ITEM);
+        waitAndClick(DESTINATION_SUGGESTION_ITEM);
     }
 
     public void clickDataTodayButton() {
-        Driver.waitAndClick(DATA_TODAY_BUTTON);
+        waitAndClick(DATA_TODAY_BUTTON);
     }
 
     public void clickSuchenSubmitButton() {
-        Driver.waitAndClick(SUCHEN_SUBMIT_BUTTON);
+        waitAndClick(SUCHEN_SUBMIT_BUTTON);
     }
 
     public int getContainers() {
@@ -82,6 +85,10 @@ public class SearchPage extends BasePage {
             if (!name.contains(text)) return false;
         }
         return true;
+    }
+
+    public void selectOptionMax5km() {
+        waitAndClick(OPTION_MAX_5_KM);
     }
 
     public void scrollIhrBudgetSliderToCenter() {

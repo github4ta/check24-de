@@ -62,6 +62,21 @@ public class SearchTest extends BaseUITest {
     }
 
     @Test
+    @DisplayName("SP113 - 'Entfernung Zentrum' Filter")
+    public void testSP113() {
+        searchPage.setDestinationInput("Köln");
+        searchPage.clickFirstDestinationSuggestionItem();
+        searchPage.clickDateRangePickerInput();
+        searchPage.clickDataTodayButton();
+        searchPage.clickSuchenSubmitButton();
+
+        searchPage.selectOptionMax5km();
+        assertThat(searchPage.getContainers())
+                .as("Entfernung Zentrum with 5 km filter")
+                .isGreaterThan(0);
+    }
+
+    @Test
     @DisplayName("SP111-Search city: 'Berlin', filter Ihr Budget (pro Nacht)")
     void testSP111() {
         searchPage.setDestinationInput("Berlin");
