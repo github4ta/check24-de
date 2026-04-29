@@ -2,8 +2,7 @@ package de.check24.ui.pages.search;
 
 import de.check24.ui.driver.Driver;
 import de.check24.ui.pages.base.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+
 import java.util.List;
 
 public class SearchPage extends BasePage {
@@ -15,10 +14,11 @@ public class SearchPage extends BasePage {
     private final String SUCHEN_SUBMIT_BUTTON = "//button[@data-test-id-qa='submit']";
     private final String RESULT_LIST_CONTENT_CONTAINER = "//div[@data-test-id-qa='results-list-content-container']/div";
     private final String INTELLIGENT_FILTER_INPUT = "//textarea[@class='a27f8c739-textArea']";
-    private final String HOTEL_CARD_DESCRIPTION = "//div[contains(@class,'hotelResultContent__withPadding')]";
-    private final String FILTER_CATEGORY_TITLE = "//div[@data-test-id-qa='dynamic-filter-category-title']";
-    private final String MEHR_ANZEIGEN = "//a[text()='mehr anzeigen']";
     private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
+    private final String FILTER_TEMPLATE = "//section[@data-test-id-qa=\"filter-section-wrapper\" and contains(., '%s')]";
+    private final String FILTER_OPTION_TEMPLATE = "//div[@data-label=\"%s\"]";
+    private final String MEHR_ANZEIGEN_LINK = "//a[text()='mehr anzeigen']";
+    private final String SHORT_SUMMARIES_CONTAINER = "//div[contains(@class, 'shortSummariesContainer')]";
     private final String IHR_BUDGET_SLIDER = "//div[contains(@class, '-rail')]";
     private final String MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
     private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
@@ -51,52 +51,35 @@ public class SearchPage extends BasePage {
         return Driver.getQuantityOfElements(RESULT_LIST_CONTENT_CONTAINER);
     }
 
-    public void fillIntelligentFilter(String value) {
-        Driver.sendKeys(INTELLIGENT_FILTER_INPUT, value);
+    public void setIntelligentFilter(String value) {
+        Driver.waitAndClearAndFillAndPressEnter(INTELLIGENT_FILTER_INPUT, value);
     }
 
-    public List<String> getAllHotelDescriptions(String keyword) {
-         return Driver.getWait(10).until(d -> {
-            List<String> currentTexts = Driver.getTexts(HOTEL_CARD_DESCRIPTION);
-             boolean isUpdated = currentTexts.stream()
-                .anyMatch(text -> text.toLowerCase().contains(keyword.toLowerCase()));
-
-            return isUpdated ? currentTexts : null;
-         });
-    }
-
-    private WebElement getFilter(String title) {
-        List<WebElement> filters = Driver.getElementList(FILTER_CATEGORY_TITLE);
-        for (WebElement filter : filters) {
-            if (filter.getText().equals(title)) return filter;
+    public boolean isHotelDescriptionsContain(String text) {
+        List<String> descriptions = Driver.getTexts(SHORT_SUMMARIES_CONTAINER);
+        for (String description : descriptions) {
+            if (!description.toLowerCase().contains(text.toLowerCase())) return false;
         }
-        return null;
+        return true;
     }
 
-    private void clickMehrAnzeigen(WebElement element) {
-        Driver.click(element.findElement(By.xpath(MEHR_ANZEIGEN)));
+    private void clickMehrAnzeigenForFilter(String filter) {
+        Driver.waitAndClick(String.format(FILTER_TEMPLATE + MEHR_ANZEIGEN_LINK, filter));
     }
 
-    private WebElement getGrandparent(WebElement element) {
-        return element.findElement(By.xpath("./../.."));
+    private void setFilterOption(String filter, String option) {
+        Driver.click(String.format(FILTER_TEMPLATE + FILTER_OPTION_TEMPLATE, filter, option));
     }
 
-    private void setOption(WebElement element, String text) {
-        String option = String.format("//div[@data-label='%s']", text);
-        Driver.click(Driver.waitAndGetChild(element, option));
+    public void setFilterOptionWithMoreLink(String filter, String option) {
+        clickMehrAnzeigenForFilter(filter);
+        setFilterOption(filter, option);
     }
 
-    public void setFilterOptions(String filterTitle, String option) {
-        WebElement filter = getFilter(filterTitle);
-        WebElement grandparent = getGrandparent(filter);
-        clickMehrAnzeigen(grandparent);
-        setOption(grandparent, option);
-    }
-
-    public boolean isHotelNamesContain(String value) {
-        List<WebElement> names = Driver.getElementList(HOTEL_NAME);
-        for (WebElement name : names) {
-            if (!name.getText().contains(value)) return false;
+    public boolean isHotelNamesContain(String text) {
+        List<String> names = Driver.getTexts(HOTEL_NAME);
+        for (String name : names) {
+            if (!name.contains(text)) return false;
         }
         return true;
     }
