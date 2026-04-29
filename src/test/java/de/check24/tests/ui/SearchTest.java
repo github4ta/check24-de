@@ -72,7 +72,7 @@ public class SearchTest extends BaseUITest {
 
         searchPage.selectOptionMax5km();
         assertThat(searchPage.getContainers())
-                .as("Entfernung Zentrum with 3 km filter")
+                .as("Entfernung Zentrum with 5 km filter")
                 .isGreaterThan(0);
     }
 }
