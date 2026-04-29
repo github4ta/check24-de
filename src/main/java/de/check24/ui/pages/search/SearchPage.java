@@ -17,7 +17,7 @@ public class SearchPage extends BasePage {
     private final String RESULT_LIST_CONTENT_CONTAINER = "//div[@data-test-id-qa='results-list-content-container']/div";
     private final String INTELLIGENT_FILTER_INPUT = "//textarea[@class='a27f8c739-textArea']";
     private final String HOTEL_NAME = "//span[@data-test-id-qa='hotel-name']";
-    private final String OPTION_MAX_3_KM = "//div[contains(@data-label,'3 km')]";
+    private final String OPTION_MAX_5_KM = "//div[contains(@data-label,'5 km')]";
     private final String FILTER_TEMPLATE = "//section[@data-test-id-qa=\"filter-section-wrapper\" and contains(., '%s')]";
     private final String FILTER_OPTION_TEMPLATE = "//div[@data-label=\"%s\"]";
     private final String MEHR_ANZEIGEN_LINK = "//a[text()='mehr anzeigen']";
@@ -84,7 +84,7 @@ public class SearchPage extends BasePage {
         return true;
     }
 
-    public void selectOptionMax3km() {
-        waitAndClick(OPTION_MAX_3_KM);
+    public void selectOptionMax5km() {
+        waitAndClick(OPTION_MAX_5_KM);
     }
 }
