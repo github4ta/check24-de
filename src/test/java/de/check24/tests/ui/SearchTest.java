@@ -60,4 +60,19 @@ public class SearchTest extends BaseUITest {
 
         assertThat(searchPage.isHotelNamesContain("Motel")).isTrue();
     }
+
+    @Test
+    @DisplayName("SP113 - 'Entfernung Zentrum' Filter")
+    public void testSP113() {
+        searchPage.setDestinationInput("Köln");
+        searchPage.clickFirstDestinationSuggestionItem();
+        searchPage.clickDateRangePickerInput();
+        searchPage.clickDataTodayButton();
+        searchPage.clickSuchenSubmitButton();
+
+        searchPage.selectOptionMax5km();
+        assertThat(searchPage.getContainers())
+                .as("Entfernung Zentrum with 5 km filter")
+                .isGreaterThan(0);
+    }
 }
