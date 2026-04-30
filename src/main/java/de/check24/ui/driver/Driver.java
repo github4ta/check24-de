@@ -149,13 +149,8 @@ public class Driver {
         getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
     }
 
-    public static int getMinRangePrice(String minPriceLocator) {
-        String minText = getText(minPriceLocator).replaceAll("[^0-9.]", "");
-        return Integer.parseInt(minText);
-    }
-
-    public static int getMaxRangePrice(String maxPriceLocator) {
-        String maxText = getText(maxPriceLocator).replaceAll("[^0-9.]", "");
-        return Integer.parseInt(maxText);
+    public static int getRangePrice(String rangePriceLocator) {
+        String rangePriceAsText = getText(rangePriceLocator).replaceAll("[^0-9.]", "");
+        return Integer.parseInt(rangePriceAsText);
     }
 }
