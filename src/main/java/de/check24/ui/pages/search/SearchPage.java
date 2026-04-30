@@ -96,10 +96,32 @@ public class SearchPage extends BasePage {
     }
 
     public void scrollScreen() {
-        Driver.scrollScreenToTheEnd();
+        Driver.scrollScreenToTheEnd(RESULT_LIST_PRICE);
     }
 
-    public boolean isPriceInChosenDiapazon() {
-        return Driver.isAttributeInChosenDiapazon(MIN_PRICE_RANGE,MAX_PRICE_RANGE,RESULT_LIST_PRICE);
+    private List<Integer> parsePrice(List<String> list) {
+        return list.stream()
+                .map(text -> {
+                    String cleaned = text.trim();
+                    if (cleaned.contains(".") && cleaned.contains(",")) {
+                        cleaned = cleaned.replace(".", "");
+                    }
+                    cleaned = cleaned.replace(",", ".");
+                    return cleaned.replaceAll("[^0-9.]", "");
+                })
+                .map(s -> (int) Math.round(Double.parseDouble(s)))
+                .toList();
+    }
+
+    private List<Integer> getPrices() {
+        List<String> textListPrices = Driver.getTexts(RESULT_LIST_PRICE);
+        return parsePrice(textListPrices);
+    }
+
+    public boolean isPriceInChosenRange() {
+        int minPrice = Driver.getMinRangePrice(MIN_PRICE_RANGE);
+        int maxPrice = Driver.getMaxRangePrice(MAX_PRICE_RANGE);
+        List<Integer> prices = getPrices();
+        return prices.stream().allMatch(p -> p >= minPrice && p <= maxPrice);
     }
 }

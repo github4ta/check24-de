@@ -137,45 +137,25 @@ public class Driver {
         return getDriver().findElements(By.xpath(locator));
     }
 
-    public static List<Double> getPrices(String locator) {
-        getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
-        return getWait(10)
-                .ignoring(StaleElementReferenceException.class)
-                .until(d -> {
-                    List<WebElement> elements = d.findElements(By.xpath(locator));
-                    return elements.stream()
-                            .map(el -> el.getAttribute("innerText"))
-                            .filter(text -> text != null && !text.trim().isEmpty())
-                            .map(text -> {
-                                String cleaned = text.trim();
-                                if (cleaned.contains(".") && cleaned.contains(",")) {
-                                    cleaned = cleaned.replace(".", "");
-                                }
-                                cleaned = cleaned.replace(",", ".");
-                                return cleaned.replaceAll("[^0-9.]", "");
-                            })
-                            .map(Double::parseDouble)
-                            .toList();
-                });
-    }
-
     public static void scrollSliderToCenter(String locator) {
         WebElement slider = getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
         Actions action = new Actions(getDriver());
         action.clickAndHold(slider).moveByOffset(10, 0).release().build().perform();
     }
 
-    public static void scrollScreenToTheEnd() {
+    public static void scrollScreenToTheEnd(String locator) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+        getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
     }
 
-    public static boolean isAttributeInChosenDiapazon(String minPriceLocator,String maxPriceLocator,String priceLocator) {
-        String minText = getDriver().findElement(By.xpath(minPriceLocator)).getText().replaceAll("[^0-9.]", "");
-        String maxText = getDriver().findElement(By.xpath(maxPriceLocator)).getText().replaceAll("[^0-9.]", "");
-        double minPrice = Double.parseDouble(minText);
-        double maxPrice = Double.parseDouble(maxText);
-        List<Double> prices = getPrices(priceLocator);
-        return prices.stream().allMatch(p -> p >= minPrice && p <= maxPrice);
+    public static int getMinRangePrice(String minPriceLocator) {
+        String minText = getText(minPriceLocator).replaceAll("[^0-9.]", "");
+        return Integer.parseInt(minText);
+    }
+
+    public static int getMaxRangePrice(String maxPriceLocator) {
+        String maxText = getText(maxPriceLocator).replaceAll("[^0-9.]", "");
+        return Integer.parseInt(maxText);
     }
 }

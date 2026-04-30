@@ -87,7 +87,7 @@ public class SearchTest extends BaseUITest {
         searchPage.scrollIhrBudgetSliderToCenter();
         searchPage.scrollScreen();
 
-        assertThat(searchPage.isPriceInChosenDiapazon())
+        assertThat(searchPage.isPriceInChosenRange())
                 .isTrue();
     }
 
