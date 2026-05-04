@@ -68,8 +68,7 @@ public class Driver {
     }
 
     public static void waitAndClick(String locator) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), DEFAULT_WAIT_SECONDS);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+        WebElement element = getWait(15).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
         element.click();
     }
 
@@ -121,15 +120,14 @@ public class Driver {
     }
 
     public static List<String> getTexts(String locator) {
-        return getWait(10)
-                .ignoring(StaleElementReferenceException.class)
-                .until(d -> {
-                    List<WebElement> elements = d.findElements(By.xpath(locator));
-                    return elements.stream()
-                            .map(WebElement::getText)
-                            .filter(text -> text != null && !text.isBlank())
-                            .toList();
-                });
+        List<WebElement> elements = getWait(10)
+                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(locator)));
+
+        return elements.stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .filter(text -> !text.isEmpty())
+                .toList();
     }
 
     public static List<WebElement> getElementList(String locator) {

@@ -3,8 +3,10 @@ package de.check24.ui.pages.search;
 import de.check24.ui.driver.Driver;
 import de.check24.ui.pages.base.BasePage;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import static de.check24.ui.driver.Driver.getTexts;
 import static de.check24.ui.driver.Driver.waitAndClick;
 
 public class SearchPage extends BasePage {
@@ -26,6 +28,8 @@ public class SearchPage extends BasePage {
     private final String MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
     private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
     private final String RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']";
+    private final String HOTEL_RATING = "//div[@data-test-id-qa='hotel-rating']";
+
     public void clickSplashScreenButtonClose() {
         Driver.waitAndClick(SPLASH_SCREEN_BUTTON_CLOSE);
     }
@@ -70,8 +74,8 @@ public class SearchPage extends BasePage {
         Driver.waitAndClick(String.format(FILTER_TEMPLATE + MEHR_ANZEIGEN_LINK, filter));
     }
 
-    private void setFilterOption(String filter, String option) {
-        Driver.click(String.format(FILTER_TEMPLATE + FILTER_OPTION_TEMPLATE, filter, option));
+    public void setFilterOption(String filter, String option) {
+        Driver.waitAndClick(String.format(FILTER_TEMPLATE + FILTER_OPTION_TEMPLATE, filter, option));
     }
 
     public void setFilterOptionWithMoreLink(String filter, String option) {
@@ -101,5 +105,21 @@ public class SearchPage extends BasePage {
 
     public boolean isPriceInChosenDiapazon() {
         return Driver.isAttributeInChosenDiapazon(MIN_PRICE_RANGE,MAX_PRICE_RANGE,RESULT_LIST_PRICE);
+    }
+
+    private int simpleParseAndScale(String value, int decimalPlaces) {
+        String numberStr = value.replaceAll("[^0-9.,]", "").replace(",", ".");
+        return new BigDecimal(numberStr)
+                .movePointRight(decimalPlaces)
+                .intValue();
+    }
+
+    public boolean isHotelRatingMoreThan(int rating) {
+        List<String> hotelRaitingList = getTexts(HOTEL_RATING);
+        rating *= 10;
+        for (String hotelRaiting : hotelRaitingList) {
+            if (rating > simpleParseAndScale(hotelRaiting, 1)) return false;
+        }
+        return true;
     }
 }
