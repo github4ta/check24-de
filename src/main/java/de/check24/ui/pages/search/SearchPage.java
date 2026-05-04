@@ -100,11 +100,46 @@ public class SearchPage extends BasePage {
     }
 
     public void scrollScreen() {
-        Driver.scrollScreenToTheEnd();
+        Driver.scrollScreenToTheEnd(RESULT_LIST_PRICE);
     }
 
-    public boolean isPriceInChosenDiapazon() {
-        return Driver.isAttributeInChosenDiapazon(MIN_PRICE_RANGE,MAX_PRICE_RANGE,RESULT_LIST_PRICE);
+    private String cleanText(String text) {
+        String cleaned = text.trim();
+        if (cleaned.contains(".") && cleaned.contains(",")) {
+            cleaned = cleaned.replace(".", "");
+        }
+        cleaned = cleaned.replace(",", ".");
+        return cleaned.replaceAll("[^0-9.]", "");
+    }
+
+    private int convertStringToInt(String s) {
+        return (int) Math.round(Double.parseDouble(s));
+    }
+    private List<Integer> parsePrice(List<String> list) {
+        return list.stream()
+                .map(this::cleanText)
+                .map(this::convertStringToInt)
+                .toList();
+    }
+
+    private List<Integer> getPrices() {
+        List<String> textListPrices = Driver.getTexts(RESULT_LIST_PRICE);
+        return parsePrice(textListPrices);
+    }
+
+    private int getMinRangePrice() {
+        return Driver.getRangePrice(MIN_PRICE_RANGE);
+    }
+
+    private int getMaxRangePrice() {
+        return Driver.getRangePrice(MAX_PRICE_RANGE);
+    }
+
+    public boolean isPriceInChosenRange() {
+        int minPrice = getMinRangePrice();
+        int maxPrice = getMaxRangePrice();
+        List<Integer> prices = getPrices();
+        return prices.stream().allMatch(p -> p >= minPrice && p <= maxPrice);
     }
 
     private int simpleParseAndScale(String value, int decimalPlaces) {
