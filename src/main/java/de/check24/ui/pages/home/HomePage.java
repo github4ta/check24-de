@@ -3,9 +3,9 @@ package de.check24.ui.pages.home;
 import de.check24.ui.driver.Driver;
 import de.check24.ui.pages.base.BasePage;
 
-import static de.check24.ui.driver.Driver.*;
-import static de.check24.ui.pages.home.HomeText.*;
-
+import static de.check24.ui.driver.Driver.getText;
+import static de.check24.ui.driver.Driver.isElementDisplayedWithWait;
+import static de.check24.ui.driver.Driver.waitAndGetText;
 
 public class HomePage extends BasePage {
     private final String FOOTER_COMPANY_LINE = "//div[@class='c24-footer-company-line']";
@@ -28,7 +28,7 @@ public class HomePage extends BasePage {
         return isElementDisplayedWithWait(LABEL_AKTIVITATEN, 5);
     }
 
-    public  boolean isLabelChatDisplayed() {
+    public boolean isLabelChatDisplayed() {
         return isElementDisplayedWithWait(LABEL_CHAT, 5);
     }
 
@@ -36,14 +36,14 @@ public class HomePage extends BasePage {
         Driver.click(QUICK_CHIPS_LINK_HOTEL);
     }
 
-    public boolean isPlaceholderValueEqualsToExpected() {
-        return isAttributeValueEqualsToExpected(SEARCH_HEADER,"placeholder",SEARCH_HEADER_PLACEHOLDER_EXPECTED_TEXT);
+    public String getTextPlaceholderForSearchHeader() {
+        return Driver.getElementAttribute(SEARCH_HEADER, "placeholder");
     }
 
     public String getHeaderIconText(String locator) {
         return waitAndGetText(locator);
-    }  
-      
+    }
+
     public boolean isVisibleForParamTest(String locator) {
         return isElementDisplayedWithWait(locator, 5);
     }
