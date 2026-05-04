@@ -9,26 +9,23 @@ public class DemoStream {
 
         // filter()
 
-        List<String> filteredNames = getFilteredNamesByStartsWithA(names);
+        // List<String> filteredNames = getFilteredNamesByStartsWithA(names);
+
+        //System.out.println(filteredNames);
+
+        List<String> filteredNames = names.stream()
+                .filter(name -> name.startsWith("A")
+                )
+                .toList();
 
         System.out.println(filteredNames);
-
-
-
-
-            /*
-            String result = java.util.Arrays.stream(names)
-                    .filter(name -> name.startsWith("A"))
-                    .map(String::toUpperCase)
-                    .reduce((a, b) -> a + ", " + b)
-                    .orElse("No names found");
-            System.out.println(result);*/
     }
 
     private static List<String> getFilteredNamesByStartsWithA(List<String> names) {
         List<String> filteredNames = new ArrayList<>();
-        for(int i = 0; i < names.size(); i++){
-            if (names.get(i).startsWith("A")){
+        for (int i = 0; i < names.size(); i++) {
+            String name = names.get(i);
+            if (name.startsWith("A")) {
                 filteredNames.add(names.get(i));
             }
         }
@@ -37,8 +34,8 @@ public class DemoStream {
 
     private static List<String> getFilteredNamesByNamesLengthMoreThanFour(List<String> names) {
         List<String> filteredNames = new ArrayList<>();
-        for(int i = 0; i < names.size(); i++){
-            if (names.get(i).length() > 4){
+        for (int i = 0; i < names.size(); i++) {
+            if (names.get(i).length() > 4) {
                 filteredNames.add(names.get(i));
             }
         }
