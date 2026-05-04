@@ -63,9 +63,11 @@ public class HomeTest extends BaseUITest {
     void testPR102(String locator) {
         assertThat(
                 homePage.isVisibleForParamTest(locator))
-                .withFailMessage("Element " + "\"" + homePage.getHeaderIconText(locator) + "\"" + " is not visible");
+                .withFailMessage("Element " + "\"" + homePage.getHeaderIconText(locator) + "\"" + " is not visible")
+                .isTrue();
     }      
-          
+
+    @ParameterizedTest
     @CsvSource({
             "Activities, //div[@data-layer-class='c24-activities-layer-hover']",
             "Notification, //div[@data-layer-class='c24-notification-layer-hover']",
