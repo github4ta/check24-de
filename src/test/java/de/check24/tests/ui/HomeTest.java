@@ -6,8 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static de.check24.ui.pages.home.HomePage.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class HomeTest extends BaseUITest {
@@ -54,6 +56,16 @@ public class HomeTest extends BaseUITest {
                 homePage.isPlaceholderValueEqualsToExpected())
                 .isTrue();
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {LABEL_AMNELDEN, LABEL_CHAT, LABEL_NOTIFICATION, LABEL_AKTIVITATEN})
+    @DisplayName("PR102 - header icons are visible")
+    void testPR102(String locator) {
+        assertThat(
+                homePage.isVisibleForParamTest(locator))
+                .withFailMessage("Element " + "\"" + homePage.getHeaderIconText(locator) + "\"" + " is not visible")
+                .isTrue();
+    }      
 
     @ParameterizedTest
     @CsvSource({
