@@ -9,9 +9,10 @@ import static de.check24.ui.pages.home.HomeText.*;
 
 public class HomePage extends BasePage {
     private final String FOOTER_COMPANY_LINE = "//div[@class='c24-footer-company-line']";
-    private final String LABEL_AMNELDEN = "//div[@class='c24-customer-icon c24-customer-icon-lo c24-icon']";
-    private final String LABEL_AKTIVITATEN = "//a[@class='c24-activities-icon c24-header-hover']";
-    private final String LABEL_CHAT = "//a[@class='c24-contact-content clearfix']";
+    public static final String LABEL_AMNELDEN = "//div[@class='c24-customer c24-customer-guest c24-header-hover c24-header-icon']";
+    public static final String LABEL_AKTIVITATEN = "//a[@class='c24-activities-icon c24-header-hover']";
+    public static final String LABEL_CHAT = "//a[@class='c24-contact-content clearfix']";
+    public static final String LABEL_NOTIFICATION = "//div[@data-layer-class='c24-notification-layer-hover']";
     private final String QUICK_CHIPS_LINK_HOTEL = "//a[@data-identifier='hotel']";
     private final String SEARCH_HEADER = "//input[@id='c24-search-header']";
 
@@ -37,5 +38,9 @@ public class HomePage extends BasePage {
 
     public boolean isPlaceholderValueEqualsToExpected() {
         return isAttributeValueEqualsToExpected(SEARCH_HEADER,"placeholder",SEARCH_HEADER_PLACEHOLDER_EXPECTED_TEXT);
+    }
+
+    public String getHeaderIconText(String locator) {
+        return waitAndGetText(locator);
     }
 }
