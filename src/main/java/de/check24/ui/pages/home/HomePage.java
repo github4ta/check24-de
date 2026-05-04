@@ -5,7 +5,6 @@ import de.check24.ui.pages.base.BasePage;
 
 import static de.check24.ui.driver.Driver.getText;
 import static de.check24.ui.driver.Driver.isElementDisplayedWithWait;
-import static de.check24.ui.driver.Driver.waitAndGetText;
 
 public class HomePage extends BasePage {
     private final String FOOTER_COMPANY_LINE = "//div[@class='c24-footer-company-line']";
@@ -41,7 +40,7 @@ public class HomePage extends BasePage {
     }
 
     public String getHeaderIconText(String locator) {
-        return waitAndGetText(locator);
+        return getText(locator);
     }
 
     public boolean isVisibleForParamTest(String locator) {

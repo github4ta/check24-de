@@ -85,11 +85,6 @@ public class Driver {
         return getDriver().findElement(By.xpath(locator)).getText();
     }
 
-    public static String waitAndGetText(String locator) {
-        // можно дописать логику ожидания при необходимости
-        return getDriver().findElement(By.xpath(locator)).getText();
-    }
-
     public static List<String> getTexts(String locator) {
         List<WebElement> elements = getWait(10)
                 .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(locator)));
