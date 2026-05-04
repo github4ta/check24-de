@@ -38,4 +38,8 @@ public class HomePage extends BasePage {
     public boolean isPlaceholderValueEqualsToExpected() {
         return isAttributeValueEqualsToExpected(SEARCH_HEADER,"placeholder",SEARCH_HEADER_PLACEHOLDER_EXPECTED_TEXT);
     }
+
+    public boolean isVisibleForParamTest(String locator) {
+        return isElementDisplayedWithWait(locator, 5);
+    }
 }
