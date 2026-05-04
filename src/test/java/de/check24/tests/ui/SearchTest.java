@@ -91,4 +91,16 @@ public class SearchTest extends BaseUITest {
                 .isTrue();
     }
 
+    @Test
+    @DisplayName("SP116 - The 'Gästebewertung' filter is working correctly")
+    public void testSP116() {
+        searchPage.setDestinationInput("Mallorca");
+        searchPage.clickFirstDestinationSuggestionItem();
+        searchPage.clickDateRangePickerInput();
+        searchPage.clickDataTodayButton();
+        searchPage.clickSuchenSubmitButton();
+        searchPage.setFilterOption("Gästebewertung", "Hervorragend: 9+");
+
+        assertThat(searchPage.isHotelRatingMoreThan(9)).isTrue();
+    }
 }

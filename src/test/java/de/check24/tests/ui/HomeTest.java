@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static de.check24.ui.pages.home.HomePage.*;
 import static org.assertj.core.api.Assertions.*;
@@ -62,7 +63,19 @@ public class HomeTest extends BaseUITest {
     void testPR102(String locator) {
         assertThat(
                 homePage.isVisibleForParamTest(locator))
-                .withFailMessage("Element " + "\"" + homePage.getHeaderIconText(locator) + "\"" + " is not visible")
+                .withFailMessage("Element " + "\"" + homePage.getHeaderIconText(locator) + "\"" + " is not visible");
+    }      
+          
+    @CsvSource({
+            "Activities, //div[@data-layer-class='c24-activities-layer-hover']",
+            "Notification, //div[@data-layer-class='c24-notification-layer-hover']",
+            "Chat, //div[@class='c24-contact c24-header-hover c24-header-icon clearfix']",
+            "Customer, //div[@class='c24-customer c24-customer-guest c24-header-hover c24-header-icon']"})
+    @DisplayName("PR101 - The header icons are visible")
+    void testPR101(String elem, String locator) {
+        assertThat(
+                homePage.isVisibleForParamTest(locator))
+                .withFailMessage("Element %s is not visible", elem)
                 .isTrue();
     }
 }

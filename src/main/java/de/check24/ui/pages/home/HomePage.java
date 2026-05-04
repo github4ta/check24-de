@@ -42,5 +42,9 @@ public class HomePage extends BasePage {
 
     public String getHeaderIconText(String locator) {
         return waitAndGetText(locator);
+    }  
+      
+    public boolean isVisibleForParamTest(String locator) {
+        return isElementDisplayedWithWait(locator, 5);
     }
 }
