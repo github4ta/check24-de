@@ -13,12 +13,36 @@ public class DemoStream {
 
         //System.out.println(filteredNames);
 
-        List<String> filteredNames = names.stream()
-                .filter(name -> name.startsWith("A")
-                )
-                .toList();
+//        List<String> filteredNames = names.stream()
+//                .filter(name -> name.startsWith("A")
+//                )
+//                .toList();
+
+        MyFunction myFunction = (name) -> {
+            return name.startsWith("A");
+        };
+
+        List<String> filteredNames = getFilteredNamesByCondition(names, myFunction);
 
         System.out.println(filteredNames);
+
+        myFunction = (name) -> {
+            return name.length() > 4;
+        };
+
+        filteredNames = getFilteredNamesByCondition(names, myFunction);
+        System.out.println(filteredNames);
+    }
+
+    private static List<String> getFilteredNamesByCondition(List<String> names, MyFunction myFunction) {
+        List<String> filteredNames = new ArrayList<>();
+        for (int i = 0; i < names.size(); i++) {
+            String name = names.get(i);
+            if (myFunction.condition(name)) {
+                filteredNames.add(names.get(i));
+            }
+        }
+        return filteredNames;
     }
 
     private static List<String> getFilteredNamesByStartsWithA(List<String> names) {
