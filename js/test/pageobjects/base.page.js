@@ -10,6 +10,11 @@ export default class BasePage {
     * @param path path of the sub page (e.g. /path/to/page.html)
     */
     open (path) {
-        return browser.url(`https://the-internet.herokuapp.com/${path}`);
+        return browser.url("https://www.check24.de/");
+    }
+
+    closeCookies () {
+        const cookieConsentButton = $("//div[contains(@class, 'c24-cookie-consent-notice-buttons')]//a[@class='c24-cookie-consent-button']");  
+        cookieConsentButton.click()
     }
 }
