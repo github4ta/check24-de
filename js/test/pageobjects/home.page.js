@@ -5,7 +5,7 @@ import BasePage from './base.page.js';
  * sub page containing specific selectors and methods for a specific page
  */
 class HomePage extends BasePage {
-    #ACTIVITIES = "div.c24-activities-label";
+    #ACTIVITIES = "//div[@class='c24-activities-label c24-header-icon-label']";
     /**
      * define selectors using getter methods
      */
