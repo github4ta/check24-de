@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+
 import org.openqa.selenium.Keys;
 
 public class Driver {
@@ -15,6 +16,17 @@ public class Driver {
     private static WebDriver driver;
 
     private Driver() {
+    }
+
+    private static WebElement getElementInShadowRoot(String hostLocator, String cssSelector) {
+        return getWait(10)
+                .ignoring(NoSuchElementException.class)
+                .until(d -> {
+                    WebElement element = d.findElement(By.xpath(hostLocator))
+                            .getShadowRoot()
+                            .findElement(By.cssSelector(cssSelector));
+                    return element.isDisplayed() ? element : null;
+                });
     }
 
     public static WebDriver getDriver() {
@@ -45,26 +57,8 @@ public class Driver {
         return getDriver().getCurrentUrl();
     }
 
-    public static int getQuantityOfElements(String locator) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
-        return elements.size();
-    }
-
     public static void click(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
-    }
-
-    public static void click(WebElement element) {
-        element.click();
-    }
-
-    public static void fill(String locator, String value) {
-        getDriver().findElement(By.xpath(locator)).sendKeys(value);
-    }
-
-    public static String getText(String locator) {
-        return getDriver().findElement(By.xpath(locator)).getText();
     }
 
     public static void waitAndClick(String locator) {
@@ -72,44 +66,12 @@ public class Driver {
         element.click();
     }
 
-    public static void waitAndFill(String locator, String value) {
-        // можно дописать логику ожидания при необходимости
+    public static void clickElementInShadowRoot(String hostLocator, String cssSelector) {
+        getElementInShadowRoot(hostLocator, cssSelector).click();
+    }
+
+    public static void fill(String locator, String value) {
         getDriver().findElement(By.xpath(locator)).sendKeys(value);
-    }
-
-    public static String waitAndGetText(String locator) {
-        // можно дописать логику ожидания при необходимости
-        return getDriver().findElement(By.xpath(locator)).getText();
-    }
-
-    public static boolean isElementDisplayedWithWait(String locator, int seconds) {
-        return getWait(seconds).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)))
-                .isDisplayed();
-    }
-
-    public static WebElement getElementInShadowRoot(String hostLocator, String cssSelector) {
-          return getWait(10)
-                  .ignoring(NoSuchElementException.class)
-                  .until(d -> {
-                WebElement element = d.findElement(By.xpath(hostLocator))
-                        .getShadowRoot()
-                        .findElement(By.cssSelector(cssSelector));
-                return element.isDisplayed() ? element : null;
-          });
-    }
-
-    public static String getElementAttribute(String locator, String attributeName) {
-            WebElement element = getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
-            String value = element.getAttribute(attributeName);
-            return (value != null) ? value : "";
-    }
-
-    public static boolean isAttributeValueEqualsToExpected(String locator, String attributeName, String expectedValue) {
-        String actualValue = getElementAttribute(locator, attributeName);
-        if (actualValue.isEmpty() && !expectedValue.isEmpty()) {
-            return false;
-        }
-        return actualValue.equals(expectedValue);
     }
 
     public static void waitAndClearAndFillAndPressEnter(String locator, String value) {
@@ -117,6 +79,10 @@ public class Driver {
         element.clear();
         element.sendKeys(value);
         element.sendKeys(Keys.ENTER);
+    }
+
+    public static String getText(String locator) {
+        return getDriver().findElement(By.xpath(locator)).getText();
     }
 
     public static List<String> getTexts(String locator) {
@@ -130,9 +96,15 @@ public class Driver {
                 .toList();
     }
 
-    public static List<WebElement> getElementList(String locator) {
-        getWait(10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(locator)));
-        return getDriver().findElements(By.xpath(locator));
+    public static String getElementAttribute(String locator, String attributeName) {
+        WebElement element = getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+        String value = element.getAttribute(attributeName);
+        return (value != null) ? value : "";
+    }
+
+    public static boolean isElementDisplayedWithWait(String locator, int seconds) {
+        return getWait(seconds).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)))
+                .isDisplayed();
     }
 
     public static void scrollSliderToCenter(String locator) {

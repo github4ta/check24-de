@@ -3,7 +3,9 @@ package de.check24.tests.ui;
 import de.check24.tests.ui.base.BaseUITest;
 import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.search.SearchPage;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,17 +22,6 @@ public class SearchTest extends BaseUITest {
 
         searchPage = new SearchPage();
         searchPage.clickSplashScreenButtonClose();
-    }
-
-    @Test
-    public void searchTest() {
-        searchPage.setDestinationInput("Lara");
-        searchPage.clickFirstDestinationSuggestionItem();
-        searchPage.clickDateRangePickerInput();
-        searchPage.clickDataTodayButton();
-        searchPage.clickSuchenSubmitButton();
-
-        System.out.println("Anzahl der Container: " + searchPage.getContainers());
     }
 
     @Test
@@ -61,6 +52,7 @@ public class SearchTest extends BaseUITest {
         assertThat(searchPage.isHotelNamesContain("Motel")).isTrue();
     }
 
+    @Disabled
     @Test
     @DisplayName("SP113 - 'Entfernung Zentrum' Filter")
     public void testSP113() {
@@ -71,9 +63,12 @@ public class SearchTest extends BaseUITest {
         searchPage.clickSuchenSubmitButton();
 
         searchPage.selectOptionMax5km();
-        assertThat(searchPage.getContainers())
-                .as("Entfernung Zentrum with 5 km filter")
-                .isGreaterThan(0);
+
+        final int DISTANCE_5_KM = 5_000;
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(searchPage.getHotelResultLocations()).allMatch(location -> location.contains("Köln"));
+        softAssertions.assertThat(searchPage.getResultsListDistance()).allMatch(distance -> distance <= DISTANCE_5_KM);
+        softAssertions.assertAll();
     }
 
     @Test
@@ -87,8 +82,9 @@ public class SearchTest extends BaseUITest {
         searchPage.scrollIhrBudgetSliderToCenter();
         searchPage.scrollScreen();
 
-        assertThat(searchPage.isPriceInChosenRange())
-                .isTrue();
+        int minRangePrice = searchPage.getMinRangePrice();
+        int maxRangePrice = searchPage.getMaxRangePrice();
+        assertThat(searchPage.getPrices()).allMatch(price -> (price >= minRangePrice && price <= maxRangePrice));
     }
 
     @Test

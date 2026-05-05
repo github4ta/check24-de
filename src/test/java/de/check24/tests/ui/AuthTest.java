@@ -30,5 +30,4 @@ public class AuthTest extends BaseUITest {
                 homePage.getCurrentUrl())
                 .isEqualTo("https://www.check24.de/");
     }
-
 }

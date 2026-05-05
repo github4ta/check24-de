@@ -10,6 +10,8 @@ import static de.check24.ui.driver.Driver.getTexts;
 import static de.check24.ui.driver.Driver.waitAndClick;
 
 public class SearchPage extends BasePage {
+    private final int CENTOS_IN_EURO = 100;
+
     private final String SPLASH_SCREEN_BUTTON_CLOSE = "//div[@id='splashScreenContainer']//div[contains(@class, 'close')]";
     private final String DESTINATION_INPUT = "//input[@data-test-id-qa='destination-suggestion-input']";
     private final String DESTINATION_SUGGESTION_ITEM = "//div[@data-test-id-qa='destination-suggestion']";
@@ -29,9 +31,15 @@ public class SearchPage extends BasePage {
     private final String MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
     private final String RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']";
     private final String HOTEL_RATING = "//div[@data-test-id-qa='hotel-rating']";
+    private final String HOTEL_RESULT_LOCATION = "//div[contains(@class, 'hotelResultLocation')]";
+    private final String RESULTS_LIST_DISTANCE_HINT = "//span[@data-test-id-qa='results-list-distance-hint']";
 
     public void clickSplashScreenButtonClose() {
-        Driver.waitAndClick(SPLASH_SCREEN_BUTTON_CLOSE);
+        try {
+            Driver.waitAndClick(SPLASH_SCREEN_BUTTON_CLOSE);
+        } catch (Exception e) {
+            log.info("Splash screen is not displayed.");
+        }
     }
 
     public void setDestinationInput(String destination) {
@@ -52,10 +60,6 @@ public class SearchPage extends BasePage {
 
     public void clickSuchenSubmitButton() {
         waitAndClick(SUCHEN_SUBMIT_BUTTON);
-    }
-
-    public int getContainers() {
-        return Driver.getQuantityOfElements(RESULT_LIST_CONTENT_CONTAINER);
     }
 
     public void setIntelligentFilter(String value) {
@@ -115,31 +119,46 @@ public class SearchPage extends BasePage {
     private int convertStringToInt(String s) {
         return (int) Math.round(Double.parseDouble(s));
     }
+
     private List<Integer> parsePrice(List<String> list) {
         return list.stream()
-                .map(this::cleanText)
-                .map(this::convertStringToInt)
+                .map(this::parsePriceToInt)
                 .toList();
     }
 
-    private List<Integer> getPrices() {
+    private int parsePriceToInt(String text) {
+        String digitsOnly = text.replaceAll("[^0-9]", "");
+        return Integer.parseInt(digitsOnly);
+    }
+
+    public List<Integer> getPrices() {
         List<String> textListPrices = Driver.getTexts(RESULT_LIST_PRICE);
         return parsePrice(textListPrices);
     }
 
-    private int getMinRangePrice() {
-        return Driver.getRangePrice(MIN_PRICE_RANGE);
+    public int getMinRangePrice() {
+        return Driver.getRangePrice(MIN_PRICE_RANGE) * CENTOS_IN_EURO;
     }
 
-    private int getMaxRangePrice() {
-        return Driver.getRangePrice(MAX_PRICE_RANGE);
+    public int getMaxRangePrice() {
+        return Driver.getRangePrice(MAX_PRICE_RANGE) * CENTOS_IN_EURO;
     }
 
-    public boolean isPriceInChosenRange() {
-        int minPrice = getMinRangePrice();
-        int maxPrice = getMaxRangePrice();
-        List<Integer> prices = getPrices();
-        return prices.stream().allMatch(p -> p >= minPrice && p <= maxPrice);
+    public List<String> getHotelResultLocations() {
+        return Driver.getTexts(HOTEL_RESULT_LOCATION);
+    }
+
+    public List<Integer> getResultsListDistance() {
+        return Driver.getTexts(RESULTS_LIST_DISTANCE_HINT).stream().map(distanceHint -> parseDistance(distanceHint)).toList();
+    }
+
+    private int parseDistance(String text) {
+        String cleanValue = text.replaceAll("[^0-9,.]", "").replace(",", ".");
+        double distance = Double.parseDouble(cleanValue);
+        if (text.toLowerCase().contains("km")) {
+            return (int) (distance * 1000);
+        }
+        return (int) distance;
     }
 
     private int simpleParseAndScale(String value, int decimalPlaces) {
