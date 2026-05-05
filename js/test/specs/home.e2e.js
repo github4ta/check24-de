@@ -1,14 +1,10 @@
 import { expect } from '@wdio/globals'
+import HomePage from '../pageobjects/home.page.js'
 
 describe('Home page', () => {
-    it('should login with valid credentials', async () => {
-        await LoginPage.open()
-
-        await LoginPage.login('tomsmith', 'SuperSecretPassword!');
-        await expect(SecurePage.flashAlert);
-        await expect(SecurePage.flashAlert).toHaveText(
-            expect.stringContaining('You logged into a secure area!'));
+    it('should display activities on home page', async () => {
+        await HomePage.open();
+        await HomePage.closeCookies();
+        await expect(HomePage.activities).toHaveText("Aktivitäten");
     });
-
-    // ...
-})
+});  
