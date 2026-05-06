@@ -13,4 +13,10 @@ describe('Home page', () => {
         await HomePage.closeCookies();
         await expect(HomePage.headerSearch).toHaveAttr("placeholder", "Suchen oder fragen");
     });
+
+     it('should verify login label is displayed', async () => {
+        await HomePage.open();
+        await HomePage.clickCookieConsentButton();
+        await expect(HomePage.anmeldenLabel).toBeDisplayed();
+    });
 })
