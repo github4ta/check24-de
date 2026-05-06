@@ -7,4 +7,10 @@ describe('Home page', () => {
         await HomePage.closeCookies();
         await expect(HomePage.activities).toHaveText("Aktivitäten");
     });
-});  
+
+    it('should display placeholder in search field', async () => {
+        await HomePage.open();
+        await HomePage.closeCookies();
+        await expect(HomePage.headerSearch).toHaveAttr("placeholder", "Suchen oder fragen");
+    });
+})
