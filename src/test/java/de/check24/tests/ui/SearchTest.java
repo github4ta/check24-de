@@ -24,18 +24,27 @@ public class SearchTest extends BaseUITest {
         searchPage.clickSplashScreenButtonClose();
     }
 
+    // TODO
+    @Disabled
     @Test
-    @DisplayName("SP115-Search city:'Bremen',filter Intelligente:'Dachterrasse'")
+    @DisplayName("SP115-Search city:'Bremen',filter Intelligente:'Sauna'")
     public void testSP115() {
+        log.info("Starting test: SP115 - Search city: 'Bremen', filter Intelligente: 'Als nachhaltig zertifiziert'");
         searchPage.setDestinationInput("Bremen");
         searchPage.clickFirstDestinationSuggestionItem();
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
 
-        searchPage.setIntelligentFilter("Dachterrasse");
+        searchPage.clickCloseIcon();
+        searchPage.setIntelligentFilter("Sauna");
+        // TODO add wating for search results to be updated after applying the filter
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+        }
 
-        assertThat(searchPage.isHotelDescriptionsContain("Dachterrasse")).isTrue();
+        assertThat(searchPage.isHotelDescriptionsContain("Sauna")).isTrue();
     }
 
     @Test

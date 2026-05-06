@@ -13,6 +13,7 @@ public class SearchPage extends BasePage {
     private final int CENTOS_IN_EURO = 100;
 
     private final String SPLASH_SCREEN_BUTTON_CLOSE = "//div[@id='splashScreenContainer']//div[contains(@class, 'close')]";
+    private final String CLOSE_ICON = "//div[contains(@class, 'loyaltyLoginTeaserOverlay')]//div[contains(@class, 'closeIconContainer')]";
     private final String DESTINATION_INPUT = "//input[@data-test-id-qa='destination-suggestion-input']";
     private final String DESTINATION_SUGGESTION_ITEM = "//div[@data-test-id-qa='destination-suggestion']";
     private final String DATA_RANGE_PICKER_INPUT = "//div[@data-test-id-qa='date-range-picker-input']";
@@ -43,31 +44,48 @@ public class SearchPage extends BasePage {
     }
 
     public void setDestinationInput(String destination) {
+        log.info("Destination input '{}' is displayed.", destination);
         Driver.fill(DESTINATION_INPUT, destination);
     }
 
     public void clickDateRangePickerInput() {
         Driver.click(DATA_RANGE_PICKER_INPUT);
+        log.info("Date range picker input is clicked.");
     }
 
     public void clickFirstDestinationSuggestionItem() {
         waitAndClick(DESTINATION_SUGGESTION_ITEM);
+        log.info("First destination suggestion item is clicked.");
     }
 
     public void clickDataTodayButton() {
         waitAndClick(DATA_TODAY_BUTTON);
+        log.info("Data Today button is clicked.");
     }
 
     public void clickSuchenSubmitButton() {
         waitAndClick(SUCHEN_SUBMIT_BUTTON);
+        log.info("Suchen submitted button is clicked.");
+    }
+
+    public void clickCloseIcon() {
+        try {
+            waitAndClick(CLOSE_ICON);
+            log.info("Close icon is clicked.");
+        } catch (Exception e) {
+            log.info("Loyalty login teaser overlay is not displayed.");
+        }
     }
 
     public void setIntelligentFilter(String value) {
+        log.info("Intelligent filter '{}' is displayed.", value);
         Driver.waitAndClearAndFillAndPressEnter(INTELLIGENT_FILTER_INPUT, value);
     }
 
     public boolean isHotelDescriptionsContain(String text) {
+        log.info("Hotel description '{}' to check.", text);
         List<String> descriptions = Driver.getTexts(SHORT_SUMMARIES_CONTAINER);
+        log.info("Hotel descriptions '{}' is displayed.", descriptions);
         for (String description : descriptions) {
             if (!description.toLowerCase().contains(text.toLowerCase())) return false;
         }
