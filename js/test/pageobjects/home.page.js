@@ -5,9 +5,14 @@ import BasePage from './base.page.js';
  * sub page containing specific selectors and methods for a specific page
  */
 class HomePage extends BasePage {
+    #HEADER_SEARCH = "//input[@id='c24-search-header']";
     /**
      * define selectors using getter methods
      */
+    get headerSearch () {
+        return $(this.#HEADER_SEARCH);
+    }
+
     get inputUsername () {
         return $("//input[@id='username']");
     }
