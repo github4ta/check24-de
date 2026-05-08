@@ -22,17 +22,33 @@ export default class BasePage {
         cookieConsentButton.click()
     }
 
+    fill(locator, value) {
+       $(locator).setValue(value);
+    }
+
+    async click(locator) {
+        await $(locator).click();
+    }
+
+    async waitAndClick(locator) {
     async getText(locator) {
         const element = await $(locator);
+        await element.waitForClickable({timeout: 15000});
+        await element.click();
         return await element.getText();
     }
 
+    async getElementText(locator) {
+        return await $(locator).getText()
     async getRangePrice(locator) {
         const text = await this.getText(locator);
         const priceAsText = text.replace(/[^0-9]/g, "");
         return parseInt(priceAsText, 10);
     }
 
+    async getElementList(locator) {
+        await $(locator).waitForExist({timeout: 10000});
+        return await $$(locator);
     async getTexts(locator) {
         const elements = await $$(locator);
         await browser.waitUntil(async () => (await elements.length) > 0, {
@@ -42,5 +58,4 @@ export default class BasePage {
         const texts = await elements.map(el => el.getText());
         return texts.map(text => text.trim()).filter(text => text !== "");
     }
-
 }

@@ -15,6 +15,9 @@ class SearchPage extends BasePage {
     #RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']"
     #MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
     #MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
+    #DISTANCE_MAX_5_KM = "//div[contains(@data-label,'5 km')]";
+    #CLOSE_ICON = "//div[contains(@class, loyaltyLoginTeaserOverLay)]//div[contains(@class, 'closeIconContainer')]"
+    #RESULTS_LIST_DISTANCE_HINT = "//span[@data-test-id-qa='results-list-distance-hint']";
 
     async clickSplashScreenButtonClose() {
         try {
@@ -24,50 +27,49 @@ class SearchPage extends BasePage {
         } catch (error) {
             console.log("Splash screen is not displayed.");
         }
+    get destinationInput() {
+        return $(this.#DESTINATION_INPUT);
     }
 
     async setDestinationInput(destination) {
+        await this.destinationInput.setValue(destination);
+    }
+
+    async clickCloseIcon() {
+        await this.waitAndClick(this.#CLOSE_ICON);
         console.log(`Destination input '${destination}' is displayed.`);
         await $(this.#DESTINATION_INPUT).setValue(destination);
     }
 
     async clickFirstDestinationSuggestionItem() {
-        const element = await $(this.#DESTINATION_SUGGESTION_ITEM);
-        await element.waitForClickable();
-        await element.click();
-        console.log("First destination suggestion item is clicked.");
+        await this.waitAndClick(this.#DESTINATION_SUGGESTION_ITEM);
     }
 
     async clickDateRangePickerInput() {
-        await $(this.#DATA_RANGE_PICKER_INPUT).click();
-        console.log("Date range picker input is clicked.");
+        await this.click(this.#DATA_RANGE_PICKER_INPUT);
     }
 
     async clickDataTodayButton() {
-        const btn = await $(this.#DATA_TODAY_BUTTON);
-        await btn.waitForClickable();
-        await btn.click();
-        console.log("Data Today button is clicked.");
+        await this.waitAndClick(this.#DATA_TODAY_BUTTON);
     }
 
     async clickSuchenSubmitButton() {
-        const btn = await $(this.#SUCHEN_SUBMIT_BUTTON);
-        await btn.waitForClickable();
-        await btn.click();
-        console.log("Suchen submitted button is clicked");
+        await this.waitAndClick(this.#SUCHEN_SUBMIT_BUTTON);
     }
 
-    async clickCloseIcon() {
-        try {
-            const icon = await $(this.#CLOSE_ICON);
-            await icon.waitForClickable({ timeout: 7000 });
-            await icon.click();
-            console.log("Close icon is clicked.");
-        } catch (error) {
-            console.log("Loyalty login teaser overlay is not displayed.");
+    async selectDistanceMax5km() {
+        await this.waitAndClick(this.#DISTANCE_MAX_5_KM)
+    }
+
+    async isDistanceLessOrEqualTo(distanceInMeters) {
+        await this.getElementList(this.#RESULTS_LIST_DISTANCE_HINT);
+        const distances = await getResultsListDistance();
+        for (const distance of distances) {
+            if (distance > distanceInMeters) {
+                return false;
+            }
         }
-    }
-
+        return true;
     async scrollBudgetSliderToCenter() {
         const slider = await $(this.#IHR_BUDGET_SLIDER);
         await slider.waitForExist({ timeout: 10000 });
@@ -88,20 +90,46 @@ class SearchPage extends BasePage {
         return price * this.#CENTS_IN_EURO;
     }
 
+    async getResultsListDistance() {
     async getMaxRangePrice() {
         const price = await this.getRangePrice(this.#MAX_PRICE_RANGE);
         return price * this.#CENTS_IN_EURO;
     }
 
+        const listAsString = await this.getResultsDistanceHint();
+        const listAsNumbers = [];
+            for (const item of listAsString) {
+                const number = await this.getDistanceInMeters(item);
+                listAsNumbers.push(number);
+            }
+        return listAsNumbers;
     async getPrices() {
         const textListPrices = await this.getTexts(this.#RESULT_LIST_PRICE);
         return this.#parsePrice(textListPrices);
     }
 
+    async getResultsDistanceHint() {
+        return await this.getElementText(this.#RESULTS_LIST_DISTANCE_HINT);
     #parsePrice(list) {
         return list.map(text => this.#parsePriceToInt(text));
     }
 
+    async getDistanceInMeters(distanceHint) {
+        if (distanceHint == null || distanceHint.trim().isEmpty()) {
+            return 0;
+        }
+        let distanceHintText = distanceHint.toLowerCase().replace(",", ".");
+        let distanceHintNumber = distanceHintText.replaceAll("[^0-9.]", "");
+        let distanceHintDouble = parseFloat(distanceHintNumber);
+        if(isNaN(distanceHintDouble)) {
+            return 0;
+        }
+        if(distanceHintText.includes("km")) {
+            return Math.round(distanceHintDouble * 1000);
+        } else if (distanceHintText.includes("m")) {
+            return Math.round(distanceHintDouble);
+        }
+        return 0;
     #parsePriceToInt(text) {
         const digitsOnly = text.replace(/[^0-9]/g, "");
         return parseInt(digitsOnly, 10);

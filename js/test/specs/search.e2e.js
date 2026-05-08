@@ -18,6 +18,9 @@ describe('Search page', () => {
         await expect(HomePage.headerSearch).toHaveAttr("placeholder", "Suchen oder fragen");
     });
 
+    it('verify Entfernung Zentrum filter', async () => {
+        await SearchPage.setDestinationInput("Köln");
+        await expect(SearchPage.destinationInput).toHaveValue("Köln");
     it('should verify that all prices are within the selected range (SP111)', async () => {
         await SearchPage.setDestinationInput("Berlin");
         await SearchPage.clickFirstDestinationSuggestionItem();
@@ -25,18 +28,23 @@ describe('Search page', () => {
         await SearchPage.clickDataTodayButton();
         await SearchPage.clickSuchenSubmitButton();
         await SearchPage.clickCloseIcon();
+
+        await SearchPage.selectDistanceMax5km();
+        const isLessOrEqual = await SearchPage.isDistanceLessOrEqualTo(5000);
+        expect(isLessOrEqual).toBe(true);
+    });
         await SearchPage.scrollBudgetSliderToCenter();
-        await SearchPage.scrollScreenToTheEnd(); 
+        await SearchPage.scrollScreenToTheEnd();
 
         const minRangePrice = await SearchPage.getMinRangePrice();
         const maxRangePrice = await SearchPage.getMaxRangePrice();
         const prices = await SearchPage.getPrices();
-        
+
         prices.forEach(price => {
             expect(price).toBeGreaterThanOrEqual(minRangePrice);
             expect(price).toBeLessThanOrEqual(maxRangePrice);
         });
     });
 
-    
+
 })
