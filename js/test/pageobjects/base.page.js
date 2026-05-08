@@ -5,13 +5,6 @@ import { browser } from '@wdio/globals'
 * that is shared across all page objects
 */
 export default class BasePage {
-    /**
-    * Opens a sub page of the page
-    * @param path path of the sub page (e.g. /path/to/page.html)
-    */
-    // open(path) {
-    //     return browser.url("https://www.check24.de/");
-    // }
     async open(path) {
         await browser.url("https://www.check24.de/");
         await browser.maximizeWindow();
@@ -31,15 +24,19 @@ export default class BasePage {
     }
 
     async waitAndClick(locator) {
-    async getText(locator) {
         const element = await $(locator);
         await element.waitForClickable({timeout: 15000});
         await element.click();
+    }
+
+    async getText(locator) {
         return await element.getText();
     }
 
     async getElementText(locator) {
         return await $(locator).getText()
+    }
+
     async getRangePrice(locator) {
         const text = await this.getText(locator);
         const priceAsText = text.replace(/[^0-9]/g, "");
@@ -49,6 +46,8 @@ export default class BasePage {
     async getElementList(locator) {
         await $(locator).waitForExist({timeout: 10000});
         return await $$(locator);
+    }
+
     async getTexts(locator) {
         const elements = await $$(locator);
         await browser.waitUntil(async () => (await elements.length) > 0, {
@@ -57,5 +56,10 @@ export default class BasePage {
         });
         const texts = await elements.map(el => el.getText());
         return texts.map(text => text.trim()).filter(text => text !== "");
+    }
+
+    async getQuantityOfElements(locator) {
+            const elements = await $$(locator);
+            return elements.length;
     }
 }

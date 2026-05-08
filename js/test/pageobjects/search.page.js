@@ -27,6 +27,8 @@ class SearchPage extends BasePage {
         } catch (error) {
             console.log("Splash screen is not displayed.");
         }
+    }
+
     get destinationInput() {
         return $(this.#DESTINATION_INPUT);
     }
@@ -70,6 +72,8 @@ class SearchPage extends BasePage {
             }
         }
         return true;
+    }
+
     async scrollBudgetSliderToCenter() {
         const slider = await $(this.#IHR_BUDGET_SLIDER);
         await slider.waitForExist({ timeout: 10000 });
@@ -90,12 +94,13 @@ class SearchPage extends BasePage {
         return price * this.#CENTS_IN_EURO;
     }
 
-    async getResultsListDistance() {
+
     async getMaxRangePrice() {
         const price = await this.getRangePrice(this.#MAX_PRICE_RANGE);
         return price * this.#CENTS_IN_EURO;
     }
 
+    async getResultsListDistance() {
         const listAsString = await this.getResultsDistanceHint();
         const listAsNumbers = [];
             for (const item of listAsString) {
@@ -103,6 +108,8 @@ class SearchPage extends BasePage {
                 listAsNumbers.push(number);
             }
         return listAsNumbers;
+    }
+
     async getPrices() {
         const textListPrices = await this.getTexts(this.#RESULT_LIST_PRICE);
         return this.#parsePrice(textListPrices);
@@ -110,6 +117,8 @@ class SearchPage extends BasePage {
 
     async getResultsDistanceHint() {
         return await this.getElementText(this.#RESULTS_LIST_DISTANCE_HINT);
+    }
+
     #parsePrice(list) {
         return list.map(text => this.#parsePriceToInt(text));
     }
@@ -130,6 +139,8 @@ class SearchPage extends BasePage {
             return Math.round(distanceHintDouble);
         }
         return 0;
+    }
+
     #parsePriceToInt(text) {
         const digitsOnly = text.replace(/[^0-9]/g, "");
         return parseInt(digitsOnly, 10);

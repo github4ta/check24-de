@@ -21,6 +21,19 @@ describe('Search page', () => {
     it('verify Entfernung Zentrum filter', async () => {
         await SearchPage.setDestinationInput("Köln");
         await expect(SearchPage.destinationInput).toHaveValue("Köln");
+        await SearchPage.clickFirstDestinationSuggestionItem();
+        await SearchPage.clickDateRangePickerInput();
+        await SearchPage.clickDataTodayButton();
+        await SearchPage.clickSuchenSubmitButton();
+        await SearchPage.clickCloseIcon();
+
+        await SearchPage.selectDistanceMax5km();
+        const containers = await SearchPage.getContainers();
+        expect(containers).toBeGreaterThan(0);
+        const isLessOrEqual = await SearchPage.isDistanceLessOrEqualTo(5000);
+        expect(isLessOrEqual).toBe(true);
+    });
+
     it('should verify that all prices are within the selected range (SP111)', async () => {
         await SearchPage.setDestinationInput("Berlin");
         await SearchPage.clickFirstDestinationSuggestionItem();
@@ -29,10 +42,7 @@ describe('Search page', () => {
         await SearchPage.clickSuchenSubmitButton();
         await SearchPage.clickCloseIcon();
 
-        await SearchPage.selectDistanceMax5km();
-        const isLessOrEqual = await SearchPage.isDistanceLessOrEqualTo(5000);
-        expect(isLessOrEqual).toBe(true);
-    });
+
         await SearchPage.scrollBudgetSliderToCenter();
         await SearchPage.scrollScreenToTheEnd();
 
@@ -45,6 +55,5 @@ describe('Search page', () => {
             expect(price).toBeLessThanOrEqual(maxRangePrice);
         });
     });
-
 
 })
