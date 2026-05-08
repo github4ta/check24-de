@@ -31,4 +31,13 @@ export default class BasePage {
         await element.waitForClickable({timeout: 15000});
         await element.click();
     }
+
+    async getElementText(locator) {
+        return await $(locator).getText()
+    }
+
+    async getElementList(locator) {
+        await $(locator).waitForExist({timeout: 10000});
+        return await $$(locator);
+    }
 }
