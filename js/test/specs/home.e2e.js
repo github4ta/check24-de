@@ -17,8 +17,6 @@ describe('Home page', () => {
     });
 
      it('should verify login label is displayed', async () => {
-        await HomePage.open();
-        await HomePage.clickCookieConsentButton();
         await expect(HomePage.anmeldenLabel).toBeDisplayed();
     });
 })
