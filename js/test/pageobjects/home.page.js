@@ -6,6 +6,7 @@ class HomePage extends BasePage {
     #ACTIVITIES = "//div[@class='c24-activities-label c24-header-icon-label']";
     #HEADER_SEARCH = "//input[@id='c24-search-header']";
     #QUICK_CHIPS_LINK_HOTEL = "//a[@data-identifier='hotel']";
+    #ANMELDEN_LABEL = "//div[contains(@class, 'c24-customer-icon-lo')]";
 
     get headerSearch () {
         return $(this.#HEADER_SEARCH);

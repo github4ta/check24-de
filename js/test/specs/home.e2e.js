@@ -15,4 +15,10 @@ describe('Home page', () => {
     it.skip('should display placeholder in search field', async () => {
         await expect(HomePage.headerSearch).toHaveAttr("placeholder", "Suchen oder fragen");
     });
+
+     it('should verify login label is displayed', async () => {
+        await HomePage.open();
+        await HomePage.clickCookieConsentButton();
+        await expect(HomePage.anmeldenLabel).toBeDisplayed();
+    });
 })
