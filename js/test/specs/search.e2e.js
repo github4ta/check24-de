@@ -21,5 +21,8 @@ describe('Search page', () => {
         await SearchPage.clickDateRangePickerInput();
         await SearchPage.clickDataTodayButton();
         await SearchPage.clickSuchenSubmitButton();
+        await SearchPage.clickCloseIcon();
+
+        await SearchPage.selectDistanceMax5km();
     })
 })
