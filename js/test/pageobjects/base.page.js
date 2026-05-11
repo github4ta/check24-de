@@ -30,7 +30,7 @@ export default class BasePage {
     }
 
     async getText(locator) {
-        return await element.getText();
+        return await this.getElementText(locator);
     }
 
     async getElementText(locator) {

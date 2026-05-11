@@ -13,11 +13,12 @@ class SearchPage extends BasePage {
     #CLOSE_ICON = "//div[contains(@class, 'loyaltyLoginTeaserOverlay')]//div[contains(@class, 'closeIconContainer')]";
     #IHR_BUDGET_SLIDER = "//div[contains(@class, '-rail')]";
     #RESULT_LIST_PRICE = "//div[@data-test-id-qa='results-list-price']"
-    #MIN_PRICE_RANGE = "(//div[@role='slider' and @data-label='min']//span)[2]";
-    #MAX_PRICE_RANGE = "(//div[@role='slider' and @data-label='max']//span)[2]";
+    #MIN_PRICE_RANGE = "//div[@role='slider' and @data-label='min']//span)[2]";
+    #MAX_PRICE_RANGE = "//div[@role='slider' and @data-label='max']//span)[2]";
     #DISTANCE_MAX_5_KM = "//div[contains(@data-label,'5 km')]";
-    #CLOSE_ICON = "//div[contains(@class, loyaltyLoginTeaserOverLay)]//div[contains(@class, 'closeIconContainer')]"
     #RESULTS_LIST_DISTANCE_HINT = "//span[@data-test-id-qa='results-list-distance-hint']";
+    #LOYALTY_LOGIN_TEASER_CLOSE_ICON = ".a16826a2b-closeIconContainer";
+    #FILTER_OPTION = "//section[@data-test-id-qa='filter-section-wrapper' and contains(normalize-space(), 'Ihre vorherigen Filter')]//div[@data-test-id-qa='dynamic-filter-option' and contains(normalize-space(), '5 km')]";
 
     async clickSplashScreenButtonClose() {
         try {
@@ -33,14 +34,16 @@ class SearchPage extends BasePage {
         return $(this.#DESTINATION_INPUT);
     }
 
+    getFilterLocator = (section, option) => {
+        return `//section[@data-test-id-qa='filter-section-wrapper' and contains(normalize-space(), '${section}')]//div[@data-test-id-qa='dynamic-filter-option' and contains(normalize-space(), '${option}')]`;
+    };
+
     async setDestinationInput(destination) {
         await this.destinationInput.setValue(destination);
     }
 
     async clickCloseIcon() {
-        await this.waitAndClick(this.#CLOSE_ICON);
-        console.log(`Destination input '${destination}' is displayed.`);
-        await $(this.#DESTINATION_INPUT).setValue(destination);
+        await this.waitAndClick(this.#LOYALTY_LOGIN_TEASER_CLOSE_ICON);
     }
 
     async clickFirstDestinationSuggestionItem() {
@@ -63,9 +66,16 @@ class SearchPage extends BasePage {
         await this.waitAndClick(this.#DISTANCE_MAX_5_KM)
     }
 
+    async selectFilterOption(section, option) {
+        const locator = this.getFilterLocator(section, option);
+        await this.waitAndClick(locator);
+    }
+
     async isDistanceLessOrEqualTo(distanceInMeters) {
         await this.getElementList(this.#RESULTS_LIST_DISTANCE_HINT);
         const distances = await getResultsListDistance();
+        console.log("Distance in meters to compare: " + distanceInMeters);
+        console.log("Distances in meters: " + distances);
         for (const distance of distances) {
             if (distance > distanceInMeters) {
                 return false;
@@ -91,22 +101,24 @@ class SearchPage extends BasePage {
 
     async getMinRangePrice() {
         const price = await this.getRangePrice(this.#MIN_PRICE_RANGE);
+        console.log("Min range price: " + price);
         return price * this.#CENTS_IN_EURO;
     }
 
 
     async getMaxRangePrice() {
         const price = await this.getRangePrice(this.#MAX_PRICE_RANGE);
+        console.log("Max range price: " + price);
         return price * this.#CENTS_IN_EURO;
     }
 
     async getResultsListDistance() {
         const listAsString = await this.getResultsDistanceHint();
         const listAsNumbers = [];
-            for (const item of listAsString) {
-                const number = await this.getDistanceInMeters(item);
-                listAsNumbers.push(number);
-            }
+        for (const item of listAsString) {
+            const number = await this.getDistanceInMeters(item);
+            listAsNumbers.push(number);
+        }
         return listAsNumbers;
     }
 
@@ -130,10 +142,10 @@ class SearchPage extends BasePage {
         let distanceHintText = distanceHint.toLowerCase().replace(",", ".");
         let distanceHintNumber = distanceHintText.replaceAll("[^0-9.]", "");
         let distanceHintDouble = parseFloat(distanceHintNumber);
-        if(isNaN(distanceHintDouble)) {
+        if (isNaN(distanceHintDouble)) {
             return 0;
         }
-        if(distanceHintText.includes("km")) {
+        if (distanceHintText.includes("km")) {
             return Math.round(distanceHintDouble * 1000);
         } else if (distanceHintText.includes("m")) {
             return Math.round(distanceHintDouble);

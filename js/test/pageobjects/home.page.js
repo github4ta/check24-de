@@ -8,6 +8,10 @@ class HomePage extends BasePage {
     #QUICK_CHIPS_LINK_HOTEL = "//a[@data-identifier='hotel']";
     #ANMELDEN_LABEL = "//div[contains(@class, 'c24-customer-icon-lo')]";
 
+    get anmeldenLabel() {
+        return $(this.#ANMELDEN_LABEL);
+    }
+    
     get quickChipsLinkHotel() {
         return $(this.#QUICK_CHIPS_LINK_HOTEL);
     }

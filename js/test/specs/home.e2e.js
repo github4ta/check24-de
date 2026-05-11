@@ -8,15 +8,19 @@ describe('Home page', () => {
         await HomePage.closeCookies();
     });
 
-    it.skip('should display activities on home page', async () => {
+    it('should display activities on home page', async () => {
         await expect(HomePage.activities).toHaveText("Aktivitäten");
     });
 
-    it.skip('should display placeholder in search field', async () => {
+    it('should display placeholder in search field', async () => {
         await expect(HomePage.headerSearch).toHaveAttr("placeholder", "Suchen oder fragen");
     });
 
-     it('should verify login label is displayed', async () => {
+    it('should verify login label is displayed', async () => {
         await expect(HomePage.anmeldenLabel).toBeDisplayed();
+    });
+
+    it('should display placeholder in search field', async () => {
+        await expect(HomePage.headerSearch).toHaveAttr("placeholder", "Suchen oder fragen");
     });
 })
