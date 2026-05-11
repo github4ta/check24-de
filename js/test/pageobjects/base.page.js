@@ -5,7 +5,7 @@ import { browser } from '@wdio/globals'
 * that is shared across all page objects
 */
 export default class BasePage {
-    async open(path) {
+    async open() {
         await browser.url("https://www.check24.de/");
         await browser.maximizeWindow();
     }
