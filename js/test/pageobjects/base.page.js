@@ -40,4 +40,9 @@ export default class BasePage {
         await $(locator).waitForExist({timeout: 10000});
         return await $$(locator);
     }
+
+    async getQuantityOfElements(locator) {
+        const elements = await $$(locator);
+        return elements.length;
+    }
 }

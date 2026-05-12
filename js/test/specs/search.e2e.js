@@ -24,6 +24,8 @@ describe('Search page', () => {
         await SearchPage.clickCloseIcon();
 
         await SearchPage.selectDistanceMax5km();
+        const containers = await SearchPage.getContainers();
+        expect(containers).toBeGreaterThan(0);
         const isLessOrEqual = await SearchPage.isDistanceLessOrEqualTo(5000);
         expect(isLessOrEqual).toBe(true);
     });

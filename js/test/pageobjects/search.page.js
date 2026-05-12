@@ -8,6 +8,7 @@ class SearchPage extends BasePage {
     #DATA_RANGE_PICKER_INPUT = "//div[@data-test-id-qa='date-range-picker-input']";
     #DATA_TODAY_BUTTON = "//button[contains(@aria-label, 'Today')]";
     #SUCHEN_SUBMIT_BUTTON = "//button[@data-test-id-qa='submit']";
+    #RESULT_LIST_CONTENT_CONTAINER = "//div[@data-test-id-qa='results-list-content-container']/div";
     #DISTANCE_MAX_5_KM = "//div[contains(@data-label,'5 km')]";
     #CLOSE_ICON = "//div[contains(@class, loyaltyLoginTeaserOverLay)]//div[contains(@class, 'closeIconContainer')]"
     #RESULTS_LIST_DISTANCE_HINT = "//span[@data-test-id-qa='results-list-distance-hint']";
@@ -40,13 +41,18 @@ class SearchPage extends BasePage {
         await this.waitAndClick(this.#SUCHEN_SUBMIT_BUTTON);
     }
 
+    async getContainers() {
+        await $(this.#RESULT_LIST_CONTENT_CONTAINER).waitForExist({ timeout: 15000 });
+        return await this.getQuantityOfElements(this.#RESULT_LIST_CONTENT_CONTAINER);
+    }
+
     async selectDistanceMax5km() {
         await this.waitAndClick(this.#DISTANCE_MAX_5_KM)
     }
 
     async isDistanceLessOrEqualTo(distanceInMeters) {
         await this.getElementList(this.#RESULTS_LIST_DISTANCE_HINT);
-        const distances = await getResultsListDistance();
+        const distances = await this.getResultsListDistance();
         for (const distance of distances) {
             if (distance > distanceInMeters) {
                 return false;
@@ -56,7 +62,6 @@ class SearchPage extends BasePage {
     }
 
     async getResultsListDistance() {
-
         const listAsString = await this.getResultsDistanceHint();
         const listAsNumbers = [];
             for (const item of listAsString) {
@@ -67,11 +72,11 @@ class SearchPage extends BasePage {
     }
 
     async getResultsDistanceHint() {
-        return await this.getElementText(this.#RESULTS_LIST_DISTANCE_HINT);
+        return await this.getElementText(this.#RESULT_LIST_CONTENT_CONTAINER);
     }
 
     async getDistanceInMeters(distanceHint) {
-        if (distanceHint == null || distanceHint.trim().isEmpty()) {
+        if (distanceHint == null || distanceHint.trim() === '') {
             return 0;
         }
         let distanceHintText = distanceHint.toLowerCase().replace(",", ".");
