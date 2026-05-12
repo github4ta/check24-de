@@ -5,16 +5,13 @@ import { browser } from '@wdio/globals'
 * that is shared across all page objects
 */
 export default class BasePage {
-    /**
-    * Opens a sub page of the page
-    * @param path path of the sub page (e.g. /path/to/page.html)
-    */
-    open (path) {
-        return browser.url("https://www.check24.de/");
+    async open() {
+        await browser.url("https://www.check24.de/");
+        await browser.maximizeWindow();
     }
 
-    closeCookies () {
-        const cookieConsentButton = $("//div[contains(@class, 'c24-cookie-consent-notice-buttons')]//a[@class='c24-cookie-consent-button']");  
+    closeCookies() {
+        const cookieConsentButton = $("//div[contains(@class, 'c24-cookie-consent-notice-buttons')]//a[@class='c24-cookie-consent-button']");
         cookieConsentButton.click()
     }
 
@@ -32,17 +29,49 @@ export default class BasePage {
         await element.click();
     }
 
+<<<<<<< HEAD
+=======
+    async getText(locator) {
+        return await this.getElementText(locator);
+    }
+
+>>>>>>> js
     async getElementText(locator) {
         return await $(locator).getText()
     }
 
+<<<<<<< HEAD
+=======
+    async getRangePrice(locator) {
+        const text = await this.getText(locator);
+        const priceAsText = text.replace(/[^0-9]/g, "");
+        return parseInt(priceAsText, 10);
+    }
+
+>>>>>>> js
     async getElementList(locator) {
         await $(locator).waitForExist({timeout: 10000});
         return await $$(locator);
     }
 
+<<<<<<< HEAD
     async getQuantityOfElements(locator) {
         const elements = await $$(locator);
         return elements.length;
+=======
+    async getTexts(locator) {
+        const elements = await $$(locator);
+        await browser.waitUntil(async () => (await elements.length) > 0, {
+            timeout: 10000,
+            timeoutMsg: 'Elements were not visible within 10s'
+        });
+        const texts = await elements.map(el => el.getText());
+        return texts.map(text => text.trim()).filter(text => text !== "");
+    }
+
+    async getQuantityOfElements(locator) {
+            const elements = await $$(locator);
+            return elements.length;
+>>>>>>> js
     }
 }
