@@ -5,9 +5,9 @@ import de.check24.ui.pages.home.HomePage;
 import de.check24.ui.pages.search.SearchPage;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SearchTest extends BaseUITest {
@@ -21,7 +21,6 @@ public class SearchTest extends BaseUITest {
         homePage.clickQuickChipsLinkHotel();
 
         searchPage = new SearchPage();
-        searchPage.clickSplashScreenButtonClose();
     }
 
     @Test
@@ -32,9 +31,11 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
+        searchPage.clickLoyaltyLoginTeaserCloseIcon();
 
         searchPage.setIntelligentFilter("Dachterrasse");
 
+        assertThat(searchPage.isFilterChipVisible()).isTrue();
         assertThat(searchPage.isHotelDescriptionsContain("Dachterrasse")).isTrue();
     }
 
@@ -46,13 +47,14 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
+        searchPage.clickLoyaltyLoginTeaserCloseIcon();
 
         searchPage.setFilterOptionWithMoreLink("Unterkunftstyp", "Motel");
 
+        assertThat(searchPage.isFilterChipVisible()).isTrue();
         assertThat(searchPage.isHotelNamesContain("Motel")).isTrue();
     }
 
-    @Disabled
     @Test
     @DisplayName("SP113 - 'Entfernung Zentrum' Filter")
     public void testSP113() {
@@ -61,8 +63,10 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
+        searchPage.clickLoyaltyLoginTeaserCloseIcon();
 
         searchPage.selectOptionMax5km();
+        assertThat(searchPage.isFilterChipVisible()).isTrue();
 
         final int DISTANCE_5_KM = 5_000;
         SoftAssertions softAssertions = new SoftAssertions();
@@ -79,11 +83,14 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
+        searchPage.clickLoyaltyLoginTeaserCloseIcon();
+
         searchPage.scrollIhrBudgetSliderToCenter();
         searchPage.scrollScreen();
-
         int minRangePrice = searchPage.getMinRangePrice();
         int maxRangePrice = searchPage.getMaxRangePrice();
+
+        assertThat(searchPage.isFilterChipVisible()).isTrue();
         assertThat(searchPage.getPrices()).allMatch(price -> (price >= minRangePrice && price <= maxRangePrice));
     }
 
@@ -95,8 +102,12 @@ public class SearchTest extends BaseUITest {
         searchPage.clickDateRangePickerInput();
         searchPage.clickDataTodayButton();
         searchPage.clickSuchenSubmitButton();
-        searchPage.setFilterOption("Gästebewertung", "Hervorragend: 9+");
+        searchPage.clickLoyaltyLoginTeaserCloseIcon();
 
-        assertThat(searchPage.isHotelRatingMoreThan(9)).isTrue();
+        int HOTEL_RATING = 9;
+        searchPage.setFilterOption("Gästebewertung", String.format("Hervorragend: %s+", HOTEL_RATING));
+
+        assertThat(searchPage.isFilterChipVisible()).isTrue();
+        assertThat(searchPage.isHotelRatingMoreThan(HOTEL_RATING)).isTrue();
     }
 }

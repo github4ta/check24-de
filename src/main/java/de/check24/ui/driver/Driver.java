@@ -9,10 +9,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-import org.openqa.selenium.Keys;
-
 public class Driver {
-    private static final Duration DEFAULT_WAIT_SECONDS = Duration.ofSeconds(10);
+    private static final int MAX_WAIT_SECONDS = 10;
+    private static final int DEFAULT_WAIT_SECONDS = 4;
     private static WebDriver driver;
 
     private Driver() {
@@ -104,6 +103,11 @@ public class Driver {
 
     public static boolean isElementDisplayedWithWait(String locator, int seconds) {
         return getWait(seconds).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)))
+                .isDisplayed();
+    }
+
+    public static boolean isElementDisplayedWithWait(String locator) {
+        return getWait(MAX_WAIT_SECONDS).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)))
                 .isDisplayed();
     }
 

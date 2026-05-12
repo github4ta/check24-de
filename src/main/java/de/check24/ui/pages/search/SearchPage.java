@@ -33,6 +33,8 @@ public class SearchPage extends BasePage {
     private final String HOTEL_RATING = "//div[@data-test-id-qa='hotel-rating']";
     private final String HOTEL_RESULT_LOCATION = "//div[contains(@class, 'hotelResultLocation')]";
     private final String RESULTS_LIST_DISTANCE_HINT = "//span[@data-test-id-qa='results-list-distance-hint']";
+    private final String LOYALTY_LOGIN_TEASER_CLOSE_ICON = "//div[contains(@class, 'closeIconContainer')]";
+    private final String FILTER_CHIP = "//div[@data-test-id-qa='filter-chip']";
 
     public void clickSplashScreenButtonClose() {
         try {
@@ -62,13 +64,19 @@ public class SearchPage extends BasePage {
         waitAndClick(SUCHEN_SUBMIT_BUTTON);
     }
 
+    public void clickLoyaltyLoginTeaserCloseIcon() {
+        waitAndClick(LOYALTY_LOGIN_TEASER_CLOSE_ICON);
+    }
+
     public void setIntelligentFilter(String value) {
         Driver.waitAndClearAndFillAndPressEnter(INTELLIGENT_FILTER_INPUT, value);
     }
 
     public boolean isHotelDescriptionsContain(String text) {
+        log.info("Checking if hotel descriptions contain: " + text);
         List<String> descriptions = Driver.getTexts(SHORT_SUMMARIES_CONTAINER);
         for (String description : descriptions) {
+            log.info("• description: " + description);
             if (!description.toLowerCase().contains(text.toLowerCase())) return false;
         }
         return true;
@@ -152,6 +160,10 @@ public class SearchPage extends BasePage {
         return Driver.getTexts(RESULTS_LIST_DISTANCE_HINT).stream().map(distanceHint -> parseDistance(distanceHint)).toList();
     }
 
+    public String getFilterChipText() {
+        return Driver.getText(FILTER_CHIP);
+    }
+
     private int parseDistance(String text) {
         String cleanValue = text.replaceAll("[^0-9,.]", "").replace(",", ".");
         double distance = Double.parseDouble(cleanValue);
@@ -175,5 +187,14 @@ public class SearchPage extends BasePage {
             if (rating > simpleParseAndScale(hotelRaiting, 1)) return false;
         }
         return true;
+    }
+
+    public boolean isFilterChipVisible() {
+        try {
+            Driver.isElementDisplayedWithWait(FILTER_CHIP);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
