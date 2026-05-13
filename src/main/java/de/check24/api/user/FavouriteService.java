@@ -10,7 +10,6 @@ public class FavouriteService {
     private final String URL_FAVOURITE = "https://www.check24.de/ajax/user/wishlist/count/";
     private Map<String, String> cookies;
     private Map<String, String> formData;
-
     private Response response;
 
     public FavouriteService setCookies(Map<String, String> cookies) {
@@ -45,6 +44,4 @@ public class FavouriteService {
     public boolean hasKey(String key) {
         return response.jsonPath().get(key) != null;
     }
-
-
 }
