@@ -1,11 +1,12 @@
 package de.stepik.api;
 
 import io.restassured.response.Response;
+import java.util.HashMap;
 import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class AuthStepikService {
-    private Map<String, String> headers;
+    private Map<String, String> headers = new HashMap<>();
     private String body;
     private int statusCode;
     private String responseBody;
@@ -41,9 +42,12 @@ public class AuthStepikService {
                 .then()
                 .extract()
                 .response();
+        extractResponseData(response);
+    }
 
+    private void extractResponseData(Response response) {
         this.statusCode = response.getStatusCode();
-        this.responseBody = response.getBody().asString();
+        this.responseBody = response.asString();
     }
 
     public int getStatusCode() {
