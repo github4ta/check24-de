@@ -1,9 +1,8 @@
-package de.check24.tests.api.stepik;
+package de.stepik.test;
 
-import de.check24.api.user.AuthStepikService;
+import de.stepik.api.AuthStepikService;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,5 +39,4 @@ public class AuthStepikTest {
         softAssertions.assertThat(service.getBody()).as("Response Body").contains("id");
         softAssertions.assertAll();
     }
-
 }

@@ -1,9 +1,7 @@
-package de.check24.api.user;
+package de.stepik.api;
 
 import io.restassured.response.Response;
-
 import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 
 public class AuthStepikService {
@@ -11,6 +9,7 @@ public class AuthStepikService {
     private String body;
     private int statusCode;
     private String responseBody;
+    private Map<String, String> allCookies;
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
@@ -20,13 +19,17 @@ public class AuthStepikService {
         this.body = body;
     }
 
-    public void doRequest() {
+    private void initializeSession() {
         Response initResponse = given()
-                .header("User-Agent", "Mozilla/5.0")
+                .header("User-Agent", headers != null ? headers.getOrDefault("User-Agent", "Mozilla/5.0") : "Mozilla/5.0")
                 .get("https://stepik.org/catalog");
 
-        String csrftoken = initResponse.getCookie("csrftoken");
-        Map<String, String> allCookies = initResponse.getCookies();
+        this.allCookies = initResponse.getCookies();
+    }
+
+    public void doRequest() {
+        initializeSession();
+        String csrftoken = allCookies.get("csrftoken");
 
         Response response = given()
                 .cookies(allCookies)
