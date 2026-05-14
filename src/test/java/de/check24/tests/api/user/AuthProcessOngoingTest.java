@@ -11,7 +11,6 @@ public class AuthProcessOngoingTest {
 
     @Test
     public void checkAuthProcessOngoing() {
-
         String body = """
         login=navis1mplegod@gmail.com
         auth_type=pwreset_otp_v1
@@ -57,6 +56,3 @@ public class AuthProcessOngoingTest {
     }
 
 }
-
-
-

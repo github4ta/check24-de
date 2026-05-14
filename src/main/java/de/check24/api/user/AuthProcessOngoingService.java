@@ -7,12 +7,10 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class AuthProcessOngoingService {
-
     private final String URL_USER_AUTH_PROCESS_ONGOING = "https://accounts.check24.com/login/api/user/authprocessstart/";
     private Map<String, String> headers;
     private String body;
     private Response response;
-
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
@@ -54,5 +52,3 @@ public class AuthProcessOngoingService {
         return response.getBody().jsonPath().getString("data.authprocess_type");
     }
 }
-
-
