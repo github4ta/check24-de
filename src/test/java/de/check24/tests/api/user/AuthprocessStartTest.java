@@ -25,7 +25,5 @@ public class AuthprocessStartTest {
                         service.getMessage())
                 .isEqualTo("Invalid CSRF token");
         softAssertions.assertAll();
-
-        System.out.println(service.getBody());
     }
 }
