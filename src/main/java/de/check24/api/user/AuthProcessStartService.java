@@ -1,17 +1,13 @@
 package de.check24.api.user;
 
-import io.restassured.response.Response;
+import de.check24.api.BaseService;
 
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class AuthProcessStartService {
-    private final String URL_USER_AUTH_PROCESS_START = "https://accounts.check24.com/login/api/user/existsextended/";
-    private Map<String, String> headers;
-    private String body;
-    private Response response;
-
+public class AuthProcessStartService extends BaseService {
+    private final String URL_USER_AUTH_PROCESS_START = BASE_API_URL + "/user/existsextended/";
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
@@ -23,7 +19,7 @@ public class AuthProcessStartService {
 
     public void doRequest() {
         response = given()
-                .headers(headers)
+                .headers(getDefaultHeaders())
                 .body(body)
         .when()
                 .post(URL_USER_AUTH_PROCESS_START);

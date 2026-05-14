@@ -1,0 +1,5 @@
+{
+  "status": 499,
+  "message": "Invalid CSRF token",
+  "loginServer": "2"
+}

@@ -1,48 +1,17 @@
 package de.check24.tests.api.user;
 
 import de.check24.api.user.AuthProcessStartService;
+import de.check24.api.util.FileReader;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuthprocessStartTest {
 
     @Test
     public void checkAuthprocessStartTest() {
-        String body = """
-                //accept:*/*
-                //accept-language:en-US,en;q=0.9
-                content-type:application/x-www-form-urlencoded
-                //origin:https://accounts.check24.com
-                //priority:u=1, i
-                //referer:https://accounts.check24.com/login?callback=https%3A%2F%2Fwww.check24.de%2F&api_product=check24_lp&loc=de_DE&deviceoutput=desktop&ls=2&context_key=default
-                //sec-ch-ua:"Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
-                //sec-ch-ua-arch:"x86"
-                //sec-ch-ua-bitness:"64"
-                //sec-ch-ua-full-version:"147.0.3912.98"
-                //sec-ch-ua-full-version-list:"Microsoft Edge";v="147.0.3912.98", "Not.A/Brand";v="8.0.0.0", "Chromium";v="147.0.7727.138"
-                //sec-ch-ua-mobile:?0
-                //sec-ch-ua-model:""
-                //sec-ch-ua-platform:"Windows"
-                //sec-ch-ua-platform-version:"19.0.0"
-                //sec-ch-ua-wow64:?0
-                //sec-fetch-dest:empty
-                //sec-fetch-mode:cors
-                //sec-fetch-site:same-origin
-                //user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0
-                //Cookie:bpm=9097e1053da4ef50e47ef33145e3343507062fa3; st={{vault:json-web-token}}; auth_api_group=b; __cf_bm=NyNOdNcLgrW239ZgTVlrAIybQtZfUZRrcAvER03sD2g-1778496079.4076824-1.0.1.1-A85S6J1z8IigaWoKV6_DYzJwBj7MUNbI2v00oGGW9BZlFz86DhH88lVNeIzS3LX3IOVGuANaYjBgsqheiwjPg1VVbKxn9JB5khrXoaBMEWl4kC0cDfPdQQe1KFVxJsqC; csrf_token=23668ac51b812002c30043270ee608bd8ceabc7e4c319ab2b48677bbd66af140.HPRI0j82Egm-P7fVOCLYddb5a8_ygGxx33HlOd-eByY
-                """;
-        // body = Utils.getBody(......);
-
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/x-www-form-urlencoded");
-
         AuthProcessStartService service = new AuthProcessStartService();
+        service.setBody(FileReader.readFile("default-body.txt", "api", "user", "auth"));
 
-        service.setHeaders(headers);
-        service.setBody(body);
         service.doRequest();
 
         SoftAssertions softAssertions = new SoftAssertions();
@@ -51,14 +20,12 @@ public class AuthprocessStartTest {
                 .isEqualTo(200);
         softAssertions.assertThat(
                         service.getBody())
-                .isEqualTo("{\n" +
-                        "    \"status\": 499,\n" +
-                        "    \"message\": \"Invalid CSRF token\",\n" +
-                        "    \"loginServer\": \"2\"\n" +
-                        "}");
+                .isEqualTo(FileReader.readFile("response-body.json", "api", "user", "auth"));
         softAssertions.assertThat(
                         service.getMessage())
                 .isEqualTo("Invalid CSRF token");
         softAssertions.assertAll();
+
+        System.out.println(service.getBody());
     }
 }
