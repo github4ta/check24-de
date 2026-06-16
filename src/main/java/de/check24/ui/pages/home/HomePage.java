@@ -13,7 +13,7 @@ public class HomePage extends BasePage {
     public static final String LABEL_CHAT = "//a[@class='c24-contact-content clearfix']";
     public static final String LABEL_NOTIFICATION = "//div[@data-layer-class='c24-notification-layer-hover']";
     private final String QUICK_CHIPS_LINK_HOTEL = "//a[@data-identifier='hotel']";
-    private final String SEARCH_HEADER = "//input[@id='c24-search-header']";
+    private final String SEARCH_HEADER = "//input[@id='c24-search-header']"; ////span[contains(@class, 'c24-search-placeholder-label')]
 
     public String getFooterCompanyLine() {
         return getText(FOOTER_COMPANY_LINE);
