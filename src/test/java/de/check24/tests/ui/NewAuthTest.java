@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 
 
-public class SimpleTest {
+public class NewAuthTest {
 
-    private static final Logger log = LoggerFactory.getLogger(SimpleTest.class);
+    private static final Logger log = LoggerFactory.getLogger(NewAuthTest.class);
 
     private static WebElement getElementInShadowRoot(WebDriver driver, String hostLocator, String cssSelector) {
         return new WebDriverWait(driver, Duration.ofSeconds(10)).ignoring(NoSuchElementException.class)
