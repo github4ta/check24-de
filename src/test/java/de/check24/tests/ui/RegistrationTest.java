@@ -17,8 +17,8 @@ public class RegistrationTest {
 
     private static final Faker faker = new Faker();
 
+    private final String LOGIN_URL = "https://www.mytheresa.com/int/en/account/login";
     private String invalidEmail = "mytheresatgmailcom";
-    private String mytheresaLoginUrl = "https://www.mytheresa.com/int/en/account/login";
     private String shadowHostLocator = "#usercentrics-cmp-ui";
     private String acceptCookiesButton = "#accept";
     private String saveChangesButton = "//div[@class='modal__wrapper__footer__buttons']/div";
@@ -41,7 +41,7 @@ public class RegistrationTest {
         ChromeOptions options = new ChromeOptions();
         WebDriver driver = new ChromeDriver(options);
 
-        driver.get(mytheresaLoginUrl);
+        driver.get(LOGIN_URL);
 
         findShadowRootElement(driver, shadowHostLocator, acceptCookiesButton).click();
         driver.findElement(By.xpath(saveChangesButton)).click();
@@ -63,7 +63,7 @@ public class RegistrationTest {
         WebDriver driver = new ChromeDriver(options);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        driver.get(mytheresaLoginUrl);
+        driver.get(LOGIN_URL);
 
         findShadowRootElement(driver, shadowHostLocator, acceptCookiesButton).click();
         driver.findElement(By.xpath(saveChangesButton)).click();
@@ -84,7 +84,7 @@ public class RegistrationTest {
         WebDriver driver = new ChromeDriver(options);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        driver.get(mytheresaLoginUrl);
+        driver.get(LOGIN_URL);
 
         findShadowRootElement(driver, shadowHostLocator, acceptCookiesButton).click();
         driver.findElement(By.xpath(saveChangesButton)).click();
