@@ -21,6 +21,8 @@ public class AuthTest  {
 
     private static final Logger log = LoggerFactory.getLogger(AuthTest.class);
 
+    private String comparisURI = "https://www.comparis.ch/";
+
     private String acceptCookiesButton = "//a[@class ='cmpboxbtn cmpboxbtnyes cmptxt_btn_yes']";
     private String loginButton = "//a[@class='css-je6r1p']";
     private String loginPageTitle = "//h1";
@@ -42,7 +44,7 @@ public class AuthTest  {
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
 
-        driver.get("https://www.comparis.ch/");
+        driver.get(comparisURI);
         log.info("We on {}", driver.getCurrentUrl());
         Thread.sleep(rand.nextInt(500));
         try {
@@ -67,7 +69,7 @@ public class AuthTest  {
         ChromeOptions options = new ChromeOptions();
         ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.get("https://www.comparis.ch/");
+        driver.get(comparisURI);
 
         log.info("We on {}", driver.getCurrentUrl());
         Thread.sleep(rand.nextInt(500));
@@ -98,7 +100,7 @@ public class AuthTest  {
         ChromeOptions options = new ChromeOptions();
         WebDriver driver =new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.get("https://www.comparis.ch/");
+        driver.get(comparisURI);
         Thread.sleep(rand.nextInt(500));
         log.info("We on {}", driver.getCurrentUrl());
         try {
