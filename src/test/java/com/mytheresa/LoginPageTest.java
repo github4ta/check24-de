@@ -135,7 +135,7 @@ public class LoginPageTest {
 
         log.info("Clearing email field");
         driver.findElement(By.xpath(emailInputField)).sendKeys("");
-        Thread.sleep(200);
+        Thread.sleep(500);
         log.info("Verifying password field is displayed");
         Assertions.assertTrue(driver.findElement(By.xpath(passwordInputField)).isDisplayed());
         log.info("Clearing password field");

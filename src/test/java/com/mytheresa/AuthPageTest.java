@@ -71,7 +71,7 @@ public class AuthPageTest  extends AuthPage {
 
         log.info("Clearing email field");
         driver.findElement(getEmailInput()).sendKeys("");
-        Thread.sleep(200);
+        Thread.sleep(800);
         log.info("Verifying password field is displayed");
         Assertions.assertTrue(driver.findElement(getPasswordInput()).isDisplayed());
         log.info("Clearing password field");
