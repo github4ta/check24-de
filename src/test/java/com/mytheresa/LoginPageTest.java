@@ -1,5 +1,6 @@
 package com.mytheresa;
 
+import com.mytheresa.ui.AuthPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -14,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.security.SecureRandom;
 import java.util.List;
 
-public class LoginPageTest {
+public class LoginPageTest extends AuthPage {
 
     private static final Logger log = LoggerFactory.getLogger(LoginPageTest.class);
     private String loginURI = "https://www.mytheresa.com/int/en/account/login";
@@ -39,51 +40,11 @@ public class LoginPageTest {
         private String countryGermany = "//div[@data-id='DE']";
         private String countryByDataId = "//div[@data-id='%s']";
 
-    private void acceptCookies(WebDriver driver) throws InterruptedException {
-        log.info("Closing cookie consent via shadow DOM");
-        SearchContext shadowRoot = driver.findElement(By.cssSelector("aside#usercentrics-cmp-ui")).getShadowRoot();
-        shadowRoot.findElement(By.cssSelector("button#accept")).click();
-        log.info("Cookie accept button clicked");
-    }
-
-    private WebDriver initDriver() throws InterruptedException {
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get(loginURI);
-        log.info("We on {}", driver.getCurrentUrl());
-        Thread.sleep(10000);
-
-        acceptCookies(driver);
-        return driver;
-    }
 
     @Test
     void loginPageElementsExistTest() throws InterruptedException {
         WebDriver driver = initDriver();
-        try {
-            log.info("Opening country selection modal");
-            driver.findElement(By.xpath(modalWrapperCountrySelectionButton)).click();
-            Thread.sleep(1000);
-
-            log.info("Clicking search field");
-            driver.findElement(By.xpath(searchCountryInput)).click();
-            Thread.sleep(300);
-
-            log.info("Searching for GB");
-            driver.findElement(By.xpath(searchCountryInput)).sendKeys("United");
-            Thread.sleep(500);
-
-            log.info("Selecting GB from results");
-            driver.findElement(By.xpath(countryUnitedKingdom)).click();
-            Thread.sleep(500);
-
-            log.info("Closing modal save button");
-            driver.findElement(By.xpath(modalWrapperSaveButton)).click();
-
-        } catch (Exception exception){
-            log.info("Country selection modal failed. {}", exception.getMessage());
-        }
+        passUserPreferences(driver);
 
         log.info("Verifying sign-in title exists");
         Assertions.assertTrue(driver.findElement(By.xpath(loginSignInTitleCss)).getText().contains("Already registered?"));
@@ -104,34 +65,15 @@ public class LoginPageTest {
             log.info("Site benefits: {}", webElement.getText());
         }
         log.info("Page verifying elements right");
+
+        driver.quit();
     }
 
     @Test
     void emptyLoginFieldsTest() throws InterruptedException {
         WebDriver driver = initDriver();
-        try {
-            log.info("Opening country selection modal");
-            driver.findElement(By.xpath(modalWrapperCountrySelectionButton)).click();
-            Thread.sleep(1000);
-
-            log.info("Clicking search field");
-            driver.findElement(By.xpath(searchCountryInput)).click();
-            Thread.sleep(300);
-
-            log.info("Searching for GB");
-            driver.findElement(By.xpath(searchCountryInput)).sendKeys("United");
-            Thread.sleep(500);
-
-            log.info("Selecting GB from results");
-            driver.findElement(By.xpath(countryUnitedKingdom)).click();
-            Thread.sleep(500);
-
-            log.info("Closing modal save button");
-            driver.findElement(By.xpath(modalWrapperSaveButton)).click();
-
-        } catch (Exception exception){
-            log.info("Country selection modal failed. {}", exception.getMessage());
-        }
+        passUserPreferences(driver);
+        acceptCookies(driver);
 
         log.info("Clearing email field");
         driver.findElement(By.xpath(emailInputField)).sendKeys("");
@@ -158,33 +100,9 @@ public class LoginPageTest {
     @Test
     public void verifyValidLoginAndPasswordSignInTest() throws InterruptedException {
         WebDriver driver = initDriver();
+        passUserPreferences(driver);
+        acceptCookies(driver);
 
-        try {
-            log.info("Opening country selection modal");
-            driver.findElement(By.xpath(modalWrapperCountrySelectionButton)).click();
-            Thread.sleep(1000);
-
-            log.info("Clicking search field");
-            driver.findElement(By.xpath(searchCountryInput)).click();
-            Thread.sleep(300);
-
-            log.info("Searching for France");
-            driver.findElement(By.xpath(searchCountryInput)).sendKeys("France");
-            Thread.sleep(500);
-
-            log.info("Selecting France from results");
-            driver.findElement(By.xpath(countryFrance)).click();
-            Thread.sleep(500);
-
-            log.info("Closing modal save button");
-            driver.findElement(By.xpath(modalWrapperSaveButton)).click();
-
-        } catch (Exception exception){
-            log.info("Country selection modal failed. {}", exception.getMessage());
-        }
-
-        // dWCrTb6_NP7YsiT
-        // zbefap@chitthi.in
         String password = "dWCrTb6_NP7YsiT";
         String email = "zbefap@chitthi.in";
 
@@ -199,6 +117,8 @@ public class LoginPageTest {
         driver.findElement(By.xpath("//div[@class='button' and @role = 'button']")).click();
         
         log.info("Login submitted");
+
+        driver.quit();
     }
 
 }
