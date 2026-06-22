@@ -39,21 +39,28 @@ public class LoginPageTest {
         private String countryGermany = "//div[@data-id='DE']";
         private String countryByDataId = "//div[@data-id='%s']";
 
-    @Test
-    void loginPageElementsExistTest() throws InterruptedException {
+    private void acceptCookies(WebDriver driver) throws InterruptedException {
+        log.info("Closing cookie consent via shadow DOM");
+        SearchContext shadowRoot = driver.findElement(By.cssSelector("aside#usercentrics-cmp-ui")).getShadowRoot();
+        shadowRoot.findElement(By.cssSelector("button#accept")).click();
+        log.info("Cookie accept button clicked");
+    }
 
+    private WebDriver initDriver() throws InterruptedException {
         ChromeOptions options = new ChromeOptions();
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(loginURI);
         log.info("We on {}", driver.getCurrentUrl());
-
         Thread.sleep(10000);
 
-        log.info("Closing cookie consent via shadow DOM");
-        SearchContext shadowRoot = driver.findElement(By.cssSelector("aside#usercentrics-cmp-ui")).getShadowRoot();
-        shadowRoot.findElement(By.cssSelector("button#accept")).click();
-        log.info("Cookie accept button clicked");
+        acceptCookies(driver);
+        return driver;
+    }
+
+    @Test
+    void loginPageElementsExistTest() throws InterruptedException {
+        WebDriver driver = initDriver();
         try {
             log.info("Opening country selection modal");
             driver.findElement(By.xpath(modalWrapperCountrySelectionButton)).click();
@@ -101,17 +108,7 @@ public class LoginPageTest {
 
     @Test
     void emptyLoginFieldsTest() throws InterruptedException {
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get(loginURI);
-        log.info("We on {}", driver.getCurrentUrl());
-        Thread.sleep(10000);
-
-        log.info("Closing cookie consent via shadow DOM");
-        SearchContext shadowRoot = driver.findElement(By.cssSelector("aside#usercentrics-cmp-ui")).getShadowRoot();
-        shadowRoot.findElement(By.cssSelector("button#accept")).click();
-        log.info("Cookie accept button clicked");
+        WebDriver driver = initDriver();
         try {
             log.info("Opening country selection modal");
             driver.findElement(By.xpath(modalWrapperCountrySelectionButton)).click();
@@ -160,18 +157,7 @@ public class LoginPageTest {
 
     @Test
     public void verifyValidLoginAndPasswordSignInTest() throws InterruptedException {
-
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get(loginURI);
-        log.info("We on {}", driver.getCurrentUrl());
-        Thread.sleep(10000);
-        log.info("Closing cookie consent via shadow DOM");
-        SearchContext shadowRoot = driver.findElement(By.cssSelector("aside#usercentrics-cmp-ui")).getShadowRoot();
-        shadowRoot.findElement(By.cssSelector("button#accept")).click();
-        log.info("Cookie accept button clicked");
-        Thread.sleep(1000);
+        WebDriver driver = initDriver();
 
         try {
             log.info("Opening country selection modal");
