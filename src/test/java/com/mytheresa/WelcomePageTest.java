@@ -16,7 +16,7 @@ import java.time.Duration;
 
 public class WelcomePageTest extends AuthPage {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginPageTest.class);
+    private static final Logger log = LoggerFactory.getLogger(WelcomePageTest.class);
 
     @Test
     @Name("UI-TC-005: Successful password masking")
