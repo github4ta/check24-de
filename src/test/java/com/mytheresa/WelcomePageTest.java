@@ -1,4 +1,95 @@
 package com.mytheresa;
 
-public class WelcomePageTest {
+import com.mytheresa.ui.AuthPage;
+import jdk.jfr.Name;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
+
+public class WelcomePageTest extends AuthPage {
+
+    private static final Logger log = LoggerFactory.getLogger(LoginPageTest.class);
+
+    @Test
+    @Name("UI-TC-001: Validation error when submitting an empty login form")
+    void emptyLoginFieldsTest() throws InterruptedException {
+
+        WebDriver driver = initDriver();
+        acceptCookies(driver);
+        passUserPreferences(driver);
+
+        log.info("Clearing email field");
+        driver.findElement(getEmailInput()).sendKeys("");
+        Thread.sleep(200);
+        log.info("Verifying password field is displayed");
+        Assertions.assertTrue(driver.findElement(getPasswordInput()).isDisplayed());
+        log.info("Clearing password field");
+        driver.findElement(getPasswordInput()).sendKeys("");
+        log.info("Clicking Log in button");
+        driver.findElement(getLogInButton()).click();
+        log.info("Verifying email error is displayed");
+        Assertions.assertTrue(driver.findElement(getEmailError()).isDisplayed());
+        log.info("Verifying password error is displayed");
+        Assertions.assertTrue(driver.findElement(getPasswordError()).isDisplayed());
+        log.info("Verifying email error text");
+        Assertions.assertTrue(driver.findElement(getEmailError()).getText().equals("Required field"));
+        log.info("Verifying password error text");
+        Assertions.assertTrue(driver.findElement(getPasswordError()).getText().equals("Required field"));
+        log.info("Empty fields verification passed");
+
+        driver.quit();
+    }
+
+    private void acceptCookies(WebDriver driver) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(getShadowHostLocator()))
+                .getShadowRoot()
+                .findElement(getAcceptCookiesButton())
+                .click();
+    }
+
+    private WebDriver initDriver() throws InterruptedException {
+        ChromeOptions options = new ChromeOptions();
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.get(getLOGIN_URL());
+        log.info("We on {}", driver.getCurrentUrl());
+        Thread.sleep(1000);
+        return driver;
+    }
+
+    public void passUserPreferences(WebDriver driver) {
+
+        try {
+            log.info("Opening country selection modal");
+            driver.findElement(getModalWrapperCountrySelectionButton()).click();
+            Thread.sleep(1000);
+
+            log.info("Clicking search field");
+            driver.findElement(getSearchCountryInput()).click();
+            Thread.sleep(300);
+
+            log.info("Searching for GB");
+            driver.findElement(getSearchCountryInput()).sendKeys("United");
+            Thread.sleep(500);
+
+            log.info("Selecting GB from results");
+            driver.findElement(getCountryUnitedKingdom()).click();
+            Thread.sleep(500);
+
+            log.info("Closing modal save button");
+            driver.findElement(getModalWrapperSaveButton()).click();
+
+        } catch (Exception exception) {
+            log.info("Country selection modal failed. {}", exception.getMessage());
+        }
+    }
 }
