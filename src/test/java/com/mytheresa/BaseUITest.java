@@ -1,6 +1,6 @@
-package de.check24.tests.ui.base;
+package com.mytheresa;
 
-import de.check24.ui.driver.Driver;
+import com.mytheresa.ui.driver.Driver;
 import org.junit.jupiter.api.AfterEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

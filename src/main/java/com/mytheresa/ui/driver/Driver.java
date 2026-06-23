@@ -1,4 +1,4 @@
-package de.check24.ui.driver;
+package com.mytheresa.ui.driver;
 
 import de.check24.config.ConfigLoader;
 import org.openqa.selenium.*;
