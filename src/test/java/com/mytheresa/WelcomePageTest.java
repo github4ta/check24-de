@@ -68,11 +68,7 @@ public class WelcomePageTest extends AuthPage {
     }
 
     private void acceptCookies(WebDriver driver) {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(getShadowHostLocator()))
-                .getShadowRoot()
-                .findElement(getAcceptCookiesButton())
-                .click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(getShadowHostLocator())).getShadowRoot().findElement(getAcceptCookiesButton()).click();
     }
 
     private WebDriver initDriver() throws InterruptedException {
@@ -155,14 +151,14 @@ public class WelcomePageTest extends AuthPage {
 
         try {
             Assertions.assertFalse(driver.findElement(getEmailError()).isDisplayed(), "Email message displayed");
-        } catch (NoSuchElementException e){
-            Assertions.assertTrue(e.getMessage().contains("no such element"),"Another Error");
+        } catch (NoSuchElementException e) {
+            Assertions.assertTrue(e.getMessage().contains("no such element"), "Another Error");
             log.info("Verifying email error is not displayed");
         }
         try {
             Assertions.assertFalse(driver.findElement(getPasswordError()).isDisplayed(), "Password message displayed");
-        }catch (NoSuchElementException e){
-            Assertions.assertTrue(e.getMessage().contains("no such element"),"Another Error");
+        } catch (NoSuchElementException e) {
+            Assertions.assertTrue(e.getMessage().contains("no such element"), "Another Error");
             log.info("Verifying password error is not displayed");
         }
 
