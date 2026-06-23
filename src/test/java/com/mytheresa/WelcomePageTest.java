@@ -174,4 +174,22 @@ public class WelcomePageTest extends AuthPage {
 
         driver.quit();
     }
+
+    @Test
+    @Name("UI-TC-003: Validation error when submitting valid Email and empty Password")
+    public void emptyPasswordTest() {
+        ChromeOptions options = new ChromeOptions();
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get(getLOGIN_URL());
+        acceptCookies(driver);
+        driver.findElement(getSaveChangesButton()).click();
+
+        driver.findElement(getEmailInput()).sendKeys(getValidEmail());
+        driver.findElement(getLoginButton()).click();
+
+        Assertions.assertEquals("Required field", driver.findElement(getPasswordError()).getText());
+
+        driver.quit();
+    }
 }
