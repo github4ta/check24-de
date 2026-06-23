@@ -17,6 +17,8 @@ public class AuthPage extends  BaseMytheresaPage{
     private String passwordError = "//div[@class='forminput__content__error' and @id='password__error']";
     private String saveChangesButton = "//div[@class='modal__wrapper__footer__buttons']/div";
     private String loginButton = "//div[@class='button']";
+    private String contentEyeIcon = "//div[@class='forminput__content__float']";
+    private String loginBody = "//div[@class='login']";
     String validEmail = "test@test.com";
     String validPassword = "Password123";
 
@@ -106,4 +108,11 @@ public class AuthPage extends  BaseMytheresaPage{
         return By.xpath(countryUnitedKingdom);
     }
 
+    public By getContentEyeIcon() {
+        return By.xpath(contentEyeIcon);
+    }
+
+    public By getLoginBody(){
+        return By.xpath(loginBody);
+    }
 }
