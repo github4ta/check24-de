@@ -16,7 +16,7 @@ import java.time.Duration;
 
 public class WelcomePageTest extends AuthPage {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginPageTest.class);
+    private static final Logger log = LoggerFactory.getLogger(WelcomePageTest.class);
 
     @Test
     @Name("UI-TC-001: Validation error when submitting an empty login form")
@@ -44,6 +44,23 @@ public class WelcomePageTest extends AuthPage {
         log.info("Verifying password error text");
         Assertions.assertTrue(driver.findElement(getPasswordError()).getText().equals("Required field"));
         log.info("Empty fields verification passed");
+      
+        driver.quit();
+    }
+
+    @Test
+    @Name("UI-TC-005: Successful password masking")
+    public void verifyPasswordMaskingAndUnmaskingTest() throws InterruptedException {
+        WebDriver driver = initDriver();
+        acceptCookies(driver);
+        driver.findElement(getSaveChangesButton()).click();
+
+        driver.findElement(getEmailInput()).click();
+        driver.findElement(getPasswordInput()).sendKeys(getValidPassword());
+        Assertions.assertEquals("password", driver.findElement(getPasswordInput()).getAttribute("type"));
+
+        driver.findElement(getContentEyeIcon()).click();
+        Assertions.assertEquals("text", driver.findElement(getPasswordInput()).getAttribute("type"));
 
         driver.quit();
     }
