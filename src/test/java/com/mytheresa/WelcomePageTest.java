@@ -19,6 +19,36 @@ public class WelcomePageTest extends AuthPage {
     private static final Logger log = LoggerFactory.getLogger(WelcomePageTest.class);
 
     @Test
+    @Name("UI-TC-001: Validation error when submitting an empty login form")
+    void emptyLoginFieldsTest() throws InterruptedException {
+
+        WebDriver driver = initDriver();
+        acceptCookies(driver);
+        passUserPreferences(driver);
+
+        log.info("Clearing email field");
+        driver.findElement(getEmailInput()).sendKeys("");
+        Thread.sleep(200);
+        log.info("Verifying password field is displayed");
+        Assertions.assertTrue(driver.findElement(getPasswordInput()).isDisplayed());
+        log.info("Clearing password field");
+        driver.findElement(getPasswordInput()).sendKeys("");
+        log.info("Clicking Log in button");
+        driver.findElement(getLogInButton()).click();
+        log.info("Verifying email error is displayed");
+        Assertions.assertTrue(driver.findElement(getEmailError()).isDisplayed());
+        log.info("Verifying password error is displayed");
+        Assertions.assertTrue(driver.findElement(getPasswordError()).isDisplayed());
+        log.info("Verifying email error text");
+        Assertions.assertTrue(driver.findElement(getEmailError()).getText().equals("Required field"));
+        log.info("Verifying password error text");
+        Assertions.assertTrue(driver.findElement(getPasswordError()).getText().equals("Required field"));
+        log.info("Empty fields verification passed");
+      
+        driver.quit();
+    }
+
+    @Test
     @Name("UI-TC-005: Successful password masking")
     public void verifyPasswordMaskingAndUnmaskingTest() throws InterruptedException {
         WebDriver driver = initDriver();
@@ -51,5 +81,32 @@ public class WelcomePageTest extends AuthPage {
         log.info("We on {}", driver.getCurrentUrl());
         Thread.sleep(1000);
         return driver;
+    }
+
+    public void passUserPreferences(WebDriver driver) {
+
+        try {
+            log.info("Opening country selection modal");
+            driver.findElement(getModalWrapperCountrySelectionButton()).click();
+            Thread.sleep(1000);
+
+            log.info("Clicking search field");
+            driver.findElement(getSearchCountryInput()).click();
+            Thread.sleep(300);
+
+            log.info("Searching for GB");
+            driver.findElement(getSearchCountryInput()).sendKeys("United");
+            Thread.sleep(500);
+
+            log.info("Selecting GB from results");
+            driver.findElement(getCountryUnitedKingdom()).click();
+            Thread.sleep(500);
+
+            log.info("Closing modal save button");
+            driver.findElement(getModalWrapperSaveButton()).click();
+
+        } catch (Exception exception) {
+            log.info("Country selection modal failed. {}", exception.getMessage());
+        }
     }
 }
