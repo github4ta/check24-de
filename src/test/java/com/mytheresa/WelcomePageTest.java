@@ -3,9 +3,12 @@ package com.mytheresa;
 import com.mytheresa.ui.AuthPage;
 import jdk.jfr.Name;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,6 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WelcomePageTest extends AuthPage {
 
@@ -190,4 +197,26 @@ public class WelcomePageTest extends AuthPage {
     }
 
     //
+
+    @Test
+    @DisplayName("UI-TC-010: Verify department links list")
+    public void departmentLinksTest() {
+        ChromeOptions options = new ChromeOptions();
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.get(getLOGIN_URL());
+        acceptCookies(driver);
+        passUserPreferences(driver);
+
+        List<WebElement> linksList = driver.findElements(By.xpath("//a[contains(@class , 'departmentlinks__link')]"));
+        List<String> linksTextList = new ArrayList<>();
+        for(WebElement link : linksList) {
+            linksTextList.add(link.getText().toLowerCase());
+        }
+
+        Assertions.assertTrue(linksTextList.contains("women"));
+        Assertions.assertTrue(linksTextList.contains("men"));
+        Assertions.assertTrue(linksTextList.contains("kids"));
+        Assertions.assertTrue(linksTextList.contains("life"));
+    }
 }
