@@ -1,6 +1,5 @@
 package com.mytheresa.ui.driver;
 
-import de.check24.config.ConfigLoader;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,8 +29,8 @@ public class Driver {
 
     public static WebDriver getDriver() {
         if (driver == null) {
-            String browserType = ConfigLoader.get("browser.type", "chrome");
-            driver = DriverFactory.createDriver(browserType);
+            //String browserType = ConfigLoader.get("browser.type", "chrome");
+            //driver = DriverFactory.createDriver(browserType);
             driver.manage().window().maximize();
         }
         return driver;
