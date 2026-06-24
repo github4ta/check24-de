@@ -7,6 +7,7 @@ public class BaseMytheresaPage {
 
     private final String basePage = "https://www.mytheresa.com/";
 
-
-
+    public String getBasePage() {
+        return basePage;
+    }
 }
