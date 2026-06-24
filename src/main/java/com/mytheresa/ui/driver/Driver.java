@@ -1,6 +1,6 @@
 package com.mytheresa.ui.driver;
 
-import de.check24.config.ConfigLoader;
+import com.mytheresa.ui.config.ConfigLoader;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
