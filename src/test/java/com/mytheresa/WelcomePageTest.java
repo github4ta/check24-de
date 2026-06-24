@@ -188,4 +188,6 @@ public class WelcomePageTest extends AuthPage {
 
         driver.quit();
     }
+
+    //
 }
