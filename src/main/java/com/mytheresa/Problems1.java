@@ -9,35 +9,35 @@ public class Problems1 {
         String[] cities = {"Minsk", "Gomel", "Vitebsk", "Mogilev", "Grodno", "Brest"};
         String city = "Minsk";
 
-        System.out.printf("Max number: %s \n", getMax(nums));
-        System.out.printf("Min number: %s \n", getMin(nums));
-        System.out.printf("Average: %s \n", getAverage(nums));
-        System.out.printf("Max number index: %s \n", getMaxIndex(nums));
-        System.out.printf("Min number index: %s \n", getMinIndex(nums));
+        System.out.printf("Max number: %s\n", getMax(nums));
+        System.out.printf("Min number: %s\n", getMin(nums));
+        System.out.printf("Average: %s\n", getAverage(nums));
+        System.out.printf("Max number index: %s\n", getMaxIndex(nums));
+        System.out.printf("Min number index: %s\n", getMinIndex(nums));
 
-        System.out.printf("Max char string: %s \n", getMaxLenghtString(cities));
-        System.out.printf("Min char string: %s \n", getMinLenghtString(cities));
+        System.out.printf("Max char string: %s\n", getMaxLenghtString(cities));
+        System.out.printf("Min char string: %s\n", getMinLenghtString(cities));
 
-        System.out.printf("Vowel letters number: %s \n", getVowelLettersNumber(city));
+        System.out.printf("Vowel letters number: %s\n", getVowelLettersNumber(city));
 
         checkPositiveOrNegativeNumber(random.nextInt());
         checkEvenOrOddNumber(random.nextInt());
     }
 
     public static int getMax(int[] array) {
-        int max = array[0];
+        int result = array[0];
         for (int value : array) {
-            max = Math.max(max, value);
+            result = Math.max(result, value);
         }
-        return max;
+        return result;
     }
 
     public static int getMin(int[] array) {
-        int min = array[0];
+        int result = array[0];
         for (int value : array) {
-            min = Math.min(min, value);
+            result = Math.min(result, value);
         }
-        return min;
+        return result;
     }
 
     public static int getAverage(int[] array) {
@@ -70,26 +70,26 @@ public class Problems1 {
 
     public static String getMaxLenghtString(String[] array) {
         int maxChar = array[0].length();
-        String value = array[0];
-        for (String str : array) {
-            if (str.length() > maxChar) {
-                value = str;
-                maxChar = str.length();
+        String result = array[0];
+        for (String value : array) {
+            if (value.length() > maxChar) {
+                result = value;
+                maxChar = value.length();
             }
         }
-        return value;
+        return result;
     }
 
     public static String getMinLenghtString(String[] array) {
         int minChar = array[0].length();
-        String value = array[0];
-        for (String str : array) {
-            if (str.length() < minChar) {
-                value = str;
-                minChar = str.length();
+        String result = array[0];
+        for (String value : array) {
+            if (value.length() < minChar) {
+                result = value;
+                minChar = value.length();
             }
         }
-        return value;
+        return result;
     }
 
     public static int getVowelLettersNumber(String value) {
@@ -104,7 +104,7 @@ public class Problems1 {
     }
 
     public static void checkPositiveOrNegativeNumber(int number) {
-        String result = switch (Integer.compare(number, 0)){
+        String result = switch (Integer.compare(number, 0)) {
             case 1 -> "positive";
             case -1 -> "negative";
             default -> "zero";
@@ -112,12 +112,12 @@ public class Problems1 {
         printMethod(number, result);
     }
 
-    public static void checkEvenOrOddNumber(int number){
+    public static void checkEvenOrOddNumber(int number) {
         String result = (number % 2 == 0) ? "even" : "odd";
         printMethod(number, result);
     }
 
-    public static void printMethod (int number, String result){
+    public static void printMethod(int number, String result) {
         System.out.printf("Number %s is %s\n", number, result);
     }
 }
