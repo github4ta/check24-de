@@ -6,38 +6,38 @@ public class Problems1 {
     public static void main(String[] args) {
         Random random = new Random();
         int[] nums = {0, 4, 45, 895, 48, 575, 6, 9, 90, 345, 56};
-        String[] cities = {"Minsk", "Gomel", "Vitebsk", "Mogilev", "Grodno", "Brest"};
-        String city = "Minsk";
+        String[] strs = {"cat", "elephant", "dog", "hippopotamus", "bird"};
+        String str = "Programming";
 
-        System.out.printf("Max number: %s \n", getMax(nums));
-        System.out.printf("Min number: %s \n", getMin(nums));
-        System.out.printf("Average: %s \n", getAverage(nums));
-        System.out.printf("Max number index: %s \n", getMaxIndex(nums));
-        System.out.printf("Min number index: %s \n", getMinIndex(nums));
+        System.out.printf("Max number: %s\n", getMax(nums));
+        System.out.printf("Min number: %s\n", getMin(nums));
+        System.out.printf("Average: %s\n", getAverage(nums));
+        System.out.printf("Max number index: %s\n", getMaxNumIndex(nums));
+        System.out.printf("Min number index: %s\n", getMinNumIndex(nums));
 
-        System.out.printf("Max char string: %s \n", getMaxLenghtString(cities));
-        System.out.printf("Min char string: %s \n", getMinLenghtString(cities));
+        System.out.printf("Max char string: %s\n", getMaxLenghtString(strs));
+        System.out.printf("Min char string: %s\n", getMinLenghtString(strs));
 
-        System.out.printf("Vowel letters number: %s \n", getVowelLettersNumber(city));
+        System.out.printf("Vowel letters number: %s\n", getVowelCount(str));
 
-        checkPositiveOrNegativeNumber(random.nextInt());
-        checkEvenOrOddNumber(random.nextInt());
+        isPositive(random.nextInt());
+        isEven(random.nextInt());
     }
 
     public static int getMax(int[] array) {
-        int max = array[0];
+        int result = array[0];
         for (int value : array) {
-            max = Math.max(max, value);
+            result = Math.max(result, value);
         }
-        return max;
+        return result;
     }
 
     public static int getMin(int[] array) {
-        int min = array[0];
+        int result = array[0];
         for (int value : array) {
-            min = Math.min(min, value);
+            result = Math.min(result, value);
         }
-        return min;
+        return result;
     }
 
     public static int getAverage(int[] array) {
@@ -48,7 +48,7 @@ public class Problems1 {
         return sum / array.length;
     }
 
-    public static int getMaxIndex(int[] array) {
+    public static int getMaxNumIndex(int[] array) {
         int max = getMax(array);
         for (int i = 0; i < array.length; i++) {
             if (max == array[i]) {
@@ -58,7 +58,7 @@ public class Problems1 {
         return -1;
     }
 
-    public static int getMinIndex(int[] array) {
+    public static int getMinNumIndex(int[] array) {
         int min = getMin(array);
         for (int i = 0; i < array.length; i++) {
             if (min == array[i]) {
@@ -70,29 +70,29 @@ public class Problems1 {
 
     public static String getMaxLenghtString(String[] array) {
         int maxChar = array[0].length();
-        String value = array[0];
-        for (String str : array) {
-            if (str.length() > maxChar) {
-                value = str;
-                maxChar = str.length();
+        String result = array[0];
+        for (String value : array) {
+            if (value.length() > maxChar) {
+                result = value;
+                maxChar = value.length();
             }
         }
-        return value;
+        return result;
     }
 
     public static String getMinLenghtString(String[] array) {
         int minChar = array[0].length();
-        String value = array[0];
-        for (String str : array) {
-            if (str.length() < minChar) {
-                value = str;
-                minChar = str.length();
+        String result = array[0];
+        for (String value : array) {
+            if (value.length() < minChar) {
+                result = value;
+                minChar = value.length();
             }
         }
-        return value;
+        return result;
     }
 
-    public static int getVowelLettersNumber(String value) {
+    public static int getVowelCount(String value) {
         String[] vowelLetters = {"a", "e", "i", "o", "u", "y"};
         int result = 0;
         for (String vowelLetter : vowelLetters) {
@@ -103,8 +103,8 @@ public class Problems1 {
         return result;
     }
 
-    public static void checkPositiveOrNegativeNumber(int number) {
-        String result = switch (Integer.compare(number, 0)){
+    public static void isPositive(int number) {
+        String result = switch (Integer.compare(number, 0)) {
             case 1 -> "positive";
             case -1 -> "negative";
             default -> "zero";
@@ -112,12 +112,12 @@ public class Problems1 {
         printMethod(number, result);
     }
 
-    public static void checkEvenOrOddNumber(int number){
+    public static void isEven(int number) {
         String result = (number % 2 == 0) ? "even" : "odd";
         printMethod(number, result);
     }
 
-    public static void printMethod (int number, String result){
+    public static void printMethod(int number, String result) {
         System.out.printf("Number %s is %s\n", number, result);
     }
 }
