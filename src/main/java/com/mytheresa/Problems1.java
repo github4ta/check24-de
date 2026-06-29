@@ -15,10 +15,10 @@ public class Problems1 {
         System.out.printf("Max number index: %s\n", getMaxNumIndex(nums));
         System.out.printf("Min number index: %s\n", getMinNumIndex(nums));
 
-        System.out.printf("Max char string: %s\n", getMaxLenghtString(strs));
-        System.out.printf("Min char string: %s\n", getMinLenghtString(strs));
+        System.out.printf("First max string: %s\n", getFirstString(strs));
+        System.out.printf("Last max string: %s\n", getLastString(strs));
 
-        System.out.printf("Vowel letters number: %s\n", getVowelCount(str));
+        System.out.printf("Vowel letters: %s\n", getVowelCount(str));
 
         isPositive(random.nextInt());
         isEven(random.nextInt());
@@ -40,12 +40,12 @@ public class Problems1 {
         return result;
     }
 
-    public static int getAverage(int[] array) {
+    public static double getAverage(int[] array) {
         int sum = 0;
         for (int value : array) {
             sum += value;
         }
-        return sum / array.length;
+        return (double) sum / array.length;
     }
 
     public static int getMaxNumIndex(int[] array) {
@@ -68,25 +68,34 @@ public class Problems1 {
         return -1;
     }
 
-    public static String getMaxLenghtString(String[] array) {
-        int maxChar = array[0].length();
-        String result = array[0];
-        for (String value : array) {
-            if (value.length() > maxChar) {
-                result = value;
-                maxChar = value.length();
+    public static String getFirstString(String[] strings) {
+        int maxLength = getMaxLength(strings);
+        String result = null;
+        for (String str : strings) {
+            if (str.length() == maxLength) {
+                result = str;
+                break;
             }
         }
         return result;
     }
 
-    public static String getMinLenghtString(String[] array) {
-        int minChar = array[0].length();
-        String result = array[0];
-        for (String value : array) {
-            if (value.length() < minChar) {
-                result = value;
-                minChar = value.length();
+    public static String getLastString (String[] strings){
+        int maxLength = getMaxLength(strings);
+        String result = null;
+        for (String str : strings) {
+            if (str.length() == maxLength) {
+                result = str;
+            }
+        }
+        return result;
+    }
+
+    public static int getMaxLength (String[] strings){
+        int result = strings[0].length();
+        for (String str : strings) {
+            if (str.length() > result) {
+                result = str.length();
             }
         }
         return result;
