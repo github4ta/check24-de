@@ -1,19 +1,37 @@
 package com.mytheresa.ui;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sergei Tsarik, Maria Ramanova, Nalegach Yakov
  */
 public class BaseMytheresaPage {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseMytheresaPage.class);
-
     private final String basePage = "https://www.mytheresa.com/";
+
+    private final By navButtonsLocator = By.xpath("//span[contains(@class, 'nav__item__link')]");
 
     public String getBasePage() {
         return basePage;
+    }
+    public By getNavButtonsLocator() {
+        return navButtonsLocator;
+    }
+
+    public List<String> getNavButtonLabels(WebDriver driver) {
+
+        List<WebElement> navButtonElementList = driver.findElements(getNavButtonsLocator());
+        List<String> navButtonsListText = new ArrayList<>();
+
+        for (WebElement navButtonElement : navButtonElementList) {
+            navButtonsListText.add(navButtonElement.getText());
+        }
+        return navButtonsListText;
     }
 
 }

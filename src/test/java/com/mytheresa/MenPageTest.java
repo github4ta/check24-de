@@ -7,6 +7,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Sergei Tsarik, Maria Ramanova, Nalegach Yakov
+ */
+
 public class MenPageTest {
 
     private WebDriver driver;
@@ -18,6 +22,7 @@ public class MenPageTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.navigate().to(menPage.getMEN_PAGE_URI());
+        Thread.sleep(500);
         menPage.acceptCookies(driver);
         menPage.passUserPreferences(driver);
 
@@ -25,14 +30,16 @@ public class MenPageTest {
 
     @AfterEach
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
     @DisplayName("UI-TC-021: Verify Navigation button existence and text consistence in Men page")
     public void navButtonTextContainTextTest() {
 
-        log.info("real      buttons text is {}", menPage.getNavButtonLabels(driver));
+        log.info("real     buttons text is {}", menPage.getNavButtonLabels(driver));
         log.info("expected buttons text is {}", menPage.getExpectedNavButtonLabels());
 
         Assertions.assertAll(
