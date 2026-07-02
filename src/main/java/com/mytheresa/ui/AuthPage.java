@@ -1,13 +1,20 @@
 package com.mytheresa.ui;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sergei Tsarik, Maria Ramanova, Nalegach Yakov
  */
 public class AuthPage extends  BaseMytheresaPage{
+
+    private static final Logger log = LoggerFactory.getLogger(AuthPage.class);
+
     private final String LOGIN_URL = "https://www.mytheresa.com/int/en/account/login";
     private String shadowHostLocator = "#usercentrics-cmp-ui";
     private String acceptCookiesButton = "#accept";
@@ -115,4 +122,48 @@ public class AuthPage extends  BaseMytheresaPage{
     public By getLoginBody(){
         return By.xpath(loginBody);
     }
+
+    public void acceptCookies(WebDriver driver) throws InterruptedException {
+        log.info("Closing cookie consent via shadow DOM");
+        SearchContext shadowRoot = driver.findElement(By.cssSelector("aside#usercentrics-cmp-ui")).getShadowRoot();
+        shadowRoot.findElement(By.cssSelector("button#accept")).click();
+        log.info("Cookie accept button clicked");
+    }
+
+    public void passUserPreferences(WebDriver driver) {
+        try {
+            log.info("Opening country selection modal");
+            driver.findElement(getModalWrapperCountrySelectionButton()).click();
+            Thread.sleep(1000);
+
+            log.info("Clicking search field");
+            driver.findElement(getSearchCountryInput()).click();
+            Thread.sleep(300);
+
+            log.info("Searching for GB");
+            driver.findElement(getSearchCountryInput()).sendKeys("United");
+            Thread.sleep(500);
+
+            log.info("Selecting GB from results");
+            driver.findElement(getCountryUnitedKingdom()).click();
+            Thread.sleep(500);
+
+            log.info("Closing modal save button");
+            driver.findElement(getModalWrapperSaveButton()).click();
+
+        } catch (Exception exception) {
+            log.info("Country selection modal failed. {}", exception.getMessage());
+        }
+    }
+
+    protected WebDriver initDriver() throws InterruptedException {
+        ChromeOptions options = new ChromeOptions();
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.get(getLOGIN_URL());
+        log.info("We on {}", driver.getCurrentUrl());
+        Thread.sleep(1000);
+        return driver;
+    }
+
 }

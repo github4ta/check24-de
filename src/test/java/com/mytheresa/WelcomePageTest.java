@@ -11,17 +11,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WelcomePageTest extends AuthPage {
 
@@ -72,20 +67,6 @@ public class WelcomePageTest extends AuthPage {
         Assertions.assertEquals("text", driver.findElement(getPasswordInput()).getAttribute("type"));
 
         driver.quit();
-    }
-
-    private void acceptCookies(WebDriver driver) {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(getShadowHostLocator())).getShadowRoot().findElement(getAcceptCookiesButton()).click();
-    }
-
-    private WebDriver initDriver() throws InterruptedException {
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get(getLOGIN_URL());
-        log.info("We on {}", driver.getCurrentUrl());
-        Thread.sleep(1000);
-        return driver;
     }
 
     public void passUserPreferences(WebDriver driver) {
@@ -180,7 +161,7 @@ public class WelcomePageTest extends AuthPage {
 
     @Test
     @Name("UI-TC-003: Validation error when submitting valid Email and empty Password")
-    public void emptyPasswordTest() {
+    public void emptyPasswordTest() throws InterruptedException {
         ChromeOptions options = new ChromeOptions();
         WebDriver driver = new ChromeDriver(options);
 
@@ -200,7 +181,7 @@ public class WelcomePageTest extends AuthPage {
 
     @Test
     @DisplayName("UI-TC-010: Verify department links list")
-    public void departmentLinksTest() {
+    public void departmentLinksTest() throws InterruptedException {
         ChromeOptions options = new ChromeOptions();
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
