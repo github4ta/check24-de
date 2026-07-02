@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WomenPageTest {
-    private final String WOMEN_PAGE_URI = "https://www.mytheresa.com/int/en/women";
+    private String WOMEN_PAGE_URL = "https://www.mytheresa.com/int/en/women";
     private String shadowHostLocator = "#usercentrics-cmp-ui";
     private String acceptCookiesButton = "#accept";
     private String categories = "//span[@class='nav__item__link__label']";
     private String wishlistIcon = "//span[@class='icon__wishlist']";
-    private String actualScreenshotPath  = "target/screenshots/actual_wl_women.png";
-    private String expectedScreenshotPath  = "target/screenshots/expected_wl_women.png";
+    private String actualScreenshotPath = "target/screenshots/actual_wl_women.png";
+    private String expectedScreenshotPath = "target/screenshots/expected_wl_women.png";
 
     @Test
     @DisplayName("UI-TC-020: Verify category titles on the Women's page")
@@ -51,7 +51,7 @@ public class WomenPageTest {
     public void verifyWishlistIcon() throws IOException {
         WebDriver driver = initDriver();
 
-        takeScreenshot(driver, wishlistIcon, actualScreenshotPath );
+        takeScreenshot(driver, wishlistIcon, actualScreenshotPath);
         Assertions.assertFalse(checkDifference(actualScreenshotPath, expectedScreenshotPath));
 
         tearDown(driver);
@@ -66,14 +66,14 @@ public class WomenPageTest {
         }
         return listOfTitles;
     }
-    
+
     private void takeScreenshot(WebDriver driver, String element, String actualScreenshotPath) throws IOException {
         WebElement el = driver.findElement(By.xpath(element));
         File source = el.getScreenshotAs(OutputType.FILE);
         File destination = new File(actualScreenshotPath);
         Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
-    
+
     public boolean checkDifference(String actualScreenshotPath, String expectedScreenshotPath) throws IOException {
         BufferedImage expected = ImageIO.read(new File(expectedScreenshotPath));
         BufferedImage actual = ImageIO.read(new File(actualScreenshotPath));
@@ -84,7 +84,7 @@ public class WomenPageTest {
     private WebDriver initDriver() {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get(WOMEN_PAGE_URI);
+        driver.get(WOMEN_PAGE_URL);
         return driver;
     }
 
@@ -96,7 +96,7 @@ public class WomenPageTest {
                 .click();
     }
 
-    private void tearDown(WebDriver driver){
+    private void tearDown(WebDriver driver) {
         driver.quit();
     }
 }

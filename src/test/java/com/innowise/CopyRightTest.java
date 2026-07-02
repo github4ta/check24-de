@@ -29,7 +29,7 @@ public class CopyRightTest {
         return driver;
     }
 
-    private void tearDown(WebDriver driver){
+    private void tearDown(WebDriver driver) {
         driver.quit();
     }
 }
