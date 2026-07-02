@@ -2,7 +2,10 @@ package com.mytheresa;
 
 import com.mytheresa.ui.WomenPage;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,7 @@ public class WomenPageTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.navigate().to(menPage.getWomenPageUri());
-        Thread.sleep(500);
+        Thread.sleep(1500);
         menPage.acceptCookies(driver);
         menPage.passUserPreferences(driver);
 
@@ -45,4 +48,23 @@ public class WomenPageTest {
                 () -> Assertions.assertTrue(menPage.getExpectedNavButtonLabels().containsAll(menPage.getNavButtonLabels(driver)))
         );
     }
+
+    @Test
+    @DisplayName("UI-TC-023: Verify right icon on women page")
+    public void rightIconTest() {
+
+        WebElement el = driver.findElement(By.cssSelector(".icon__wishlist"));
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        String beforeContent = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0], '::before').getPropertyValue('content');",
+                el
+        );
+
+        log.info("content = {}", beforeContent);
+
+        Assertions.assertEquals("\"\uf10c\"", beforeContent);
+    }
+
 }
