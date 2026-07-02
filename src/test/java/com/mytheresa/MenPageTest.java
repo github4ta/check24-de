@@ -2,7 +2,10 @@ package com.mytheresa;
 
 import com.mytheresa.ui.MenPage;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +25,7 @@ public class MenPageTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.navigate().to(menPage.getMEN_PAGE_URI());
-        Thread.sleep(500);
+        Thread.sleep(1500);
         menPage.acceptCookies(driver);
         menPage.passUserPreferences(driver);
 
@@ -47,5 +50,24 @@ public class MenPageTest {
                 () -> Assertions.assertTrue(menPage.getNavButtonLabels(driver).containsAll(menPage.getExpectedNavButtonLabels())),
                 () -> Assertions.assertTrue(menPage.getExpectedNavButtonLabels().containsAll(menPage.getNavButtonLabels(driver)))
         );
+    }
+
+    @Test
+    @DisplayName("UI-TC-022: Verify right icon on men page")
+    public void rightIconTest() {
+
+        WebElement el = driver.findElement(By.cssSelector(".icon__wishlist"));
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+
+        String beforeContent = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0], '::before').getPropertyValue('content');",
+                el
+        );
+
+        log.info("content = {}", beforeContent);
+
+        Assertions.assertEquals("\"\uf102\"", beforeContent);
     }
 }
