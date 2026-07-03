@@ -1,12 +1,12 @@
-package com.mytheresa;
+package com.mytheresa.ui.base;
 
 import com.mytheresa.ui.driver.Driver;
 import org.junit.jupiter.api.AfterEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseUITest {
-    protected static final Logger log = LoggerFactory.getLogger(BaseUITest.class);
+public abstract class BaseTest {
+    protected static final Logger log = LoggerFactory.getLogger(BaseTest.class);
 
     @AfterEach
     public void tearDownDriver() {

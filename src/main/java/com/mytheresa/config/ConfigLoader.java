@@ -1,4 +1,4 @@
-package com.mytheresa.ui.config;
+package com.mytheresa.config;
 
 import java.io.IOException;
 import java.io.InputStream;
