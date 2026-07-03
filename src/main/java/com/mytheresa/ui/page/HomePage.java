@@ -2,7 +2,6 @@ package com.mytheresa.ui.page;
 
 import com.mytheresa.ui.page.base.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class HomePage extends BasePage {
     private final String COPYRIGHT = "//p[@dir='ltr']";
