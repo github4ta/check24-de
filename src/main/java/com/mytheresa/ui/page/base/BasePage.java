@@ -18,9 +18,15 @@ public abstract class BasePage {
     private final String BASE_URl = "https://www.mytheresa.com/";
 
     protected WebDriver driver;
+    protected WebDriverWait wait;
 
     public BasePage() {
         this.driver = Driver.getDriver();
+    }
+
+    public BasePage(int seconds) {
+        this.driver = Driver.getDriver();
+        this.wait = Driver.getWait(seconds);
     }
 
     public void open() {
