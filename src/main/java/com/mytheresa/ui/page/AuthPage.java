@@ -43,12 +43,12 @@ public class AuthPage extends BasePage {
         return this;
     }
 
-    public AuthPage clickToEmailField(){
+    public AuthPage clickToEmail(){
         emailInput.click();
         return this;
     }
 
-    public AuthPage clickToPasswordField(){
+    public AuthPage clickToPassword(){
         passwordInput.click();
         return this;
     }
