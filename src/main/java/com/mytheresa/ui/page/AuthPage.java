@@ -29,12 +29,12 @@ public class AuthPage extends BasePage {
     private final WebElement firstNameErrorText = driver.findElement(By.xpath("//div[@id ='firstName__error']"));
     private final WebElement lastNameErrorText = driver.findElement(By.xpath("//div[@id ='lastName__error']"));
 
-    public AuthPage goToLoginPage(){
+    public AuthPage goToLoginPage() {
         driver.get(loginPageUrl);
-        return this;
+        return new AuthPage();
     }
 
-    public String getAlreadyRegisteredText(){
+    public String getAlreadyRegisteredText() {
         return wait.until(ExpectedConditions.visibilityOf(alreadyRegisteredText)).getText();
     }
 
@@ -42,17 +42,17 @@ public class AuthPage extends BasePage {
         return singUpText.getText();
     }
 
-    public AuthPage clickToEmail(){
+    public AuthPage clickToEmail() {
         emailInput.click();
         return this;
     }
 
-    public AuthPage clickToPassword(){
+    public AuthPage clickToPassword() {
         passwordInput.click();
         return this;
     }
 
-    public AuthPage clickToLoginButton(){
+    public AuthPage clickToLoginButton() {
         loginButton.click();
         return this;
     }
@@ -71,6 +71,7 @@ public class AuthPage extends BasePage {
         firstNameInput.sendKeys(text);
         return this;
     }
+
     public AuthPage setLastNameInput(String text) {
         lastNameInput.sendKeys(text);
         return this;
@@ -91,11 +92,11 @@ public class AuthPage extends BasePage {
         return this;
     }
 
-    public String getEmailErrorMessage(){
+    public String getEmailErrorMessage() {
         return wait.until(ExpectedConditions.visibilityOf(emailErrorText)).getText();
     }
 
-    public String getPasswordErrorMessage(){
+    public String getPasswordErrorMessage() {
         return wait.until(ExpectedConditions.visibilityOf(passwordErrorText)).getText();
     }
 
