@@ -1,7 +1,6 @@
 package com.mytheresa.api;
 
 import org.junit.jupiter.api.Test;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -26,6 +25,6 @@ public class AviasailsApiTest {
                 .post("https://explore-api.aviasales.com/api/v1/flexible-dates/tickets/results")
                 .then()
                 .statusCode(200)
-                .body("tickets[0].ticket.value",both(greaterThan(50_000.0F)).and(lessThan(100_000.0F)) );
+                .body("tickets[0].ticket.value",both(greaterThan(50_000.0F)).and(lessThan(100_000.0F)));
     }
 }
