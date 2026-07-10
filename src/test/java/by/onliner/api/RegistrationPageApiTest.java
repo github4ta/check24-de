@@ -16,7 +16,8 @@ public class RegistrationPageApiTest {
         String body = """
                 {"email":"test@test.test",
                 "password":"1111",
-                "repeat_password":"1111"}""";
+                "repeat_password":"1111"}
+                """;
 
         given()
                 .header("Content-Type", contentType)
