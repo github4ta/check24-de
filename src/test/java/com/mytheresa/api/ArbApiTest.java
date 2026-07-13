@@ -1,7 +1,13 @@
 package com.mytheresa.api;
 
+import com.arbbot.api.healthcheck.Healthcheck;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -10,7 +16,7 @@ public class ArbApiTest {
     String sym = "XRPUSDT";
 
     @Test
-    @Order(1)
+  //  @Order(1)
     public void CheckHealthTest() {
 
         given()
@@ -23,6 +29,15 @@ public class ArbApiTest {
                 .log().body()
                 .body("status", equalTo("ok"), "version", equalTo("1.0.0"), "symbols", equalTo(1));
     }
+
+    @Test
+    @Order(1)
+    public void CheckArbTest() throws MalformedURLException, URISyntaxException {
+        Healthcheck healthcheck = new Healthcheck();
+
+        Assertions.assertEquals(200, healthcheck.getStatusCode(healthcheck.getResponse()));
+    }
+
 
     @Test
     @Order(2)
