@@ -10,7 +10,7 @@ public class HomeApiTest {
     @Test
     @DisplayName ("Get Home Data")
     public void testGetHomeData(){
-        homeService.getHomeData();
+        homeService.doRequest();
 
         Assertions.assertEquals(200, homeService.getStatusCode());
     }
