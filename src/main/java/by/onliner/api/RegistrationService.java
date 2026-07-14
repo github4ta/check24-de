@@ -18,14 +18,13 @@ public class RegistrationService {
             "password":"11111111",
             "repeat_password":"11111111"}
             """;
-
     private String body3 = """
             {"email":"test@test.test",
             "password":"11111111",
             "repeat_password":"22222222"}
             """;
 
-    public void shortPassword() {
+    public void doRequestWithShortPassword() {
         clearResponse();
         response = given()
                 .header("Content-Type", contentType)
@@ -34,7 +33,7 @@ public class RegistrationService {
                 .post(REGISTRATION_URL);
     }
 
-    public void incorrectEmail() {
+    public void doRequestWithIncorrectEmail() {
         clearResponse();
         response = given()
                 .header("Content-Type", contentType)
@@ -43,7 +42,7 @@ public class RegistrationService {
                 .post(REGISTRATION_URL);
     }
 
-    public void incorrectPasswordRepeat() {
+    public void doRequestWithIncorrectPasswordRepeat() {
         clearResponse();
         response = given()
                 .header("Content-Type", contentType)
@@ -60,15 +59,15 @@ public class RegistrationService {
         return response.path("message");
     }
 
-    public String getPasswordErrorMessage() {
+    public String getErrorsPassword() {
         return response.path("errors.password[0]");
     }
 
-    public String getEmailErrorMessage() {
+    public String getErrorsEmail() {
         return response.path("errors.email[0]");
     }
 
-    public String getRepeatPasswordErrorMessage() {
+    public String getErrorsRepeatPassword() {
         return response.path("errors.repeat_password[0]");
     }
 

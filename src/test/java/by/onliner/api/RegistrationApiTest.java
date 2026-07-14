@@ -10,30 +10,30 @@ public class RegistrationApiTest {
     @Test
     @DisplayName("Registration with password less than 8 symbols")
     public void testShortPassword() {
-        registrationService.shortPassword();
+        registrationService.doRequestWithShortPassword();
 
         Assertions.assertEquals(422, registrationService.getStatusCode());
         Assertions.assertEquals("Validation failed", registrationService.getMessage());
-        Assertions.assertEquals("Пароль должен быть от 8 до 64 символов", registrationService.getPasswordErrorMessage());
+        Assertions.assertEquals("Пароль должен быть от 8 до 64 символов", registrationService.getErrorsPassword());
     }
 
     @Test
     @DisplayName("Registration with incorrect email form")
     public void testIncorrectEmail() {
-        registrationService.incorrectEmail();
+        registrationService.doRequestWithIncorrectEmail();
 
         Assertions.assertEquals(422, registrationService.getStatusCode());
         Assertions.assertEquals("Validation failed", registrationService.getMessage());
-        Assertions.assertEquals("Некорректный e-mail", registrationService.getEmailErrorMessage());
+        Assertions.assertEquals("Некорректный e-mail", registrationService.getErrorsEmail());
     }
 
     @Test
     @DisplayName("Registration with incorrect password repeat")
     public void testIncorrectPasswordRepeat() {
-        registrationService.incorrectPasswordRepeat();
+        registrationService.doRequestWithIncorrectPasswordRepeat();
 
         Assertions.assertEquals(422, registrationService.getStatusCode());
         Assertions.assertEquals("Validation failed", registrationService.getMessage());
-        Assertions.assertEquals("Пароли не совпадают", registrationService.getRepeatPasswordErrorMessage());
+        Assertions.assertEquals("Пароли не совпадают", registrationService.getErrorsRepeatPassword());
     }
 }
