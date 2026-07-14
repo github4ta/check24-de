@@ -2,14 +2,8 @@ package com.mytheresa.api;
 
 import com.arbbot.api.health.Healthcheck;
 import com.arbbot.api.symbols.SymbolController;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ArbApiTest {
@@ -18,18 +12,18 @@ public class ArbApiTest {
 
     @Test
     @Order(1)
-    public void CheckArbTest() throws MalformedURLException, URISyntaxException {
+    public void CheckArbTest() {
         Healthcheck healthcheck = new Healthcheck();
 
-        Assertions.assertEquals(200, healthcheck.getStatusCode());
-        Assertions.assertEquals("ok", healthcheck.getResponse().body().jsonPath().getString("status"));
-        Assertions.assertEquals("1", healthcheck.getResponse().body().jsonPath().getString("symbols"));
+        Response response = healthcheck.getResponse();
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals("ok", response.jsonPath().getString("status"));
+        Assertions.assertEquals("1", response.jsonPath().getString("symbols"));
     }
-
 
     @Test
     @Order(2)
-    public void checkPostRequestForBlackListTest() throws URISyntaxException {
+    public void checkPostRequestForBlackListTest() {
         SymbolController symbolController = new SymbolController();
 
         Assertions.assertEquals(200, symbolController.addToBlacklist(sym).statusCode());
@@ -37,9 +31,9 @@ public class ArbApiTest {
 
     @Test
     @Order(3)
-    public void checkPresenceOfSymbolInBlacklistTest() throws URISyntaxException {
+    public void checkPresenceOfSymbolInBlacklistTest() {
         SymbolController symbolController = new SymbolController();
-        var response = symbolController.getResponse();
+        Response response = symbolController.getResponse();
 
         Assertions.assertEquals(200, response.statusCode());
         Assertions.assertTrue(response.jsonPath()
@@ -48,14 +42,13 @@ public class ArbApiTest {
 
     @Test
     @Order(4)
-    public void checkDeleteRequestForBlackListTest() throws URISyntaxException {
+    public void checkDeleteRequestForBlackListTest() {
         SymbolController symbolController = new SymbolController();
 
-
-        var response = symbolController.deleteFromBlacklist(sym);
+        Response response = symbolController.deleteFromBlacklist(sym);
         Assertions.assertEquals(200, response.statusCode());
 
-        response =symbolController.getResponse();
+        response = symbolController.getResponse();
         Assertions.assertFalse(response.jsonPath()
                 .getList("blacklist.userList").contains(sym));
     }
