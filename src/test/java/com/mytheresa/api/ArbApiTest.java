@@ -1,14 +1,28 @@
 package com.mytheresa.api;
 
+import com.arbbot.api.RequestData;
 import com.arbbot.api.health.Healthcheck;
 import com.arbbot.api.symbols.SymbolController;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 
+import java.util.Map;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ArbApiTest {
-
     String sym = "XRPUSDT";
+    RequestData requestData = new RequestData(
+            Map.of(
+                    "accept", "application/json",
+                    "Content-Type", "application/json"
+            ),
+            """
+                    {
+                      "symbol": "%s"
+                    }
+                    """.formatted(sym)
+    );
 
     @Test
     @Order(1)
@@ -24,16 +38,22 @@ public class ArbApiTest {
     @Test
     @Order(2)
     public void checkPostRequestForBlackListTest() {
-        SymbolController symbolController = new SymbolController();
 
-        Assertions.assertEquals(200, symbolController.addToBlacklist(sym).statusCode());
+        Response response = new SymbolController()
+                .setBlackListUrl()
+                .setMethod(Method.POST)
+                .setRequestData(requestData)
+                .doRequest();
+
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals("true", response.jsonPath().getString("ok"));
     }
 
     @Test
     @Order(3)
     public void checkPresenceOfSymbolInBlacklistTest() {
-        SymbolController symbolController = new SymbolController();
-        Response response = symbolController.getResponse();
+
+        Response response = new SymbolController().doRequest();
 
         Assertions.assertEquals(200, response.statusCode());
         Assertions.assertTrue(response.jsonPath()
@@ -43,13 +63,16 @@ public class ArbApiTest {
     @Test
     @Order(4)
     public void checkDeleteRequestForBlackListTest() {
-        SymbolController symbolController = new SymbolController();
+        Response response = new SymbolController()
+                .setUrl("http://52.194.254.164:8080/api/symbols/blacklist/" + sym)
+                .setMethod(Method.DELETE)
+                .doRequest();
 
-        Response response = symbolController.deleteFromBlacklist(sym);
         Assertions.assertEquals(200, response.statusCode());
 
-        response = symbolController.getResponse();
-        Assertions.assertFalse(response.jsonPath()
-                .getList("blacklist.userList").contains(sym));
+        response = new SymbolController()
+                .doRequest();
+
+        Assertions.assertFalse(response.jsonPath().getList("blacklist.userList").contains(sym));
     }
 }
