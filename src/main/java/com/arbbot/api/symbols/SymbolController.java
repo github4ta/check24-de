@@ -77,29 +77,4 @@ public class SymbolController {
         this.method = method;
         return this;
     }
-
-//    public Response addToBlacklist(String symbol) {
-//        String body = """
-//                {
-//                    "symbol": "%s"
-//                }
-//                """.formatted(symbol);
-//
-//        return given()
-//                .auth().preemptive().basic(adminLogin, adminPassword)
-//                .header("accept", "application/json")
-//                .contentType("application/json")
-//                .body(body)
-//                .when()
-//                .post(blacklistUrl);
-//    }
-
-    public Response deleteFromBlacklist(String symbol) {
-        return given()
-                .auth().preemptive().basic(adminLogin, adminPassword)
-                .header("accept", "application/json")
-                .contentType("application/json")
-                .when()
-                .delete(blacklistUrl + "/" + symbol);
-    }
 }
