@@ -26,7 +26,7 @@ pipeline {
 
     post {
         always {
-            allure includeProperties: false, jdk: 'JDK_home', results: [[path: 'allure-results']], commandline: 'allure_home'
+            allure includeProperties: false, jdk: 'JDK_home', results: [[path: 'target/allure-results']], commandline: 'allure_home'
         }
     }
 }
