@@ -70,3 +70,5 @@ allure.report.name=Check24 Test Suite
 allure.link.issue.pattern=https://example.com/issue/{}
 allure.link.tms.pattern=https://example.com/tms/{}
 ```
+
+- anna novysh
