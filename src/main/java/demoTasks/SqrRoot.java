@@ -3,9 +3,7 @@ package demoTasks;
 public class SqrRoot {
 
     public static void printSqrRootFromOneToHundred() {
-        double num;
-        double sroot;
-        double rerr;
+        double num, sroot, rerr;
 
         for(num = 1.0; num < 100.0; num++) {
             sroot = Math.sqrt(num);
