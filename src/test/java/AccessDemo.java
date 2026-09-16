@@ -12,3 +12,4 @@ its accessor methods. */
         ob.gamma = 99;
     }
 }
+
