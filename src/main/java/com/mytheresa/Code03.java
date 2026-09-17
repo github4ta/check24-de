@@ -10,6 +10,6 @@ public class Code03 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Code03.generateCode(9));
+        System.out.println(Code03.generateCode(7));
     }
 }
