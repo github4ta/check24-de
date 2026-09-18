@@ -23,6 +23,5 @@ public class Code01 {
         return IntStream.of(numbers).
                 asLongStream().
                 sum();
-
     }
 }
