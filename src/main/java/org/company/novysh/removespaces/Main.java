@@ -1,4 +1,4 @@
-package anna.novysh.removespaces;
+package org.company.novysh.removespaces;
 
 public class Main {
     public static void main(String[] args) {

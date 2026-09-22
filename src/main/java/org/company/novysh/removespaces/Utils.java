@@ -1,4 +1,4 @@
-package anna.novysh.removespaces;
+package org.company.novysh.removespaces;
 
 import java.util.Optional;
 
