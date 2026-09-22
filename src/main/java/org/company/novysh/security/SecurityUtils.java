@@ -1,4 +1,4 @@
-package anna.novysh.security;
+package org.company.novysh.security;
 
 import java.util.Optional;
 
