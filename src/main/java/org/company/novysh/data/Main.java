@@ -1,4 +1,4 @@
-package anna.novysh.data;
+package org.company.novysh.data;
 
 public class Main {
     public static void main(String[] args) {

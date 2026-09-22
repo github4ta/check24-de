@@ -1,4 +1,4 @@
-package anna.novysh.data;
+package org.company.novysh.data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
