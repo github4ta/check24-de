@@ -1,6 +1,4 @@
-package anna.novysh;
-
-import java.util.Map;
+package org.company.novysh.validator;
 
 public class Main {
     public static void main(String[] args) {

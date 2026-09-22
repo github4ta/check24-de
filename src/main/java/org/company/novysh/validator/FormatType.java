@@ -1,4 +1,4 @@
-package anna.novysh;
+package org.company.novysh.validator;
 
 public enum FormatType {
     USER_TIMESTAMP_QA("USER_TIMESTAMP_QA", "user_\\d{10}_qa", 18);
