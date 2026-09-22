@@ -1,4 +1,4 @@
-package anna.novysh.parsing;
+package org.company.novysh.parse;
 
 public class Main {
     public static void main(String[] args) {
