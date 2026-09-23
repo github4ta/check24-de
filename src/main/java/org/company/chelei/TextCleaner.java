@@ -1,11 +1,11 @@
 package org.company.chelei;
 
-public class UsernameValidator {
-    public static boolean validate(String username) {
-        if (username == null) {
-            return false;
+public class TextCleaner {
+    public static String clean(String text) {
+        if (text == null) {
+            return null;
         }
 
-        return username.matches("^user_\\d{10}_qa$");
+        return text.trim().replaceAll("\\s+", " ");
     }
 }
